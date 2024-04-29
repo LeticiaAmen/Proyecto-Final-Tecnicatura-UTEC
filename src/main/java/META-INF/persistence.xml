@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="PFT2024">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>java:/PFT2024</jta-data-source>
+		<class>com.entidades.Accion</class>
+		<class>com.entidades.Analista</class>
+		<class>com.entidades.Area</class>
+		<class>com.entidades.Constancia</class>
+		<class>com.entidades.Departamento</class>
+		<class>com.entidades.Estado</class>
+		<class>com.entidades.Estudiante</class>
+		<class>com.entidades.EstudianteEvento</class>
+		<class>com.entidades.Evento</class>
+		<class>com.entidades.Generacion</class>
+		<class>com.entidades.Itr</class>
+		<class>com.entidades.Justificacion</class>
+		<class>com.entidades.Localidad</class>
+		<class>com.entidades.Reclamo</class>
+		<class>com.entidades.RegistroAccione</class>
+		<class>com.entidades.Rol</class>
+		<class>com.entidades.TipoConstancia</class>
+		<class>com.entidades.TipoEvento</class>
+		<class>com.entidades.Tutor</class>
+		<class>com.entidades.Usuario</class>
+		<class>com.entidades.ValidacionUsuario</class>
+		
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="validate" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="javax.persistence.schema-generation.drop-source" value="script-then-metadata" />
+		</properties>
+	</persistence-unit>
+</persistence>
