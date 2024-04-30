@@ -36,9 +36,6 @@ public class Usuario implements Serializable {
 
 	private String mail;
 
-	@Column(name="MAIL_INSTITUCIONAL")
-	private String mailInstitucional;
-
 	@Column(name="NOMBRE_USUARIO")
 	private String nombreUsuario;
 
@@ -47,7 +44,7 @@ public class Usuario implements Serializable {
 	@Column(name="SALT_CONTRASEÑA")
 	private String saltContraseña;
 
-	private String teléfono;
+	private String telefono;
 
 	//bi-directional one-to-one association to Analista
 	@OneToOne(mappedBy="usuario")
@@ -135,13 +132,6 @@ public class Usuario implements Serializable {
 		this.mail = mail;
 	}
 
-	public String getMailInstitucional() {
-		return this.mailInstitucional;
-	}
-
-	public void setMailInstitucional(String mailInstitucional) {
-		this.mailInstitucional = mailInstitucional;
-	}
 
 	public String getNombreUsuario() {
 		return this.nombreUsuario;
@@ -167,12 +157,12 @@ public class Usuario implements Serializable {
 		this.saltContraseña = saltContraseña;
 	}
 
-	public String getTeléfono() {
-		return this.teléfono;
+	public String getTelefono() {
+		return this.telefono;
 	}
 
-	public void setTeléfono(String teléfono) {
-		this.teléfono = teléfono;
+	public void setTelefono(String teléfono) {
+		this.telefono = teléfono;
 	}
 
 	public Analista getAnalista() {
