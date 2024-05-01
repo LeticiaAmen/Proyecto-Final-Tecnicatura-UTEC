@@ -105,9 +105,11 @@
 		
 		<p>
 			<label>*Generación:</label>
-		</p> <select name="generacion">
+		</p> 
+		
+		<select name="idGeneracion">
 			<c:forEach var="generacion" items="${generaciones}">
-				<option value="${generacion}">${generacion}</option>
+				<option value="${generacion.idGeneracion}">${generacion.nombre}</option>
 			</c:forEach>
 		</select>
 		

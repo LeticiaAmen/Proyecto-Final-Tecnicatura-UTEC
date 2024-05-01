@@ -19,6 +19,7 @@ public class Generacion implements Serializable {
 	@Column(name="ID_GENERACION")
 	private long idGeneracion;
 
+	@Column
 	private String nombre;
 
 	//bi-directional many-to-one association to Estudiante

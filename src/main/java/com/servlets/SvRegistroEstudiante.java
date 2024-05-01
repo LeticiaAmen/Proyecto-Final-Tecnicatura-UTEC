@@ -15,11 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.entidades.Departamento;
+import com.entidades.Estado;
 import com.entidades.Estudiante;
+import com.entidades.Generacion;
 import com.entidades.Itr;
 import com.entidades.Localidad;
 import com.entidades.ValidacionUsuario;
 import com.servicios.DepartamentoService;
+import com.servicios.EstadoService;
+import com.servicios.GeneracionService;
 import com.servicios.ItrService;
 import com.servicios.LocalidadService;
 import com.servicios.UsuarioService;
@@ -43,6 +47,12 @@ public class SvRegistroEstudiante extends HttpServlet {
 
 	@EJB
 	private ItrService itrService;
+	
+	@EJB 
+	private EstadoService estadoService; 
+	
+	@EJB
+	private GeneracionService generacionService; 
 
 
 
@@ -68,12 +78,15 @@ public class SvRegistroEstudiante extends HttpServlet {
 		request.setAttribute("generos", generosLista);
 
 		//Definimos las opciones ya que no tenemos enum ahora
-		List<String> semestresLista = Arrays.asList("1", "2", "3");
+		List<String> semestresLista = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8");
 		request.setAttribute("semestres", semestresLista);
 
 		//Esta se la puse a mano porque ahora que es tabla hay que crear todo para generaciones
-		List<String> generacionesLista = Arrays.asList("2022", "2023", "2024");
+		//List<String> generacionesLista = Arrays.asList("2022", "2023", "2024");
+		List<Generacion> generacionesLista = generacionService.obtenerGeneracionesTodas();
 		request.setAttribute("generaciones", generacionesLista);
+		
+		
 
 		request.getRequestDispatcher("/registroEstudiante.jsp").forward(request, response);
 
@@ -124,16 +137,26 @@ public class SvRegistroEstudiante extends HttpServlet {
 			String idDepartamento = request.getParameter("idDepartamento");
 			String idLocalidad = request.getParameter("idLocalidad");
 			String idItr = request.getParameter("idItr");
+					
+			
 
 			// Convertir a Long 
 			Long idDepartamentoLong = Long.parseLong(idDepartamento);
 			Long idLocalidadLong = Long.parseLong(idLocalidad);
 			Long idItrLong = Long.parseLong(idItr);	
+			
 
 			//Obtener las entidades
 			Departamento departamento = departamentoService.obtenerPorId(idDepartamentoLong);
 			Localidad localidad = localidadService.obtenerLocalidadPorId(idLocalidadLong);
 			Itr itr = itrService.obtenerItr(idItrLong);
+			
+			//obtener y convertir generacion
+			String idGeneracion = request.getParameter("idGeneracion");
+			Long idGeneracionLong = Long.parseLong(idGeneracion);
+			Generacion generacion = generacionService.obtenerGeneracion(idGeneracionLong);
+			
+			
 
 			//obtener el genero seleccionado
 			String generoSeleccionado = request.getParameter("genero");
@@ -146,10 +169,6 @@ public class SvRegistroEstudiante extends HttpServlet {
 			String semestreSeleccionado = request.getParameter("semestre");
 			//convierto el semestre en int
 			int semestreInt = Integer.parseInt(semestreSeleccionado);
-
-			//Obtener generación seleccionada
-			String generacionSeleccionada = request.getParameter("generacion");
-//			Generacion generacion = Generacion.valueOf(generacionSeleccionada);
 
 			//Obtener fecha String
 			String fechaNacimientoStr = request.getParameter("fechaNacimiento");
@@ -187,18 +206,22 @@ public class SvRegistroEstudiante extends HttpServlet {
 			//setear sin validar
 			estudiante.setValidacionUsuario(usuEstadoSinValidar);
 			
+			//setear estado activo
+			Estado estadoActivo = estadoService.obtenerEstadoId(1);
+			estudiante.setEstado(estadoActivo);
+			
 
 			//setear y localidad y itr
 			estudiante.setLocalidad(localidad);
 			estudiante.setItr(itr);
+			
+			//setear generacion
+			estudiante.setGeneracion(generacion);
 
 			//setear genero 
 			estudiante.setGenero(genero);
 			//setear semestre
 			estudiante.setSemestre(semestreInt);
-			//setear generacion
-			//lo dejo en null por ahora
-			//estudiante.setGeneracion(generacion);
 
 
 			// Establecer la fecha de nacimiento en el usuario
