@@ -13,17 +13,13 @@ import java.util.List;
 @Entity
 @Table(name="ESTUDIANTES")
 @NamedQuery(name="Estudiante.findAll", query="SELECT e FROM Estudiante e")
-public class Estudiante implements Serializable {
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@Column(name="ID_USUARIO")
-	private long idUsuario;
+public class Estudiante extends Usuario {
 
 	@Column(name="MAIL_INSTITUCIONAL")
 	private String mailInstitucional;
 
-	private BigDecimal semestre;
+	@Column(name="SEMESTRE")
+	private int semestre;
 
 	//bi-directional many-to-one association to Constancia
 	@OneToMany(mappedBy="estudiante")
@@ -39,10 +35,6 @@ public class Estudiante implements Serializable {
 	@JoinColumn(name="ID_GENERACION")
 	private Generacion generacion;
 
-	//bi-directional one-to-one association to Usuario
-	@OneToOne
-	@JoinColumn(name="ID_USUARIO")
-	private Usuario usuario;
 
 	//bi-directional many-to-one association to EstudianteEvento
 	@OneToMany(mappedBy="estudiante")
@@ -59,13 +51,6 @@ public class Estudiante implements Serializable {
 	public Estudiante() {
 	}
 
-	public long getIdUsuario() {
-		return this.idUsuario;
-	}
-
-	public void setIdUsuario(long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
 
 	public String getMailInstitucional() {
 		return this.mailInstitucional;
@@ -75,11 +60,11 @@ public class Estudiante implements Serializable {
 		this.mailInstitucional = mailInstitucional;
 	}
 
-	public BigDecimal getSemestre() {
+	public int getSemestre() {
 		return this.semestre;
 	}
 
-	public void setSemestre(BigDecimal semestre) {
+	public void setSemestre(int semestre) {
 		this.semestre = semestre;
 	}
 
@@ -121,13 +106,6 @@ public class Estudiante implements Serializable {
 		this.generacion = generacion;
 	}
 
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 
 	public List<EstudianteEvento> getEstudiantesEventos() {
 		return this.estudiantesEventos;

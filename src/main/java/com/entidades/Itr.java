@@ -11,7 +11,8 @@ import java.util.List;
  */
 @Entity
 @Table(name="ITRS")
-@NamedQuery(name="Itr.findAll", query="SELECT i FROM Itr i")
+@NamedQuery(name = "Itr.obtenerItrTodos", query = "SELECT i FROM Itr i")
+@NamedQuery(name = "Itr.obtenerPorNombre", query = "SELECT i FROM Itr i WHERE i.nombre = :nombre")
 public class Itr implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -19,6 +20,7 @@ public class Itr implements Serializable {
 	@Column(name="ID_ITR")
 	private long idItr;
 
+	@Column
 	private String nombre;
 
 	//bi-directional many-to-one association to Evento

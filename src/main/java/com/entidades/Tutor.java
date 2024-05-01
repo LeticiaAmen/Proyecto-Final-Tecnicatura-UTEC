@@ -12,12 +12,8 @@ import java.util.List;
 @Entity
 @Table(name="TUTORES")
 @NamedQuery(name="Tutor.findAll", query="SELECT t FROM Tutor t")
-public class Tutor implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Tutor extends Usuario {
 
-	@Id
-	@Column(name="ID_USUARIO")
-	private long idUsuario;
 
 	@Column(name="MAIL_INSTITUCIONAL")
 	private String mailInstitucional;
@@ -37,10 +33,10 @@ public class Tutor implements Serializable {
 	@JoinColumn(name="ID_ROL")
 	private Rol rol;
 
-	//bi-directional one-to-one association to Usuario
-	@OneToOne
-	@JoinColumn(name="ID_USUARIO")
-	private Usuario usuario;
+//	//bi-directional one-to-one association to Usuario
+//	@OneToOne
+//	@JoinColumn(name="ID_USUARIO")
+//	private Usuario usuario;
 
 	//bi-directional many-to-many association to Evento
 	@ManyToMany
@@ -58,13 +54,13 @@ public class Tutor implements Serializable {
 	public Tutor() {
 	}
 
-	public long getIdUsuario() {
-		return this.idUsuario;
-	}
+//	public long getIdUsuario() {
+//		return this.idUsuario;
+//	}
 
-	public void setIdUsuario(long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
+//	public void setIdUsuario(long idUsuario) {
+//		this.idUsuario = idUsuario;
+//	}
 
 	public String getMailInstitucional() {
 		return this.mailInstitucional;
@@ -98,13 +94,13 @@ public class Tutor implements Serializable {
 		this.rol = rol;
 	}
 
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
+//	public Usuario getUsuario() {
+//		return this.usuario;
+//	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+//	public void setUsuario(Usuario usuario) {
+//		this.usuario = usuario;
+//	}
 
 	public List<Evento> getEventos() {
 		return this.eventos;

@@ -11,7 +11,8 @@ import java.util.List;
  */
 @Entity
 @Table(name="LOCALIDADES")
-@NamedQuery(name="Localidad.findAll", query="SELECT l FROM Localidad l")
+@NamedQuery(name="Localidad.obtenerTodasLocalidades", query="SELECT l FROM Localidad l")
+@NamedQuery(name = "Localidad.obtenerPorNombre", query = "SELECT l FROM Localidad l WHERE l.nombre = :nombre")
 public class Localidad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +33,7 @@ public class Localidad implements Serializable {
 	private Estado estado;
 
 	//bi-directional many-to-one association to Usuario
-	@OneToMany(mappedBy="localidade")
+	@OneToMany(mappedBy="localidad")
 	private List<Usuario> usuarios;
 
 	public Localidad() {
@@ -80,14 +81,14 @@ public class Localidad implements Serializable {
 
 	public Usuario addUsuario(Usuario usuario) {
 		getUsuarios().add(usuario);
-		usuario.setLocalidade(this);
+		usuario.setLocalidad(this);
 
 		return usuario;
 	}
 
 	public Usuario removeUsuario(Usuario usuario) {
 		getUsuarios().remove(usuario);
-		usuario.setLocalidade(null);
+		usuario.setLocalidad(null);
 
 		return usuario;
 	}

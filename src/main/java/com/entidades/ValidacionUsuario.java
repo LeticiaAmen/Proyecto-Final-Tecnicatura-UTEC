@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name="VALIDACION_USUARIOS")
 @NamedQuery(name="ValidacionUsuario.findAll", query="SELECT v FROM ValidacionUsuario v")
+@NamedQuery(name = "ValidacionUsuario.obtenerPorNombre", query = "SELECT v FROM ValidacionUsuario v WHERE v.nombre = :nombre")
 public class ValidacionUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -19,6 +20,7 @@ public class ValidacionUsuario implements Serializable {
 	@Column(name="ID_VALIDACION")
 	private long idValidacion;
 
+	@Column(name ="NOMBRE")
 	private String nombre;
 
 	//bi-directional many-to-one association to Usuario

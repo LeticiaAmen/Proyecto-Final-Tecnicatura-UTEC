@@ -12,51 +12,59 @@ import java.util.Date;
  */
 @Entity
 @Table(name="USUARIOS")
+@Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name = "seq_usuario", sequenceName = "seq_usuario", allocationSize = 1, initialValue = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "seq_usuario")
 	@Column(name="ID_USUARIO")
 	private long idUsuario;
 
+	@Column(name = "APELLIDOS", length= 40)
 	private String apellidos;
 
-	private BigDecimal documento;
+	@Column(name="DOCUMENTO", precision =38)
+	private long documento;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_NACIMIENTO")
 	private Date fechaNacimiento;
 
 	@Column(columnDefinition="CHAR(1)")
-	private String genero;
+	private char genero;
 
 	@Column(name="HASH_CONTRASEÑA")
 	private String hashContraseña;
 
+	@Column( length=100)
 	private String mail;
 
 	@Column(name="NOMBRE_USUARIO")
 	private String nombreUsuario;
 
+	@Column( length=20)
 	private String nombres;
 
 	@Column(name="SALT_CONTRASEÑA")
 	private String saltContraseña;
 
+	@Column( length=20)
 	private String telefono;
 
-	//bi-directional one-to-one association to Analista
-	@OneToOne(mappedBy="usuario")
-	private Analista analista;
+//	//bi-directional one-to-one association to Analista
+//	@OneToOne(mappedBy="usuario")
+//	private Analista analista;
+//
+//	//bi-directional one-to-one association to Estudiante
+//	@OneToOne(mappedBy="usuario")
+//	private Estudiante estudiante;
 
-	//bi-directional one-to-one association to Estudiante
-	@OneToOne(mappedBy="usuario")
-	private Estudiante estudiante;
-
-	//bi-directional one-to-one association to Tutor
-	@OneToOne(mappedBy="usuario")
-	private Tutor tutore;
+//	//bi-directional one-to-one association to Tutor
+//	@OneToOne(mappedBy="usuario")
+//	private Tutor tutore;
 
 	//bi-directional many-to-one association to Itr
 	@ManyToOne
@@ -66,7 +74,7 @@ public class Usuario implements Serializable {
 	//bi-directional many-to-one association to Localidad
 	@ManyToOne
 	@JoinColumn(name="ID_LOCALIDAD")
-	private Localidad localidade;
+	private Localidad localidad;
 
 	//bi-directional many-to-one association to ValidacionUsuario
 	@ManyToOne
@@ -92,11 +100,11 @@ public class Usuario implements Serializable {
 		this.apellidos = apellidos;
 	}
 
-	public BigDecimal getDocumento() {
+	public long getDocumento() {
 		return this.documento;
 	}
 
-	public void setDocumento(BigDecimal documento) {
+	public void setDocumento(long documento) {
 		this.documento = documento;
 	}
 
@@ -108,11 +116,11 @@ public class Usuario implements Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public String getGenero() {
+	public char getGenero() {
 		return this.genero;
 	}
 
-	public void setGenero(String genero) {
+	public void setGenero(char genero) {
 		this.genero = genero;
 	}
 
@@ -165,29 +173,29 @@ public class Usuario implements Serializable {
 		this.telefono = teléfono;
 	}
 
-	public Analista getAnalista() {
-		return this.analista;
-	}
-
-	public void setAnalista(Analista analista) {
-		this.analista = analista;
-	}
-
-	public Estudiante getEstudiante() {
-		return this.estudiante;
-	}
-
-	public void setEstudiante(Estudiante estudiante) {
-		this.estudiante = estudiante;
-	}
-
-	public Tutor getTutore() {
-		return this.tutore;
-	}
-
-	public void setTutore(Tutor tutore) {
-		this.tutore = tutore;
-	}
+//	public Analista getAnalista() {
+//		return this.analista;
+//	}
+//
+//	public void setAnalista(Analista analista) {
+//		this.analista = analista;
+//	}
+//
+//	public Estudiante getEstudiante() {
+//		return this.estudiante;
+//	}
+//
+//	public void setEstudiante(Estudiante estudiante) {
+//		this.estudiante = estudiante;
+//	}
+//
+//	public Tutor getTutore() {
+//		return this.tutore;
+//	}
+//
+//	public void setTutore(Tutor tutore) {
+//		this.tutore = tutore;
+//	}
 
 	public Itr getItr() {
 		return this.itr;
@@ -197,12 +205,12 @@ public class Usuario implements Serializable {
 		this.itr = itr;
 	}
 
-	public Localidad getLocalidade() {
-		return this.localidade;
+	public Localidad getLocalidad() {
+		return this.localidad;
 	}
 
-	public void setLocalidade(Localidad localidade) {
-		this.localidade = localidade;
+	public void setLocalidad(Localidad localidad) {
+		this.localidad = localidad;
 	}
 
 	public ValidacionUsuario getValidacionUsuario() {

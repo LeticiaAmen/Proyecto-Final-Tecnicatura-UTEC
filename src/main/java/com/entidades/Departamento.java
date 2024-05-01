@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name="DEPARTAMENTOS")
 @NamedQuery(name="Departamento.findAll", query="SELECT d FROM Departamento d")
+@NamedQuery(name = "Departamento.obtenerPorNombre", query = "SELECT d FROM Departamento d WHERE d.nombre = :nombre")
 public class Departamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -19,6 +20,7 @@ public class Departamento implements Serializable {
 	@Column(name="ID_DEPARTAMENTO")
 	private long idDepartamento;
 
+	@Column
 	private String nombre;
 
 	//bi-directional many-to-one association to Estado
