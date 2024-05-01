@@ -47,27 +47,17 @@ public class UsuarioDAO {
 	}
 
 	// validar usuario
-	public boolean validarNombreUsuario(String nomUsuario, String contrasenia) {
-		try {
-			// Se asume que contrasenia ya es un hash y se compara con el hash almacenado en la base de datos
-			long count = (Long) entityManager
-					.createQuery("SELECT COUNT(u) FROM Usuario u WHERE u.nomUsuario = :nomUsuario AND u.contrasenia = :contrasenia")
-					.setParameter("nomUsuario", nomUsuario)
-					.setParameter("contrasenia", contrasenia) // Esto debería ser el hash de la contraseña
-					.getSingleResult();
-
-			return count > 0;
-		} catch (NoResultException e) {
-			// No se encontró el usuario con esas credenciales
-			return false;
-		} catch (NonUniqueResultException e) {
-			// Más de un usuario con el mismo nombre de usuario y contraseña (esto no debería ocurrir si los nombres de usuario son únicos)
-			return false;
-		} catch (Exception e) {
-			// Manejar cualquier otra excepción que pueda ocurrir
-			e.printStackTrace();
-			return false;
-		}
+	public boolean validarNombreUsuario(String nomUsuario, String hashContraseña) {
+	    try {
+	        long count = (Long) entityManager.createQuery("SELECT COUNT(u) FROM Usuario u WHERE u.nombreUsuario = :nomUsuario AND u.hashContraseña = :hashContraseña")
+	            .setParameter("nomUsuario", nomUsuario)
+	            .setParameter("hashContraseña", hashContraseña)
+	            .getSingleResult();
+	        return count > 0;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	//buscar usuario por nombre de usuario
@@ -79,14 +69,12 @@ public class UsuarioDAO {
 			List<Usuario> usuarios = query.getResultList();
 
 			if (!usuarios.isEmpty()) {
-				return usuarios.get(0); // Assuming 'nomUsuario' is unique and there's at most one result
+				return usuarios.get(0); 
 			} else {
-				// Log that no users were found with this username
-				System.out.println("No user found with username: " + nomUsuario);
+				System.out.println("Usuario con el nobre : " + nomUsuario + " no encontrado en la BD");
 			}
 		} catch (Exception e) {
-			// Log the exception with more detail
-			System.err.println("Error retrieving user from database with username: " + nomUsuario);
+			System.err.println("Error recuperando usuario desde la base de datos con el nombre: " + nomUsuario);
 			e.printStackTrace();
 		}
 
@@ -99,7 +87,6 @@ public class UsuarioDAO {
 
 
 	public UsuarioDAO() {
-		// TODO Auto-generated constructor stub
 	}
 
 }

@@ -5,10 +5,6 @@ import javax.persistence.*;
 import java.util.Date;
 
 
-/**
- * The persistent class for the ACCIONES database table.
- * 
- */
 @Entity
 @Table(name="ACCIONES")
 @NamedQuery(name="Accion.findAll", query="SELECT a FROM Accion a")

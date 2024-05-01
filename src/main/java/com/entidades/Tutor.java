@@ -14,7 +14,6 @@ import java.util.List;
 @NamedQuery(name="Tutor.findAll", query="SELECT t FROM Tutor t")
 public class Tutor extends Usuario {
 
-
 	@Column(name="MAIL_INSTITUCIONAL")
 	private String mailInstitucional;
 
@@ -33,11 +32,6 @@ public class Tutor extends Usuario {
 	@JoinColumn(name="ID_ROL")
 	private Rol rol;
 
-//	//bi-directional one-to-one association to Usuario
-//	@OneToOne
-//	@JoinColumn(name="ID_USUARIO")
-//	private Usuario usuario;
-
 	//bi-directional many-to-many association to Evento
 	@ManyToMany
 	@JoinTable(
@@ -53,14 +47,6 @@ public class Tutor extends Usuario {
 
 	public Tutor() {
 	}
-
-//	public long getIdUsuario() {
-//		return this.idUsuario;
-//	}
-
-//	public void setIdUsuario(long idUsuario) {
-//		this.idUsuario = idUsuario;
-//	}
 
 	public String getMailInstitucional() {
 		return this.mailInstitucional;
@@ -93,14 +79,6 @@ public class Tutor extends Usuario {
 	public void setRol(Rol rol) {
 		this.rol = rol;
 	}
-
-//	public Usuario getUsuario() {
-//		return this.usuario;
-//	}
-
-//	public void setUsuario(Usuario usuario) {
-//		this.usuario = usuario;
-//	}
 
 	public List<Evento> getEventos() {
 		return this.eventos;

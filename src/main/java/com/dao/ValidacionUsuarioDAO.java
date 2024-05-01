@@ -7,6 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import com.entidades.Analista;
+import com.entidades.Estudiante;
+import com.entidades.Tutor;
 import com.entidades.ValidacionUsuario;
 import com.excepciones.ServiciosException;
 
@@ -54,8 +57,8 @@ public class ValidacionUsuarioDAO {
 			return estados.get(0);
 		}
 		return null;
+		
 	}
-
 
 
 }

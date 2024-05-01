@@ -8,7 +8,7 @@ HttpSession sesion = request.getSession(false);
  String registroExitoso = null;
  if (sesion != null) {
      registroExitoso = (String) sesion.getAttribute("registroExitoso");
-     sesion.removeAttribute("registroExitoso"); // Remover atributo para que no se muestre nuevamente
+     sesion.removeAttribute("registroExitoso");
  }
 %>
     

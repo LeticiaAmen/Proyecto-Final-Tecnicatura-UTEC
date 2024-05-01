@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -20,6 +23,9 @@ import com.entidades.Usuario;
 
 @Stateless
 public class UsuarioService {
+	
+	@PersistenceContext(unitName="PFT2024")
+	private EntityManager entityManager; 
 	
 	@EJB
 	private UsuarioDAO usuarioDAO;
@@ -65,13 +71,50 @@ public class UsuarioService {
 		return usuarioDAO.validarNombreUsuario(nomUsuario, contrasenia);
 	}
 	
-	//obtener usuario por nombre de usuario
+	public String determinarTipoYGenerarToken(Usuario usuario) {
+	    String tipoUsuario = "UNKNOWN"; // Valor por defecto
+	    if (esAnalista(usuario.getIdUsuario())) {
+	        tipoUsuario = "ANALISTA";
+	    } else if (esEstudiante(usuario.getIdUsuario())) {
+	        tipoUsuario = "ESTUDIANTE";
+	    } else if (esTutor(usuario.getIdUsuario())) {
+	        tipoUsuario = "TUTOR";
+	    }
+	    
+	    return generarTokenJWT(String.valueOf(usuario.getIdUsuario()), usuario.getNombreUsuario(), tipoUsuario);
+	}
+	
 	public Usuario obtenerUsuarioDesdeBaseDeDatosNombre(String nomUsuario) {
-		return usuarioDAO.obtenerUsuarioDesdeBaseDeDatosNombre(nomUsuario);	
-		}
-		
+	    try {
+	        Query query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :nomUsuario", Usuario.class);
+	        query.setParameter("nomUsuario", nomUsuario);
+	        List<Usuario> usuarios = query.getResultList();
+	        if (!usuarios.isEmpty()) {
+	            return usuarios.get(0);  
+	        } else {
+	            System.out.println("Usuario con el nombre : " + nomUsuario + " no encontrado en la base de datos");
+	        }
+	    } catch (Exception e) {
+	        System.err.println("Error recuperando el usuario con el nombre: " + nomUsuario);
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+
+	public String determinarTipoUsuario(Usuario usuario) {
+	    if (esAnalista(usuario.getIdUsuario())) {
+	        return "ANALISTA";
+	    } else if (esEstudiante(usuario.getIdUsuario())) {
+	        return "ESTUDIANTE";
+	    } else if (esTutor(usuario.getIdUsuario())) {
+	        return "TUTOR";
+	    }
+	    return "UNKNOWN";
+	}
+
+	
 	//generar TOKEN
-	public String generarTokenJWT(String usuarioId, String nombreUsuario, String rol) {//nuevo parametro 
+	public String generarTokenJWT(String usuarioId, String nombreUsuario, String rol) {
         try {
             // Definir la clave secreta para firmar el token
             String claveSecreta = "tuClaveSecreta"; // clave secreta real
@@ -91,6 +134,33 @@ public class UsuarioService {
             return null;
         }
     }
+	
+	public boolean esAnalista(long idUsuario) {
+	    List<Analista> result = entityManager.createQuery(
+	        "SELECT a FROM Analista a WHERE a.idUsuario = :idUsuario", Analista.class)
+	        .setParameter("idUsuario", idUsuario)
+	        .getResultList();
+	    return !result.isEmpty();
+	}
+
+
+	public boolean esEstudiante(long idUsuario) {
+	    List<Estudiante> result = entityManager.createQuery(
+	        "SELECT e FROM Estudiante e WHERE e.idUsuario = :idUsuario", Estudiante.class)
+	        .setParameter("idUsuario", idUsuario)
+	        .getResultList();
+	    return !result.isEmpty();
+	}
+
+
+	public boolean esTutor(long idUsuario) {
+	    List<Tutor> result = entityManager.createQuery(
+	        "SELECT t FROM Tutor t WHERE t.idUsuario = :idUsuario", Tutor.class)
+	        .setParameter("idUsuario", idUsuario)
+	        .getResultList();
+	    return !result.isEmpty();
+	}
+
 	
 	//FALTAN LOS MÉTODOS DE LOS FILTROS
 	

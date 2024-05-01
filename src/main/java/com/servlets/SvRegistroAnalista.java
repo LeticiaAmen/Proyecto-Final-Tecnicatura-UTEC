@@ -54,7 +54,6 @@ public class SvRegistroAnalista extends HttpServlet {
 	
     public SvRegistroAnalista() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -76,9 +75,7 @@ public class SvRegistroAnalista extends HttpServlet {
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String formSubmitted = request.getParameter("formSubmitted");

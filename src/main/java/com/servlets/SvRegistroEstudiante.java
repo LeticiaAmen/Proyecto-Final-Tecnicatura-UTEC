@@ -58,7 +58,6 @@ public class SvRegistroEstudiante extends HttpServlet {
 
 	public SvRegistroEstudiante() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -92,9 +91,7 @@ public class SvRegistroEstudiante extends HttpServlet {
 
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String formSubmitted = request.getParameter("formSubmitted");
 		if ("true".equals(formSubmitted)) {
