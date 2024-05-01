@@ -86,12 +86,23 @@
 			</select>
 		</p>
 		<p>
-			<label>*Área:</label> <select name="area">
+			<label>*Área:</label> <select name="idArea">
 				<c:forEach var="area" items="${areas}">
-					<option value="${area}">${area}</option>
+					<option value="${area.idArea}">${area.nombre}</option>
 				</c:forEach>
 			</select>
 		</p>
+		<p>
+			<label>*Rol:</label> <select name="idRol">
+				<c:forEach var="rol" items="${roles}">
+					<option value="${rol.idRol}">${rol.nombre}</option>
+				</c:forEach>
+			</select>
+		</p>
+		
+		
+		
+		
 		<p>
 			<label>*Fecha de Nacimiento:</label> <input type="date"
 				name="fechaNacimiento" required>

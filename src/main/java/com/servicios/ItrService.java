@@ -19,7 +19,7 @@ public class ItrService {
 		itrDAO.crearItr(itr);
 	}
 
-	public Itr obtenerItr(Long id) {
+	public Itr obtenerItr(long id) {
 		return itrDAO.obtenerItr(id);
 	}
 

@@ -19,6 +19,7 @@ public class Rol implements Serializable {
 	@Column(name="ID_ROL")
 	private long idRol;
 
+	@Column
 	private String nombre;
 
 	//bi-directional many-to-one association to Estado

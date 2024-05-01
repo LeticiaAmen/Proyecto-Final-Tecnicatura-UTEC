@@ -19,6 +19,7 @@ public class Area implements Serializable {
 	@Column(name="ID_AREA")
 	private long idArea;
 
+	@Column
 	private String nombre;
 
 	//bi-directional many-to-one association to Estado

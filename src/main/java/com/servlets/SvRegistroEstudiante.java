@@ -82,7 +82,6 @@ public class SvRegistroEstudiante extends HttpServlet {
 		request.setAttribute("semestres", semestresLista);
 
 		//Esta se la puse a mano porque ahora que es tabla hay que crear todo para generaciones
-		//List<String> generacionesLista = Arrays.asList("2022", "2023", "2024");
 		List<Generacion> generacionesLista = generacionService.obtenerGeneracionesTodas();
 		request.setAttribute("generaciones", generacionesLista);
 		
