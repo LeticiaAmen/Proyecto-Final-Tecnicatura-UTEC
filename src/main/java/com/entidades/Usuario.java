@@ -54,17 +54,6 @@ public class Usuario implements Serializable {
 	@Column( length=20)
 	private String telefono;
 
-//	//bi-directional one-to-one association to Analista
-//	@OneToOne(mappedBy="usuario")
-//	private Analista analista;
-//
-//	//bi-directional one-to-one association to Estudiante
-//	@OneToOne(mappedBy="usuario")
-//	private Estudiante estudiante;
-
-//	//bi-directional one-to-one association to Tutor
-//	@OneToOne(mappedBy="usuario")
-//	private Tutor tutore;
 
 	//bi-directional many-to-one association to Itr
 	@ManyToOne
@@ -173,29 +162,6 @@ public class Usuario implements Serializable {
 		this.telefono = teléfono;
 	}
 
-//	public Analista getAnalista() {
-//		return this.analista;
-//	}
-//
-//	public void setAnalista(Analista analista) {
-//		this.analista = analista;
-//	}
-//
-//	public Estudiante getEstudiante() {
-//		return this.estudiante;
-//	}
-//
-//	public void setEstudiante(Estudiante estudiante) {
-//		this.estudiante = estudiante;
-//	}
-//
-//	public Tutor getTutore() {
-//		return this.tutore;
-//	}
-//
-//	public void setTutore(Tutor tutore) {
-//		this.tutore = tutore;
-//	}
 
 	public Itr getItr() {
 		return this.itr;

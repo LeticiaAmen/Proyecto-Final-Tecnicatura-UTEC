@@ -16,12 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.entidades.Analista;
 import com.entidades.Departamento;
+import com.entidades.Estado;
 import com.entidades.Itr;
 import com.entidades.Localidad;
 import com.entidades.Usuario;
 import com.entidades.ValidacionUsuario;
 
 import com.servicios.DepartamentoService;
+import com.servicios.EstadoService;
 import com.servicios.ItrService;
 import com.servicios.LocalidadService;
 import com.servicios.UsuarioService;
@@ -45,6 +47,9 @@ public class SvRegistroAnalista extends HttpServlet {
 	
 	@EJB
 	private ItrService itrService; 
+	
+	@EJB 
+	private EstadoService estadoService; 
 	
 	
     public SvRegistroAnalista() {
@@ -149,24 +154,22 @@ public class SvRegistroAnalista extends HttpServlet {
 
        ValidacionUsuario usuEstadoSinValidar = validacionService.obtenerValidacionUsuario(2);
 		
-		Usuario usuario = new Analista();
+		Analista usuario = new Analista();
 
 		//setear atributos
 		usuario.setNombreUsuario(nomUsuario);
 		usuario.setDocumento(documentoLong);
 		usuario.setApellidos(apellido);
 		usuario.setHashContraseña(contrasenia);
-		//usuario.setContrasenia(contrasenia);
-		//usuario.setMaiInstitucional(mailInst);
+		usuario.setMailInstitucional(mailInst);
 		usuario.setMail(mail);
 		usuario.setNombres(nombre);
 		usuario.setTelefono(telefono);
-		//usuario.setTipo(TipoUsuario.ANALISTA);
 		
 		//setear sin validar
 		usuario.setValidacionUsuario(usuEstadoSinValidar);
 				
-	    //setear depto, localidad e itr
+	    // localidad e itr
 		usuario.setLocalidad(localidad);
 		usuario.setItr(itr);
 	    
@@ -175,6 +178,10 @@ public class SvRegistroAnalista extends HttpServlet {
 	    
 	    // Establecer la fecha de nacimiento en el usuario
 		usuario.setFechaNacimiento(fechaNacimiento);
+		
+		//setear estado
+		Estado estadoActivo = estadoService.obtenerEstadoId(1);
+		usuario.setEstado(estadoActivo);
 
 		try {
 			usuarioService.crearAnalista((Analista)usuario);
