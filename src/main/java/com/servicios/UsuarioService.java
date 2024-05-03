@@ -51,9 +51,6 @@ public class UsuarioService {
 		return usuarioDAO.obtenerUSuarios();
 	}
 	
-	public void actualizarUsuario(Usuario usuario) {
-		usuarioDAO.actualizarUsuario(usuario);
-	}
 	
 	public void crearAnalista(Analista analista) {
 		analistaDAO.crearAnalista(analista);
@@ -160,6 +157,16 @@ public class UsuarioService {
 	        .getResultList();
 	    return !result.isEmpty();
 	}
+
+	public void actualizarUsuario(Usuario usuario) {
+	    try {
+	        entityManager.merge(usuario);
+	    } catch (Exception e) {
+	        throw new RuntimeException("Error al actualizar el usuario: " + e.getMessage(), e);
+	    }
+	}
+
+
 
 	
 	//FALTAN LOS MÉTODOS DE LOS FILTROS

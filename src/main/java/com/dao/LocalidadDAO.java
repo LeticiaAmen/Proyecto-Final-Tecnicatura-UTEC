@@ -28,10 +28,14 @@ public class LocalidadDAO {
 		return query.getResultList();
 	}
 	
-	public Localidad actualizarLocalidad (Localidad localidad) {
-		localidad = entityManager.merge(localidad);
-		return localidad; 
+	public Localidad actualizarLocalidad(Localidad localidad) {
+	    if (localidad != null) {
+	        localidad = entityManager.merge(localidad);
+	        entityManager.flush(); 
+	    }
+	    return localidad;
 	}
+
 	
 	//-------------------------------Listar por filtro-------------------------------------
 			public List<Localidad> listarLocalidadFiltro(String nombre) {

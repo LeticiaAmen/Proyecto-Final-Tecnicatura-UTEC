@@ -22,5 +22,9 @@ public class LocalidadService {
 		return localidadDAO.obtenerLocalidadPorId(Idlocalidad);
 	}
 	
+	public Localidad actualizarLocalidad(Localidad localidad) {
+	    return localidadDAO.actualizarLocalidad(localidad);
+	}
+	
 
 }

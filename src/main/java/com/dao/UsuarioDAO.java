@@ -37,11 +37,12 @@ public class UsuarioDAO {
 	}
 
 	public void actualizarUsuario(Usuario usuario) {
-		entityManager.merge(usuario);
+	    entityManager.merge(usuario);
+	    entityManager.flush(); 
 	}
 
-	//listar todo
 
+	//listar todo
 	public List<Usuario> obtenerTodosLosUsuarios() {
 		return entityManager.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
 	}
