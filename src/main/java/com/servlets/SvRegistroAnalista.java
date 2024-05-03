@@ -28,6 +28,7 @@ import com.servicios.ItrService;
 import com.servicios.LocalidadService;
 import com.servicios.UsuarioService;
 import com.servicios.ValidacionUsuarioService;
+import com.validaciones.Validacion;
 
 @WebServlet("/SvRegistroAnalista")
 public class SvRegistroAnalista extends HttpServlet {
@@ -51,9 +52,12 @@ public class SvRegistroAnalista extends HttpServlet {
 	@EJB 
 	private EstadoService estadoService; 
 	
+	private Validacion validacion;
+	
 	
     public SvRegistroAnalista() {
         super();
+       validacion = new Validacion(); 
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -84,35 +88,67 @@ public class SvRegistroAnalista extends HttpServlet {
 		String nomUsuario = request.getParameter("nomUsuario");
 		String documento = request.getParameter("documento");
 		  long documentoLong = 0;
-	        if (documento != null && !documento.isEmpty()) {
+	    
+		  if (documento != null && !documento.isEmpty()) {
 	            documentoLong = Long.parseLong(documento);
 	        }
 		
 		String apellido = request.getParameter("apellido");
 		String contrasenia = request.getParameter("contrasenia");
 		
-		//validación de formato de la contraseña
-		if (contrasenia.length() < 8 || !contrasenia.matches(".*[A-Za-z].*") || !contrasenia.matches(".*[0-9].*")) {
-			request.setAttribute("error", "La contraseña debe tener al menos 8 caracteres y contener letras y números.");
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
-		
 		String mailInst = request.getParameter("mailInst");
 		String mail = request.getParameter("mail");
-		
-		//Validación del formato del mail
-		if (!mail.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}") || 
-				!mailInst.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}")) {
-			request.setAttribute("error", "El formato del correo electrónico no es válido.");
+		String nombre = request.getParameter("nombre");
+		String telefono = request.getParameter("telefono");
+		//Validacion Nombre
+		if (validacion.validacionNombre(nombre)) {
+			request.setAttribute("error", validacion.RespuestaValidacionNombre());
 			doGet(request, response);  // Cargar los datos necesarios
 			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
 			return;
 		}
 		
-		String nombre = request.getParameter("nombre");
-		String telefono = request.getParameter("telefono");
+		//Validacion Apellido
+		if (validacion.validacionApellido(apellido)) {
+			request.setAttribute("error", validacion.RespuestaValidacionAepllido());
+			doGet(request, response);  // Cargar los datos necesarios
+			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+			return;
+		}
+		
+		
+		// validacion Nombre de Usuario
+		if (validacion.validacionUsiario(nomUsuario, nombre, apellido)) {
+			request.setAttribute("error", validacion.RespuestaValidacionUsiario());
+			doGet(request, response);  // Cargar los datos necesarios
+			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+			return;
+		}
+		//validación de formato de la contraseña
+		if (validacion.validacionContraseña(contrasenia)) {
+			request.setAttribute("error", validacion.RespuestaValidacionContraseña());
+			doGet(request, response);  // Cargar los datos necesarios
+			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+			return;
+		}
+	
+		//Validación del formato del mail
+		if (validacion.validacionMail(mail)) {
+			request.setAttribute("error", validacion.RespuestaValidacionMail());
+			doGet(request, response);  // Cargar los datos necesarios
+			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+			return;
+		}
+		//Validación del formato del telefono
+		if (validacion.validacionTelefono(telefono)) {
+			request.setAttribute("error", validacion.RespuestaValidacionTelefono());
+			doGet(request, response);  // Cargar los datos necesarios
+			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+			return;
+		}
+		
+		
+		
 
 		// ---------- obtener departamento, localidad e ITR seleccionado
 		String idDepartamento = request.getParameter("idDepartamento");
