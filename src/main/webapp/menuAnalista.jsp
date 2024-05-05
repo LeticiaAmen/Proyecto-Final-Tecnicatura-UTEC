@@ -53,5 +53,9 @@
     <form action="SvListadoDeUsuario" method="get">
         <input type="submit" class="button" value="Listar Usuarios">
     </form>
+    <form action="SvListarReclamos" method="get">
+    	<input type="submit" class="button" value="Listar Reclamos">
+	</form>
+    
 </body>
 </html>

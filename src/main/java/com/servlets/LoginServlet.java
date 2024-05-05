@@ -66,7 +66,7 @@ public class LoginServlet extends HttpServlet {
 	            String redirectPage = "menu" + formatPageName(tipoUsuario) + ".jsp";
 	            response.sendRedirect(redirectPage);
 	        } else {
-	            request.setAttribute("error", "Usuario no activado o credenciales incorrectas.");
+	            request.setAttribute("error", "Su usuario aún no ha sido activado.");
 	            request.getRequestDispatcher("index.jsp").forward(request, response);
 	        }
 	    } else {
