@@ -43,7 +43,7 @@ window.onload = function() {
 				<h1><%=usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos()%>
 				</h1>
 				<div id="dropdown-content">
-					<form action="LoginServlet" method="get">
+					<form action="datosPersonales.jsp" method="get" target="_blank">
 						<input type="submit" class="button" value="Datos Personales">
 					</form>
 
