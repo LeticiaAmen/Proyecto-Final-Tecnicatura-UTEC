@@ -56,4 +56,9 @@ public class EstadoDAO {
 		return null; 
 	}
 
+	public static EstadoDAO valueOf(String estadoStr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -5,9 +5,10 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.dao.EstadoDAO;
 import com.dao.ItrDAO;
 import com.entidades.Itr;
-import com.entidades.Estado;
+
 
 @Stateless
 public class ItrService {
@@ -32,10 +33,10 @@ public class ItrService {
 	}
 	
 	//este de estado no se si funciona porque quedo cambiado con la tabla estado
-	public List<Itr> obtenerItrsPorEstado (Estado estado){
+	public List<Itr> obtenerItrsPorEstado (EstadoDAO estado){
 		return itrDAO.obtenerItrsPorEstado(estado);
 	}
-	
+
 	public Itr obtenerItrDesdeBaseDeDatosNombre(String nombre) {
 		return itrDAO.obtenerItrDesdeBaseDeDatosNombre(nombre);
 	}

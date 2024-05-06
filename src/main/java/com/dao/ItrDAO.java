@@ -6,7 +6,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import com.entidades.Estado;
 import com.entidades.Itr;
 
@@ -67,7 +66,7 @@ public class ItrDAO {
 
 	//--------------------Este método no se si esta bien, al ya no tener enum no se si la consulta cambia. 
 	// Obtener por estado
-	public List<Itr> obtenerItrsPorEstado(Estado estado) {
+	public List<Itr> obtenerItrsPorEstado(EstadoDAO estado) {
 		try {
 			Query query = entityManager.createQuery("SELECT i FROM Itr i WHERE i.estado = :estado", Itr.class);
 			query.setParameter("estado", estado);
