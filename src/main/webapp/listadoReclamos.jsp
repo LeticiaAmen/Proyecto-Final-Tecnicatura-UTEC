@@ -43,7 +43,7 @@
                 		<td class="title">${reclamo.tituloReclamo}</td>
                 		<td class="detail">${reclamo.detalle}</td>
                 		<td>${reclamo.evento.tituloEvento}</td>
-                		<td>${reclamo.evento.estado}</td>
+                		<td>${reclamo.registroAccione.nombre}</td>
                 		<td>
                     		<a href="ResponderReclamo?id=${reclamo.idReclamo}">Ver</a>
                 		</td>

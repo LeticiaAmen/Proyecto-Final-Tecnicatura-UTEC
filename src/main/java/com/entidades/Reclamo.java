@@ -82,6 +82,14 @@ public class Reclamo implements Serializable {
 		this.tituloReclamo = tituloReclamo;
 	}
 
+	public RegistroAccione getRegistroAccione() {
+		return registroAccione;
+	}
+
+	public void setRegistroAccione(RegistroAccione registroAccione) {
+		this.registroAccione = registroAccione;
+	}
+
 	public List<Accion> getAcciones() {
 		return this.acciones;
 	}

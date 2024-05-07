@@ -12,9 +12,15 @@ public class ReclamosService {
     @PersistenceContext(unitName = "PFT2024")
     private EntityManager em;
 
+	/*
+	 * public List<Reclamo> obtenerTodosReclamos() { return
+	 * em.createQuery("SELECT r FROM Reclamo r", Reclamo.class).getResultList(); }
+	 */
+    
     public List<Reclamo> obtenerTodosReclamos() {
-        return em.createQuery("SELECT r FROM Reclamo r", Reclamo.class).getResultList();
+        return em.createQuery("SELECT r FROM Reclamo r LEFT JOIN FETCH r.registroAccione", Reclamo.class).getResultList();
     }
+
 
     public List<Reclamo> obtenerReclamosPorUsuario(Long idUsuario) {
         return em.createQuery("SELECT r FROM Reclamo r WHERE r.estudiante.idUsuario = :idUsuario", Reclamo.class)
