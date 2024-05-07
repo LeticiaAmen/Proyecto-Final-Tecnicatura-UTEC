@@ -38,8 +38,8 @@
             		<th>Título</th>
             		<th>Detalle</th>
             		<th>Evento</th>
-            		<th>Estado del reclamo</th>
-            		<th>Acciones</th>
+            		<th>Estado</th>
+            		<th>Ficha</th>
         		</tr>
     		</thead>
     		<tbody>
@@ -50,7 +50,7 @@
                 		<td class="title">${reclamo.tituloReclamo}</td>
                 		<td class="detail">${reclamo.detalle}</td>
                 		<td>${reclamo.evento.tituloEvento}</td>
-                		<td>${reclamo.evento.estado}</td>
+                		<td>${reclamo.registroAccione.nombre}</td>
                 		<td>
                     		<a href="ResponderReclamo?id=${reclamo.idReclamo}">Ver</a>
                 		</td>

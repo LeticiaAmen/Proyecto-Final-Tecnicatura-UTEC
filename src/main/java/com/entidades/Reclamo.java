@@ -17,6 +17,8 @@ public class Reclamo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="seq_reclamo", sequenceName = "seq_reclamo", allocationSize = 1, initialValue = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "seq_reclamo")
 	@Column(name="ID_RECLAMO")
 	private long idReclamo;
 
