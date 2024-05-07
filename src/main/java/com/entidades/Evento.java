@@ -21,7 +21,8 @@ public class Evento implements Serializable {
 	@Column(name="ID_EVENTO")
 	private long idEvento;
 
-	private BigDecimal creditos;
+	@Column(name="CREDITOS")
+	private long creditos;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_HORA_FINAL")
@@ -31,6 +32,7 @@ public class Evento implements Serializable {
 	@Column(name="FECHA_HORA_INICIO")
 	private Date fechaHoraInicio;
 
+	@Column(name="INFORMACION")
 	private String informacion;
 
 	@Column(columnDefinition="CHAR(1)")
@@ -42,7 +44,7 @@ public class Evento implements Serializable {
 	@Column(name="SEMESTRE")
 	private long semestre;
 
-
+	@Column(name="UBICACION")
 	private String ubicacion;
 
 	//bi-directional many-to-one association to Constancia
@@ -96,11 +98,11 @@ public class Evento implements Serializable {
 		this.idEvento = idEvento;
 	}
 
-	public BigDecimal getCreditos() {
+	public long getCreditos() {
 		return this.creditos;
 	}
 
-	public void setCreditos(BigDecimal creditos) {
+	public void setCreditos(long creditos) {
 		this.creditos = creditos;
 	}
 
