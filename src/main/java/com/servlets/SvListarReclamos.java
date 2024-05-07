@@ -24,17 +24,21 @@ public class SvListarReclamos extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
+        boolean esAnalista = usuarioService.esAnalista(usuarioLogeado.getIdUsuario());
         String filtroUsuario = request.getParameter("filtroUsuario");
         String estadoReclamo = request.getParameter("estadoReclamo");
         List<Reclamo> reclamos;
+        String backUrl = "menuEstudiante.jsp"; // URL por defecto
+
         if (usuarioService.esAnalista(usuarioLogeado.getIdUsuario())) {
-        	reclamos = reclamosService.obtenerReclamosConFiltros(filtroUsuario, estadoReclamo);
+            reclamos = reclamosService.obtenerReclamosConFiltros(filtroUsuario, estadoReclamo);
+            backUrl = "menuAnalista.jsp"; // cambiamos la URL si analista
         } else {
-        	reclamos = reclamosService.obtenerReclamosPorUsuarioConFiltros(usuarioLogeado.getIdUsuario(), filtroUsuario, estadoReclamo);
+            reclamos = reclamosService.obtenerReclamosPorUsuarioConFiltros(usuarioLogeado.getIdUsuario(), filtroUsuario, estadoReclamo);
         }
+        request.setAttribute("esAnalista", esAnalista);
         request.setAttribute("reclamos", reclamos);
+        request.setAttribute("backUrl", backUrl); // Enviamos la URL correcta al JSP
         request.getRequestDispatcher("/listadoReclamos.jsp").forward(request, response);
     }
 }
-
-

@@ -9,8 +9,10 @@
 <body>
     <h1>Listado de Reclamos</h1>
     <form action="SvListarReclamos" method="get" class="filter-form">
-        <label for="filtroUsuario">Filtrar por Usuario:</label>
-        <input type="text" name="filtroUsuario" placeholder="Nombre de usuario...">
+        <c:if test="${esAnalista}"> <!-- Solo muestra el filtro si es un analista -->
+            <label for="filtroUsuario">Filtrar por Usuario:</label>
+            <input type="text" name="filtroUsuario" placeholder="Nombre de usuario...">
+        </c:if>
 
         <label for="estadoReclamo">Estado del Reclamo:</label>
         <select name="estadoReclamo">
@@ -22,7 +24,7 @@
 
         <input type="submit" value="Filtrar">
 		
-		<input type="submit" value="Limpiar filtros" onclick="window.location.href='SvListarReclamos';">	           
+        <input type="submit" value="Limpiar filtros" onclick="window.location.href='SvListarReclamos';">	           
     </form>
     <div class="container">
        <table>
@@ -54,8 +56,9 @@
 			</tbody>
 		</table>   
     </div>
-    <form action="menuAnalista.jsp" method="get">
+    <form action="${backUrl}" method="get">
     	<input type="submit" value="Atrás">
-	</form>   
+	</form>
+
 </body>
 </html>
