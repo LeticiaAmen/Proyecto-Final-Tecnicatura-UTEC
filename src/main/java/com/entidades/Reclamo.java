@@ -28,6 +28,10 @@ public class Reclamo implements Serializable {
 
 	@Column(name="TITULO_RECLAMO")
 	private String tituloReclamo;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_REGISTRO_ACCION")
+	private RegistroAccione registroAccione;
 
 	//bi-directional many-to-one association to Accion
 	@OneToMany(mappedBy="reclamo")

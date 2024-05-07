@@ -38,6 +38,10 @@ public class Evento implements Serializable {
 
 	@Column(name="TITULO_EVENTO")
 	private String tituloEvento;
+	
+	@Column(name="SEMESTRE")
+	private long semestre;
+
 
 	private String ubicacion;
 
@@ -276,4 +280,11 @@ public class Evento implements Serializable {
 		this.tutores = tutores;
 	}
 
+	public long getSemestre() {
+		return semestre;
+	}
+
+	public void setSemestre(long semestre) {
+		this.semestre = semestre;
+	}
 }
