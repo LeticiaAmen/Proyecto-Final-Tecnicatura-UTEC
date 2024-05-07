@@ -20,6 +20,7 @@ public class Reclamo implements Serializable {
 	@Column(name="ID_RECLAMO")
 	private long idReclamo;
 
+	@Column(name="DETALLE")
 	private String detalle;
 
 	@Temporal(TemporalType.DATE)
@@ -118,6 +119,14 @@ public class Reclamo implements Serializable {
 
 	public void setEvento(Evento evento) {
 		this.evento = evento;
+	}
+
+	public RegistroAccione getRegistroAccione() {
+		return registroAccione;
+	}
+
+	public void setRegistroAccione(RegistroAccione registroAccione) {
+		this.registroAccione = registroAccione;
 	}
 
 }
