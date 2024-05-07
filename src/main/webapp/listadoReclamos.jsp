@@ -21,6 +21,8 @@
         </select>
 
         <input type="submit" value="Filtrar">
+		
+		<input type="submit" value="Limpiar filtros" onclick="window.location.href='SvListarReclamos';">	           
     </form>
     
     <!--botón ingresar reclamo -->
