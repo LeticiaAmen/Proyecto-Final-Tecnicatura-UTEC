@@ -32,7 +32,7 @@ public class SvListarReclamos extends HttpServlet {
 
         if (usuarioService.esAnalista(usuarioLogeado.getIdUsuario())) {
             reclamos = reclamosService.obtenerReclamosConFiltros(filtroUsuario, estadoReclamo);
-            backUrl = "menuAnalista.jsp"; // cambiamos la URL si analista
+            backUrl = "menuAnalista.jsp"; // cambiamos la URL si es analista
         } else {
             reclamos = reclamosService.obtenerReclamosPorUsuarioConFiltros(usuarioLogeado.getIdUsuario(), filtroUsuario, estadoReclamo);
         }
