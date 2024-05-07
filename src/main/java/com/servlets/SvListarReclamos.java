@@ -24,11 +24,13 @@ public class SvListarReclamos extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
+        String filtroUsuario = request.getParameter("filtroUsuario");
+        String estadoReclamo = request.getParameter("estadoReclamo");
         List<Reclamo> reclamos;
         if (usuarioService.esAnalista(usuarioLogeado.getIdUsuario())) {
-            reclamos = reclamosService.obtenerTodosReclamos();
+        	reclamos = reclamosService.obtenerReclamosConFiltros(filtroUsuario, estadoReclamo);
         } else {
-            reclamos = reclamosService.obtenerReclamosPorUsuario(usuarioLogeado.getIdUsuario());
+        	reclamos = reclamosService.obtenerReclamosPorUsuarioConFiltros(usuarioLogeado.getIdUsuario(), filtroUsuario, estadoReclamo);
         }
         request.setAttribute("reclamos", reclamos);
         request.getRequestDispatcher("/listadoReclamos.jsp").forward(request, response);
