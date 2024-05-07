@@ -19,7 +19,6 @@ public class RegistroAccione implements Serializable {
 	@Column(name="ID_REGISTRO_ACCION")
 	private long idRegistroAccion;
 
-	@Column(name="NOMBRE")
 	private String nombre;
 
 	//bi-directional many-to-one association to Accion

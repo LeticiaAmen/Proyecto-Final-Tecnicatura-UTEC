@@ -24,13 +24,6 @@
 		
 		<input type="submit" value="Limpiar filtros" onclick="window.location.href='SvListarReclamos';">	           
     </form>
-    
-    <!--botón ingresar reclamo -->
-    <form action="SvIngresarReclamo" method="post" style="text-align: right; padding: 20px;">
-    <input type="submit" value="Ingresar Reclamo">
-    </form>
-    
-    
     <div class="container">
        <table>
     		<thead>
