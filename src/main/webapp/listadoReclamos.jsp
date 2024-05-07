@@ -25,34 +25,34 @@
 		<input type="submit" value="Limpiar filtros" onclick="window.location.href='SvListarReclamos';">	           
     </form>
     <div class="container">
-        <table>
+       <table>
     		<thead>
-        		<tr>
-            		<th>Estudiante</th>
-            		<th>Fecha</th>
-            		<th>Título</th>
-            		<th>Detalle</th>
-            		<th>Evento</th>
-            		<th>Estado</th>
-            		<th>Ficha</th>
-        		</tr>
-    		</thead>
-    		<tbody>
-        		<c:forEach items="${reclamos}" var="reclamo">
-            		<tr>
-                		<td>${reclamo.estudiante.nombres} ${reclamo.estudiante.apellidos}</td>
-                		<td>${reclamo.fechaHoraReclamo}</td>
-                		<td class="title">${reclamo.tituloReclamo}</td>
-                		<td class="detail">${reclamo.detalle}</td>
-                		<td>${reclamo.evento.tituloEvento}</td>
-                		<td>${reclamo.registroAccione.nombre}</td>
-                		<td>
-                    		<a href="ResponderReclamo?id=${reclamo.idReclamo}">Ver</a>
-                		</td>
-            		</tr>
-        		</c:forEach>
-    		</tbody>
-		</table>
+		        <tr>
+		            <th>Estudiante</th>
+		            <th>Fecha</th>
+		            <th>Título</th>
+		            <th>Detalle</th>
+		            <th>Evento</th>
+		            <th>Estado</th>
+		            <th>Ficha</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		    	<c:forEach items="${reclamos}" var="reclamo">
+		        	<tr>
+		            	<td>${reclamo.estudiante.nombres} ${reclamo.estudiante.apellidos}</td>
+		            	<td>${reclamo.fechaHoraReclamo}</td>
+		            	<td class="title" title="Título: ${reclamo.tituloReclamo}">${reclamo.tituloReclamo}</td>
+		            	<td class="detail" title="Detalle: ${reclamo.detalle}">${reclamo.detalle}</td>
+		            	<td title="Evento: ${reclamo.evento.tituloEvento}">${reclamo.evento.tituloEvento}</td>
+		            	<td>${reclamo.registroAccione.nombre}</td>
+		            	<td>
+		                	<a href="ResponderReclamo?id=${reclamo.idReclamo}">Ver</a>
+		            	</td>
+		        	</tr>
+		    	</c:forEach>
+			</tbody>
+		</table>   
     </div>
     <form action="menuAnalista.jsp" method="get">
     	<input type="submit" value="Atrás">
