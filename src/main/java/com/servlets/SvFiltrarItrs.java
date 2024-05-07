@@ -26,18 +26,21 @@ public class SvFiltrarItrs extends HttpServlet {
             throws ServletException, IOException {
         String estadoFiltrar = request.getParameter("estado");
 
-        List<Itr> listaItrs;
-
+        List<Itr> itrs = itrService.obtenerItrTodos();
+       
         if (estadoFiltrar != null && !estadoFiltrar.isEmpty()) {
+   
         	
-            EstadoDAO estado = EstadoDAO.valueOf(estadoFiltrar);
-            listaItrs = itrService.obtenerItrsPorEstado(estado);
-        } else {
-            listaItrs = itrService.obtenerItrTodos();
-        }
+        	//NO FUNCIONA EL FILTRO DEJE EL CODIGO VIEJO
+//            EstadoItr estado = EstadoItr.valueOf(estadoFiltrar);
+//            listaItrs = itrService.obtenerItrsPorEstado(estado);
+//        } else {
+//            listaItrs = itrService.obtenerItrTodos();
+//        }
 
-        request.setAttribute("itrs", listaItrs);
-
-        request.getRequestDispatcher("listarITR.jsp").forward(request, response);
-    }
+//        request.setAttribute("itrs", listaItrs);
+//
+//        request.getRequestDispatcher("listarITR.jsp").forward(request, response);
+//    }
 }
+}}

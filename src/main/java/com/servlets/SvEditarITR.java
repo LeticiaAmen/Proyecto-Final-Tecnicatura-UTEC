@@ -9,8 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.dao.EstadoDAO;
+import com.entidades.Estado;
 import com.entidades.Itr;
 import com.servicios.ItrService;
 
@@ -41,7 +40,7 @@ public class SvEditarITR extends HttpServlet {
 
         long idItr = Long.parseLong(request.getParameter("IdItr"));
         String nombre = request.getParameter("nombre");
-        EstadoDAO estado = EstadoDAO.valueOf(request.getParameter("estado"));
+        Estado estado = Estado.valueOf(request.getParameter("estado"));
         
 
         Itr existente = itrService.obtenerItrDesdeBaseDeDatosNombre(nombre);

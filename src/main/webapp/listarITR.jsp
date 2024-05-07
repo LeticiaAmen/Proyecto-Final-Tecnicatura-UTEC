@@ -65,7 +65,7 @@
                 <% for (Itr itr : listaItrs) { %>
                     <tr>
                         <td><%= itr.getNombre() %></td>
-                        <td><%= itr.getEstado() %></td>
+                        <td><%= itr.getEstado().getNombre() %></td>
                         <td><a href="SvEditarITR?IdItr=<%= itr.getIdItr() %>">Editar</a></td>
                     </tr>
                 <% } %>

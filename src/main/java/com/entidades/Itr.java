@@ -5,10 +5,6 @@ import javax.persistence.*;
 import java.util.List;
 
 
-/**
- * The persistent class for the ITRS database table.
- * 
- */
 @Entity
 @Table(name="ITRS")
 @NamedQuery(name = "Itr.obtenerItrTodos", query = "SELECT i FROM Itr i")

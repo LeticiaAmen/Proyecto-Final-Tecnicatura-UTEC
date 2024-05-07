@@ -483,4 +483,9 @@ public class Estado implements Serializable {
 		return validacionUsuario;
 	}
 
+	public static Estado valueOf(String parameter) {
+		
+		return null;
+	}
+
 }

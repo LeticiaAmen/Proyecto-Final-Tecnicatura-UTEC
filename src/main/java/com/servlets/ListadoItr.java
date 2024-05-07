@@ -22,17 +22,11 @@ public class ListadoItr extends HttpServlet {
 
     public ListadoItr() {
         super();
-        // TODO Auto-generated constructor stub
+       
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Itr> listaItrs = itrService.obtenerItrTodos();
-        System.out.println("hola");
-        System.out.println(listaItrs.size());
-        
-        for (Itr itr : listaItrs) {
-            System.out.println("ID: " + itr.getIdItr() + ", Nombre: " + itr.getNombre() + ", Estado: " + itr.getEstado());
-        }
 
         request.setAttribute("itrs", listaItrs);
         

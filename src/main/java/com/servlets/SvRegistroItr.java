@@ -9,8 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.dao.EstadoDAO;
 import com.entidades.Estado;
 import com.entidades.Itr;
 import com.servicios.ItrService;
@@ -43,7 +41,7 @@ public class SvRegistroItr extends HttpServlet {
         }
 
         Itr existente = itrService.obtenerItrDesdeBaseDeDatosNombre(nombre);
-        EstadoDAO estado = EstadoDAO.valueOf(estadoStr);
+        Estado estado = Estado.valueOf(estadoStr);
 
         if (existente != null) {
             String errorMessage = "Ya existe un ITR con este nombre.";
@@ -53,7 +51,7 @@ public class SvRegistroItr extends HttpServlet {
         } else {
             Itr crearItr = new Itr();
             crearItr.setNombre(nombre);
-            crearItr.setEstado(null);
+            crearItr.setEstado(estado);
 
             try {
                 itrService.crearItr(crearItr);

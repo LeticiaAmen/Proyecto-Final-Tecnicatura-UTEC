@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 
 import com.dao.EstadoDAO;
 import com.dao.ItrDAO;
+import com.entidades.Estado;
 import com.entidades.Itr;
 
 
@@ -31,8 +32,7 @@ public class ItrService {
 	public void actualizarItr(Itr itr) {
 		itrDAO.actualizarItr(itr);
 	}
-	
-	//este de estado no se si funciona porque quedo cambiado con la tabla estado
+
 	public List<Itr> obtenerItrsPorEstado (EstadoDAO estado){
 		return itrDAO.obtenerItrsPorEstado(estado);
 	}

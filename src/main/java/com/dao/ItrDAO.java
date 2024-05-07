@@ -64,7 +64,6 @@ public class ItrDAO {
 		return null;
 	}
 
-	//--------------------Este método no se si esta bien, al ya no tener enum no se si la consulta cambia. 
 	// Obtener por estado
 	public List<Itr> obtenerItrsPorEstado(EstadoDAO estado) {
 		try {
