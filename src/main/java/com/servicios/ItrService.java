@@ -33,7 +33,7 @@ public class ItrService {
 		itrDAO.actualizarItr(itr);
 	}
 
-	public List<Itr> obtenerItrsPorEstado (EstadoDAO estado){
+	public List<Itr> obtenerItrsPorEstado (Estado estado){
 		return itrDAO.obtenerItrsPorEstado(estado);
 	}
 

@@ -65,7 +65,7 @@ public class ItrDAO {
 	}
 
 	// Obtener por estado
-	public List<Itr> obtenerItrsPorEstado(EstadoDAO estado) {
+	public List<Itr> obtenerItrsPorEstado(Estado estado) {
 		try {
 			Query query = entityManager.createQuery("SELECT i FROM Itr i WHERE i.estado = :estado", Itr.class);
 			query.setParameter("estado", estado);

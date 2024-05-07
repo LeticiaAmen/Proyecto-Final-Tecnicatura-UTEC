@@ -32,15 +32,14 @@ public class SvFiltrarItrs extends HttpServlet {
    
         	
         	//NO FUNCIONA EL FILTRO DEJE EL CODIGO VIEJO
-//            EstadoItr estado = EstadoItr.valueOf(estadoFiltrar);
-//            listaItrs = itrService.obtenerItrsPorEstado(estado);
-//        } else {
-//            listaItrs = itrService.obtenerItrTodos();
-//        }
+            Estado estado = Estado.valueOf(estadoFiltrar);
+            itrs = itrService.obtenerItrsPorEstado(estado);
+        } else {
+           itrs = itrService.obtenerItrTodos();
+        }
 
-//        request.setAttribute("itrs", listaItrs);
-//
-//        request.getRequestDispatcher("listarITR.jsp").forward(request, response);
-//    }
+        request.setAttribute("itrs", itrs);
+
+       request.getRequestDispatcher("listarITR.jsp").forward(request, response);
+   }
 }
-}}
