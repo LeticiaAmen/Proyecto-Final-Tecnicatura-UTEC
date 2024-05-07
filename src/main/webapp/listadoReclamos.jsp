@@ -31,8 +31,8 @@
             		<th>Título</th>
             		<th>Detalle</th>
             		<th>Evento</th>
-            		<th>Estado del reclamo</th>
-            		<th>Acciones</th>
+            		<th>Estado</th>
+            		<th>Ficha</th>
         		</tr>
     		</thead>
     		<tbody>
