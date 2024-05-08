@@ -13,6 +13,8 @@ public class Itr implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="seq_itr", sequenceName = "seq_itr", allocationSize = 1, initialValue = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator ="seq_itr")
 	@Column(name="ID_ITR")
 	private long idItr;
 

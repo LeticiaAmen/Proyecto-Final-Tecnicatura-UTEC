@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="com.entidades.Usuario"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -61,21 +62,23 @@
 		<form action="SvRegistroItr" method="POST">
 
 			<p>
-				Nombre: <input type="text" name="nombre" />
+				<label>Nombre:</label>
 			</p>
+			<input type="text" name="nombre" />
+
+
+			<!-- Opción elegir estado -->
 			<p>
-				Estado: <select name="estado" class="form-control">
-					<option value="" selected>Seleccione un estado</option>
-					<!-- Opción vacía o por defecto -->
-<%-- 					<% --%>
-// 					for (com.enumerados.EstadoItr estado : com.enumerados.EstadoItr.values()) {
-<%-- 					%> --%>
-<%-- 					<option value="<%=estado.name()%>"><%=estado.name()%></option> --%>
-<%-- 					<% --%>
-// 					}
-<%-- 					%> --%>
-				</select>
+				<label>Estado:</label>
 			</p>
+
+			<select name="idEstado">
+				<c:forEach var="estado" items="${estados}">
+					<option value="${estado.idEstado}">${estado.nombre}</option>
+				</c:forEach>
+			</select>
+			<!-- Campo oculto para indicar el envío del formulario -->
+			<input type="hidden" name="formSubmitted" value="true">
 			<button type="submit" class="submit-btn">Enviar</button>
 		</form>
 
