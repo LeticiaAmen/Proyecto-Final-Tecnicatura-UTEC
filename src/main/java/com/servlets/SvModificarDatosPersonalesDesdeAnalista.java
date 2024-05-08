@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import com.entidades.Analista;
 import com.entidades.Area;
 import com.entidades.Departamento;
+import com.entidades.Estado;
 import com.entidades.Estudiante;
 import com.entidades.Generacion;
 import com.entidades.Itr;
@@ -29,6 +30,7 @@ import com.servicios.UsuarioService;
 import com.servicios.ValidacionUsuarioService;
 import com.servicios.AreaService;
 import com.servicios.DepartamentoService;
+import com.servicios.EstadoService;
 import com.servicios.GeneracionService;
 import com.servicios.ItrService;
 import com.servicios.LocalidadService;
@@ -61,6 +63,9 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 
 	@EJB
 	private ValidacionUsuarioService validacionUsuarioService;
+	
+	@EJB
+	private EstadoService usuarioEstado;
 
 	public SvModificarDatosPersonalesDesdeAnalista() {
 		super();
@@ -136,9 +141,11 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 				List<Departamento> departamentos = departamentoService.obtenerTodosDepartamento();
 				List<Localidad> localidades = localidadService.obtenerTodasLocalidades();
 				List<Itr> itrs = itrService.obtenerItrTodos();
+				List<Estado> estados = usuarioEstado.obtenerEstados();
 				request.setAttribute("departamentos", departamentos);
 				request.setAttribute("localidades", localidades);
 				request.setAttribute("itrs", itrs);
+				request.setAttribute("estados", estados);
 
 				request.getRequestDispatcher("/editarUsuariosDesdeAnalista.jsp").forward(request, response);
 			} else {
@@ -170,10 +177,13 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 		    String fechaNacimientoStr = request.getParameter("fechaNacimiento");
 		    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		    Integer idValidacion = Integer.parseInt(request.getParameter("estadoUsuario"));		     
-		     
+		    Long estadoId = Long.parseLong(request.getParameter("estadoUsuarioId"));		    
 		    Localidad localidad = localidadService.obtenerLocalidadPorId(localidadId);
 		    Departamento departamento = departamentoService.obtenerPorId(departamentoId);
 
+		    Estado estado = usuarioEstado.obtenerEstadoId(estadoId);
+		    
+		    
 		    if (localidad != null && departamento != null) {
 		        localidad.setDepartamento(departamento);
 		        localidadService.actualizarLocalidad(localidad);
@@ -201,10 +211,13 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 	         
 	         if (usuarioModificado instanceof Estudiante) {
 	             ((Estudiante) usuarioModificado).setMailInstitucional(mailInstitucional);
+	             ((Estudiante) usuarioModificado).setEstado(estado);
 	         } else if (usuarioModificado instanceof Tutor) {
 	             ((Tutor) usuarioModificado).setMailInstitucional(mailInstitucional);
+	             ((Tutor) usuarioModificado).setEstado(estado);
 	         } else if (usuarioModificado instanceof Analista) {
 	             ((Analista) usuarioModificado).setMailInstitucional(mailInstitucional);
+	             ((Analista) usuarioModificado).setEstado(estado);
 	         }	 
 	         
 	         usuarioModificado.setMail(mail);

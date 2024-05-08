@@ -129,7 +129,7 @@
 		    </select>
 		</c:if>
 		
-		<%-- Mostrar campos específicos de estudiantes si el usuario es un tutor --%>
+		<%-- Mostrar campos específicos de tutor si el usuario es un tutor --%>
 		<c:if test="${isTutor}">
     		<p><label><strong>Rol*:</strong></label></p>
     		<select name="rol">
@@ -146,16 +146,29 @@
     		</select>
 		</c:if>
 		
+		<%-- Validación del usuario --%>
        	 <p>
-            <label for="estadoUsuario">Estado: </label>
+            <label for="estadoUsuario"><strong>Validación: </strong></label>
        	</p>
-    
-    	<%-- Validación del usuario --%>
+    	
 		<select name="estadoUsuario" id="estadoUsuario">
 		    <option value="1" <%= usuarioAEditar.getValidacionUsuario().getIdValidacion() == 1 ? "selected" : "" %>>VALIDADO</option>
 		    <option value="2" <%= usuarioAEditar.getValidacionUsuario().getIdValidacion() == 2 ? "selected" : "" %>>SIN VALIDAR</option>
 		</select>
-            
+    
+    	<%-- Estado del usuario --%>
+    	<p>
+        	<label for="usuarioEstado"><strong>Estado:</strong></label>
+    	</p>
+    	<select name="estadoUsuarioId" id="estadoUsuario">
+    		<c:forEach items="${estados}" var="estado">
+        		<option value="${estado.idEstado}" ${usuarioAEditar.getEstado().getIdEstado() == estado.idEstado ? "selected" : ""}>
+            		${estado.nombre}
+        		</option>
+    		</c:forEach>
+		</select>
+    		
+	         
       	 <p style="text-align: center; margin-top: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
 			<span style="background-color: white; padding: 0 10px;">*Campos obligatorios</span>
 		</p> 
