@@ -2,6 +2,7 @@ package com.servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.dao.EstadoDAO;
 import com.entidades.Estado;
 import com.entidades.Itr;
+import com.servicios.EstadoService;
 import com.servicios.ItrService;
 
 @WebServlet("/SvFiltrarItrs")
@@ -21,25 +23,39 @@ public class SvFiltrarItrs extends HttpServlet {
 
     @EJB
     private ItrService itrService;
+    
+    @EJB
+    private EstadoService estadoService; 
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String estadoFiltrar = request.getParameter("estado");
+    	//obtener estado seleccionado
+    	String estadoId = request.getParameter("estado");
+    	
+    	List<Itr> listaFiltrada = itrService.obtenerItrTodos();
+    	List<Estado> estados = estadoService.obtenerEstados();
+  
+    	
+    
+    	
+    	
+    	//filtrar por estado
+    	if(!"todosLosEstados".equals(estadoId)) {
+    		long idEstado = Long.parseLong(estadoId);
+    		listaFiltrada = listaFiltrada.stream()
+    				.filter(u -> u.getEstado() != null && u.getEstado().getIdEstado() == idEstado)
+    				.collect(Collectors.toList());
+    	}
+    	
+    	//le pasamos la lista de itrs filtrados por estado
+    	request.setAttribute("itrs", listaFiltrada);
+    	request.setAttribute("ListaEstados", estados);
 
-        List<Itr> itrs = itrService.obtenerItrTodos();
-       
-        if (estadoFiltrar != null && !estadoFiltrar.isEmpty()) {
-   
-        	
-        	//NO FUNCIONA EL FILTRO DEJE EL CODIGO VIEJO
-            Estado estado = Estado.valueOf(estadoFiltrar);
-            itrs = itrService.obtenerItrsPorEstado(estado);
-        } else {
-           itrs = itrService.obtenerItrTodos();
-        }
-
-        request.setAttribute("itrs", itrs);
-
-       request.getRequestDispatcher("listarITR.jsp").forward(request, response);
+       request.getRequestDispatcher("/listarITR.jsp").forward(request, response);
    }
+    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
 }
