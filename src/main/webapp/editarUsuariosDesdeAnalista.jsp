@@ -45,22 +45,22 @@
     %>
 	
 	<form >
-		<p><strong>Nombre de Usuario:</strong></p><input type="text" name="nomUsuario" value="<%= usuarioAEditar.getNombreUsuario() %>" disabled="disabled" style="background-color: #e9e9e9;color: #a1a1a11;">
-		<p><strong>Contraseña:</strong> </p><input type="password" name="passUsuario" value="<%= usuarioAEditar.getHashContraseña() %>" disabled="disabled" style="background-color: #e9e9e9;color: #a1a1a11;">
+		<p><strong>*Nombre de Usuario:</strong></p><input type="text" name="nomUsuario" value="<%= usuarioAEditar.getNombreUsuario() %>" disabled="disabled" style="background-color: #e9e9e9;color: #a1a1a11;">
+		<p><strong>*Contraseña:</strong> </p><input type="password" name="passUsuario" value="<%= usuarioAEditar.getHashContraseña() %>" disabled="disabled" style="background-color: #e9e9e9;color: #a1a1a11;">
 	</form>
 	
     <form action="datosPersonalesUsuario" method="post" onsubmit="return confirmarModificacion();">
         <input type="hidden" name="userId" value="<%= usuarioAEditar.getIdUsuario() %>">
     	
-        <p><strong>Documento*: </strong> </p><input type="text" name="documento" value="<%= usuarioAEditar.getDocumento() %>" required>
-        <p><strong>Nombre*: </strong></p> <input type="text" name="nombre" value="<%= usuarioAEditar.getNombres() %>" required>
-        <p><strong>Apellido*:  </strong></p> <input type="text" name="apellido" value="<%= usuarioAEditar.getApellidos() %>" required>
-        <p><strong>Mail Institucional*: </strong></p><input type="text" name="mailInst" value="<%= request.getAttribute("mailInstitucional") %>" required>
-        <p><strong>Mail*: </strong></p> <input type="text" name="mail" value="<%= usuarioAEditar.getMail() %>" required>
-        <p><strong>Telefono*: </strong> </p><input type="text" name="telefono" value="<%= usuarioAEditar.getTelefono() %>" required>
+        <p><strong>*Documento: </strong> </p><input type="text" name="documento" value="<%= usuarioAEditar.getDocumento() %>" required>
+        <p><strong>*Nombre: </strong></p> <input type="text" name="nombre" value="<%= usuarioAEditar.getNombres() %>" required>
+        <p><strong>*Apellido:  </strong></p> <input type="text" name="apellido" value="<%= usuarioAEditar.getApellidos() %>" required>
+        <p><strong>*Mail Institucional: </strong></p><input type="text" name="mailInst" value="<%= request.getAttribute("mailInstitucional") %>" required>
+        <p><strong>*Mail: </strong></p> <input type="text" name="mail" value="<%= usuarioAEditar.getMail() %>" required>
+        <p><strong>*Telefono: </strong> </p><input type="text" name="telefono" value="<%= usuarioAEditar.getTelefono() %>" required>
         
         <p>
-			<label><strong>Departamento*:</strong></label>
+			<label><strong>*Departamento:</strong></label>
 	 	</p>
 	 	<select name="idDepartamento">
     		<c:forEach var="departamento" items="${departamentos}">
@@ -72,7 +72,7 @@
 		</select>
 		
 		<p>
-			<label><strong>Localidad*:</strong></label>
+			<label><strong>*Localidad:</strong></label>
 		</p> 
 		<select name="idLocalidad">
 			<c:forEach var="localidad" items="${localidades}">
@@ -85,7 +85,7 @@
 		
 		
 		<p>
-    		<label><strong>Género*:</strong></label> 
+    		<label><strong>*Género:</strong></label> 
     	</p>
     	<select name="genero">
         	<option value="M" <%= "M".equals(request.getAttribute("generoActual")) ? "selected" : "" %>>Masculino</option>
@@ -94,7 +94,7 @@
     	</select>
 		
 		<p>
-			<label><strong>ITR*:</strong></label>
+			<label><strong>*ITR:</strong></label>
 		</p>
 		<select name="idItr">
 			<c:forEach var="itr" items="${itrs}">
@@ -106,20 +106,20 @@
 		</select>
 		
 		<p>
-			<label><strong>Fecha de Nacimiento*:</strong></label>
+			<label><strong>*Fecha de Nacimiento:</strong></label>
 		</p> 
 		<input type="date" name="fechaNacimiento" value="<%= request.getAttribute("fechaNacimientoStr") %>" required>
 		
 		<%-- Mostrar campos específicos de estudiantes si el usuario es un estudiante --%>
 		<c:if test="${isStudent}">
-		    <p><label><strong>Semestre*:</strong></label></p>
+		    <p><label><strong>*Semestre:</strong></label></p>
 		    <select name="semestre">
 		        <c:forEach begin="1" end="8" var="num">
 		            <option value="${num}" ${num == semestreActual ? 'selected' : ''}>${num}</option>
 		        </c:forEach>
 		    </select>
 		    
-		    <p><label><strong>Generación*:</strong></label></p>
+		    <p><label><strong>*Generación:</strong></label></p>
 		    <select name="generacion">
 		        <c:forEach items="${generaciones}" var="generacion">
 		            <option value="${generacion.idGeneracion}" ${generacion.idGeneracion == generacionActual ? 'selected' : ''}>
@@ -131,14 +131,14 @@
 		
 		<%-- Mostrar campos específicos de tutor si el usuario es un tutor --%>
 		<c:if test="${isTutor}">
-    		<p><label><strong>Rol*:</strong></label></p>
+    		<p><label><strong>*Rol:</strong></label></p>
     		<select name="rol">
         		<c:forEach items="${roles}" var="rol">
             		<option value="${rol.idRol}" ${rol.idRol == rolActual ? 'selected' : ''}>${rol.nombre}</option>
         		</c:forEach>
     		</select>
 
-    		<p><label><strong>Área*:</strong></label></p>
+    		<p><label><strong>*Área:</strong></label></p>
     		<select name="area">
         		<c:forEach items="${areas}" var="area">
             		<option value="${area.idArea}" ${area.idArea == areaActual ? 'selected' : ''}>${area.nombre}</option>
@@ -148,7 +148,7 @@
 		
 		<%-- Validación del usuario --%>
        	 <p>
-            <label for="estadoUsuario"><strong>Validación: </strong></label>
+            <label for="estadoUsuario"><strong>*Validación: </strong></label>
        	</p>
     	
 		<select name="estadoUsuario" id="estadoUsuario">
@@ -158,7 +158,7 @@
     
     	<%-- Estado del usuario --%>
     	<p>
-        	<label for="usuarioEstado"><strong>Estado:</strong></label>
+        	<label for="usuarioEstado"><strong>*Estado:</strong></label>
     	</p>
     	<select name="estadoUsuarioId" id="estadoUsuario">
     		<c:forEach items="${estados}" var="estado">
