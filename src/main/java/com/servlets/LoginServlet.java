@@ -70,12 +70,17 @@ public class LoginServlet extends HttpServlet {
 	                String tipoUsuario = usuarioService.determinarTipoUsuario(usuarioLogeado);
 	                String token = usuarioService.generarTokenJWT(String.valueOf(usuarioLogeado.getIdUsuario()), usuarioLogeado.getNombreUsuario(), tipoUsuario);
 
-	                Cookie tokenCookie = new Cookie("Authorization", "Bearer " + token);
-	                tokenCookie.setHttpOnly(true);
-	                tokenCookie.setPath("/");
-	                response.addCookie(tokenCookie);
+	                // Aquí imprimimos el token generado en la consola del servidor
+	                System.out.println("Generated JWT Token: " + token);
 
-	                // Convierte el tipo de usuario para el nombre del archivo JSP
+	                // Configura el token en una cookie segura y HttpOnly
+	                Cookie authCookie = new Cookie("Authorization", "Bearer " + token);
+	                authCookie.setHttpOnly(true);
+	                authCookie.setSecure(true); // Asegúrate de que solo se envíe con HTTPS
+	                authCookie.setPath("/");
+	                response.addCookie(authCookie);
+
+	                // Redirección
 	                String redirectPage = "menu" + formatPageName(tipoUsuario) + ".jsp";
 	                response.sendRedirect(redirectPage);
 	            } else {
@@ -91,6 +96,7 @@ public class LoginServlet extends HttpServlet {
 	        request.getRequestDispatcher("index.jsp").forward(request, response);
 	    }
 	}
+
 
 	private String formatPageName(String tipoUsuario) {
 	    if (tipoUsuario == null || tipoUsuario.isEmpty()) return "Error";
