@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.entidades.Analista;
+import com.entidades.Estudiante;
+import com.entidades.Tutor;
 import com.entidades.Usuario;
 import com.servicios.UsuarioService;
 
@@ -33,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         Usuario usuarioLogeado = (Usuario) sesion.getAttribute("usuario");
 
         if (usuarioLogeado != null) {
-            // Actualizar la información del usuario si es necesario
+            // Actualizar la información del usuario
             usuarioLogeado = usuarioService.obtenerUsuario(usuarioLogeado.getIdUsuario());
             sesion.setAttribute("usuario", usuarioLogeado);
 
@@ -51,20 +54,34 @@ public class LoginServlet extends HttpServlet {
 	    if (usuarioValido) {
 	        Usuario usuarioLogeado = usuarioService.obtenerUsuarioDesdeBaseDeDatosNombre(nomUsuario);
 	        if (usuarioLogeado != null && usuarioLogeado.getValidacionUsuario().getIdValidacion() == 1) {
-	            HttpSession sesion = request.getSession();
-	            sesion.setAttribute("usuario", usuarioLogeado);
+	            boolean estadoActivo = true; 
+	            if (usuarioLogeado instanceof Estudiante) {
+	                estadoActivo = ((Estudiante) usuarioLogeado).getEstado().getIdEstado() != 2;
+	            } else if (usuarioLogeado instanceof Tutor) {
+	                estadoActivo = ((Tutor) usuarioLogeado).getEstado().getIdEstado() != 2;
+	            } else if (usuarioLogeado instanceof Analista) {
+	                estadoActivo = ((Analista) usuarioLogeado).getEstado().getIdEstado() != 2;
+	            }
 
-	            String tipoUsuario = usuarioService.determinarTipoUsuario(usuarioLogeado);
-	            String token = usuarioService.generarTokenJWT(String.valueOf(usuarioLogeado.getIdUsuario()), usuarioLogeado.getNombreUsuario(), tipoUsuario);
+	            if (estadoActivo) {
+	                HttpSession sesion = request.getSession();
+	                sesion.setAttribute("usuario", usuarioLogeado);
 
-	            Cookie tokenCookie = new Cookie("Authorization", "Bearer " + token);
-	            tokenCookie.setHttpOnly(true);
-	            tokenCookie.setPath("/"); 
-	            response.addCookie(tokenCookie);
+	                String tipoUsuario = usuarioService.determinarTipoUsuario(usuarioLogeado);
+	                String token = usuarioService.generarTokenJWT(String.valueOf(usuarioLogeado.getIdUsuario()), usuarioLogeado.getNombreUsuario(), tipoUsuario);
 
-	            // Convierte el tipo de usuario para el nombre del archivo JSP
-	            String redirectPage = "menu" + formatPageName(tipoUsuario) + ".jsp";
-	            response.sendRedirect(redirectPage);
+	                Cookie tokenCookie = new Cookie("Authorization", "Bearer " + token);
+	                tokenCookie.setHttpOnly(true);
+	                tokenCookie.setPath("/");
+	                response.addCookie(tokenCookie);
+
+	                // Convierte el tipo de usuario para el nombre del archivo JSP
+	                String redirectPage = "menu" + formatPageName(tipoUsuario) + ".jsp";
+	                response.sendRedirect(redirectPage);
+	            } else {
+	                request.setAttribute("error", "Su usuario está inactivo.");
+	                request.getRequestDispatcher("index.jsp").forward(request, response);
+	            }
 	        } else {
 	            request.setAttribute("error", "Su usuario aún no ha sido activado.");
 	            request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -74,8 +91,7 @@ public class LoginServlet extends HttpServlet {
 	        request.getRequestDispatcher("index.jsp").forward(request, response);
 	    }
 	}
-	
-	//Primera letra en mayúscula.
+
 	private String formatPageName(String tipoUsuario) {
 	    if (tipoUsuario == null || tipoUsuario.isEmpty()) return "Error";
 	    return tipoUsuario.substring(0, 1).toUpperCase() + tipoUsuario.substring(1).toLowerCase();
