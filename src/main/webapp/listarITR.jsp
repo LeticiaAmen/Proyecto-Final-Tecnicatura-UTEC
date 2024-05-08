@@ -96,7 +96,7 @@
 			%>
 		</table>
 
-		<form action="registroItr.jsp" class="create-itr-form">
+		<form action="SvRegistroItr" class="create-itr-form">
 			<input type="submit" value="Ingresar Nuevo ITR">
 		</form>
 	</div>
