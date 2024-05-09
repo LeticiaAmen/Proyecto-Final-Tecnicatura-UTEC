@@ -1,7 +1,6 @@
 package com.servlets;
 
 import java.io.IOException;
-
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,38 +27,57 @@ public class SvGuardarAccion extends HttpServlet {
 
     @EJB
     private RegistroAccionService registroAccionService;
-
+    
     public SvGuardarAccion() {
         super();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String detalle = request.getParameter("detalle");
-        long reclamoId = Long.parseLong(request.getParameter("reclamoId"));
-        long estadoId = Long.parseLong(request.getParameter("estado"));
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String reclamoIdParam = request.getParameter("idReclamo");
 
-        // Crear la acción
-        Accion accion = new Accion();
-        accion.setDetalle(detalle);
+        if (reclamoIdParam != null) {
+            long reclamoId = Long.parseLong(reclamoIdParam);
+            Reclamo reclamo = reclamoService.obtenerReclamo(reclamoId);
 
-        // Obtener el reclamo
-        Reclamo reclamo = reclamoService.obtenerReclamo(reclamoId);
+            if (reclamo != null) {
+                String nuevoEstadoIdParam = request.getParameter("nuevoEstado");
+                if (nuevoEstadoIdParam != null) {
+                    long nuevoEstadoId = Long.parseLong(nuevoEstadoIdParam);
+                    RegistroAccione registroAccion = registroAccionService.obtenerRegistroAccion(nuevoEstadoId);
+                    if (registroAccion != null) {
+                        // Verificar si ya existe una acción para este reclamo y este estado
+                        Accion accionExistente = accionService.obtenerAccionExistente(reclamoId, nuevoEstadoId);
+                        if (accionExistente != null) {
+                            // Si existe, crear otra acción manteniendo la misma ID del reclamo
+                            Accion nuevaAccion = new Accion();
+                            nuevaAccion.setReclamo(reclamo);
+                            nuevaAccion.setRegistroAccion(registroAccion);
+                            nuevaAccion.setDetalle(request.getParameter("detalle")); // Guardar el detalle de la nueva acción
 
-        // Obtener el estado seleccionado
-        RegistroAccione estado = registroAccionService.obtenerRegistroAccion(estadoId);
+                            // Guardar la nueva acción
+                            accionService.guardarAccion(nuevaAccion);
+                            response.sendRedirect("accion.jsp?idReclamo=" + reclamoId);
+                            return;
+                        } else {
+                            // Si no existe, continuar como antes
+                            Accion accion = new Accion();
+                            accion.setReclamo(reclamo);
+                            accion.setRegistroAccion(registroAccion);
+                            accion.setDetalle(request.getParameter("detalle")); // Guardar el detalle de la acción
 
-        if (reclamo != null && estado != null) {
-            accion.setReclamo(reclamo);
-            accion.setRegistroAccion(estado);
+                            // Cambiar el estado del reclamo
+                            reclamo.setRegistroAccione(registroAccion);
+                            reclamoService.actualizarReclamo(reclamo);
 
-            // Guardar la acción
-            accionService.guardarAccion(accion);
-
-            // Redireccionar a la página de detalles del reclamo
-            response.sendRedirect("accion.jsp?idReclamo=" + reclamoId);
-        } else {
-            response.sendRedirect("errorPage.jsp");
+                            // Guardar la acción
+                            accionService.guardarAccion(accion);
+                            response.sendRedirect("accion.jsp?idReclamo=" + reclamoId);
+                            return;
+                        }
+                    }
+                }
+            }
         }
+        response.sendRedirect("errorPage.jsp"); // Si hay un error o no se cumple alguna condición, redirigir a una página de error
     }
 }
