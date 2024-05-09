@@ -13,7 +13,6 @@ public class RegistroAccionDAO {
 	@PersistenceContext(unitName = "PFT2024")
 	private EntityManager entityManager;
 
-
 	//obtener RegistroAccion
 	public RegistroAccione obtenerRegistroAccion(long id) {
 		return entityManager.find(RegistroAccione.class, id);
