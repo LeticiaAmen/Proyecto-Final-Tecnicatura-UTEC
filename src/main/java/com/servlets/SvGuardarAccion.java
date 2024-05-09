@@ -60,6 +60,7 @@ public class SvGuardarAccion extends HttpServlet {
                         estado.setIdEstado(1); // Cambia 1 por el ID correcto del estado
                         accion.setEstado(estado);
                         
+                        
                         // Cambiar el registro accion en reclamo 
                         reclamo.setRegistroAccione(registroAccion);
                         reclamoService.actualizarReclamo(reclamo);
@@ -67,7 +68,8 @@ public class SvGuardarAccion extends HttpServlet {
                         
                         // Guardar la acción
                         accionService.guardarAccion(accion);
-                        response.sendRedirect("accion.jsp?idReclamo=" + reclamoId);
+                        request.getSession().setAttribute("successMessage", "Se registró la acción correctamente");
+    					response.sendRedirect("ListadoReclamos");
                         return;
                     }
                 }

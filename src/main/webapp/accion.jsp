@@ -10,6 +10,11 @@
 <meta charset="UTF-8">
 <title>Detalles del Reclamo</title>
 <link rel="stylesheet" href="accion.css">
+<script>
+    function redirectToList() {
+        window.location.href = "SvListarReclamos"; // Redireccionar a la página de listado de reclamos
+    }
+</script>
 </head>
 <body>
 	<header>
@@ -49,25 +54,25 @@
 	</ul>
 
 	<h2>Acción</h2>
-	<form action="guardarAccion" method="POST">
-		<label for="estado">Estado actual:</label> <input type="text"
-			value="${reclamo.registroAccione.nombre}" readonly> <br>
-		
-		<label for="nuevoEstado">Seleccionar nuevo estado:</label> <select
-			name="nuevoEstado">
-			<c:forEach items="${estados}" var="estado">
-				<option value="${estado.idRegistroAccion}">${estado.nombre}</option>
-			</c:forEach>
-		</select> <br> <input type="hidden" name="idReclamo"
-			value="${reclamo.idReclamo}"> <input type="hidden"
-			name="accionType" value="cambiarEstado"> <label for="detalle">Detalle
-			de la Acción:</label><br>
-		<textarea id="detalle" name="detalle" rows="4" cols="50"></textarea>
-		<br> <input type="submit" value="Guardar">
-	</form>
-	<form action="listadoReclamos.jsp">
-		<input type="submit" value="Cancelar">
-	</form>
+    <form action="guardarAccion" method="POST" onsubmit="redirectToList()">
 
+    <label for="nuevoEstado">Estado:</label> 
+    <select name="nuevoEstado">
+        <option value="${reclamo.registroAccione.idRegistroAccion}" selected>${reclamo.registroAccione.nombre}</option>
+        <c:forEach items="${estados}" var="estado">
+            <option value="${estado.idRegistroAccion}">${estado.nombre}</option>
+        </c:forEach>
+    </select><br> 
+    <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}"> 
+    <input type="hidden" name="accionType" value="cambiarEstado"> 
+    <label for="detalle">Detalle de la Acción:</label><br>
+    <textarea id="detalle" name="detalle" rows="4" cols="50"></textarea><br> 
+    <input type="submit" name="accion" value="Guardar" class="submit-btn">
+</form>
+
+    <!--Botón cancelar  -->
+    <form action="SvListarReclamos" method="get">
+        <input type="submit" value="Cancelar">
+    </form>
 </body>
 </html>
