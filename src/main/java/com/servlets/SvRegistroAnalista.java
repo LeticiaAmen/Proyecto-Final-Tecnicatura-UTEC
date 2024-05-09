@@ -100,6 +100,42 @@ public class SvRegistroAnalista extends HttpServlet {
 		String mail = request.getParameter("mail");
 		String nombre = request.getParameter("nombre");
 		String telefono = request.getParameter("telefono");
+		
+		// ---------- obtener departamento, localidad e ITR seleccionado
+		String idDepartamento = request.getParameter("idDepartamento");
+		String idLocalidad = request.getParameter("idLocalidad");
+		String idItr = request.getParameter("idItr");
+		
+		// Convertir a Long 
+	    Long idDepartamentoLong = Long.parseLong(idDepartamento);
+	    Long idLocalidadLong = Long.parseLong(idLocalidad);
+	    Long idItrLong = Long.parseLong(idItr);	
+	    
+	    //Obtener las entidades
+	    Departamento departamento = departamentoService.obtenerPorId(idDepartamentoLong);
+	    Localidad localidad = localidadService.obtenerLocalidadPorId(idLocalidadLong);
+	    Itr itr = itrService.obtenerItr(idItrLong);
+		
+	    //obtener el genero seleccionado
+		String generoSeleccionado = request.getParameter("genero");
+		
+		//Tomar solo el primer caracter
+		char genero = generoSeleccionado.charAt(0); 
+	    
+	    //Obtener fecha String
+	    String fechaNacimientoStr = request.getParameter("fechaNacimiento");
+	    //formato de fecha
+	    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+	    
+	    // Convertir a java.util.Date
+        Date fechaNacimiento = null;
+        try {
+            fechaNacimiento = formato.parse(fechaNacimientoStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+     System.out.println("Error al convertir la fecha");
+        }
+
 		//Validacion Nombre
 		if (validacion.validacionNombre(nombre)) {
 			request.setAttribute("error", validacion.RespuestaValidacionNombre());
@@ -153,45 +189,21 @@ public class SvRegistroAnalista extends HttpServlet {
 			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
 			return;
 		}
+		//Validación del fecha nacimiento
+		if (validacion.validacionEdad(fechaNacimiento)) {
+			request.setAttribute("error", validacion.RespuestaValidacionEdad());
+			doGet(request, response);  // Cargar los datos necesarios
+			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+			return;
+		}
+		if (!validacion.validacionDocumento(documento)) {
+			request.setAttribute("error", validacion.RespuestaValidacionDocumento());
+			doGet(request, response);  // Cargar los datos necesarios
+			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+			return;
+		}
 		
 		
-		
-
-		// ---------- obtener departamento, localidad e ITR seleccionado
-		String idDepartamento = request.getParameter("idDepartamento");
-		String idLocalidad = request.getParameter("idLocalidad");
-		String idItr = request.getParameter("idItr");
-		
-		// Convertir a Long 
-	    Long idDepartamentoLong = Long.parseLong(idDepartamento);
-	    Long idLocalidadLong = Long.parseLong(idLocalidad);
-	    Long idItrLong = Long.parseLong(idItr);	
-	    
-	    //Obtener las entidades
-	    Departamento departamento = departamentoService.obtenerPorId(idDepartamentoLong);
-	    Localidad localidad = localidadService.obtenerLocalidadPorId(idLocalidadLong);
-	    Itr itr = itrService.obtenerItr(idItrLong);
-		
-	    //obtener el genero seleccionado
-		String generoSeleccionado = request.getParameter("genero");
-		
-		//Tomar solo el primer caracter
-		char genero = generoSeleccionado.charAt(0); 
-	    
-	    //Obtener fecha String
-	    String fechaNacimientoStr = request.getParameter("fechaNacimiento");
-	    //formato de fecha
-	    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-	    
-	    // Convertir a java.util.Date
-        Date fechaNacimiento = null;
-        try {
-            fechaNacimiento = formato.parse(fechaNacimientoStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-     System.out.println("Error al convertir la fecha");
-        }
-
        ValidacionUsuario usuEstadoSinValidar = validacionService.obtenerValidacionUsuario(2);
 		
 		Analista usuario = new Analista();

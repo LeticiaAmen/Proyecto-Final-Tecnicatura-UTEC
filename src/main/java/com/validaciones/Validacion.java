@@ -1,5 +1,10 @@
 package com.validaciones;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
+
 public class Validacion {
 	//------------------ VALIDACION NOMBRE ------------------------------------------------------------
     public boolean validacionNombre(String nombre) {
@@ -30,33 +35,39 @@ public class Validacion {
     //------------------ VALIDACION DOCUMENTO ------------------------------------------------------------
     public boolean validacionDocumento(String documento) {
 
-        int correcto = 0;
-        int[] cedula;
-        int[] factor = {8, 1, 2, 3, 4, 7, 6, 0};
-        cedula = new int[8];
+    	// Se define el arreglo de factores para el cálculo del dígito verificador
+        int[] factor = {2, 9, 8, 7, 6, 3, 4};
         int suma = 0;
 
-        for (int i = 0; i < documento.length(); i++) {
-            if (Character.isDigit(documento.charAt(i))) {
-                correcto++;
-                cedula[i] = Integer.parseInt("" + documento.charAt(i));
-                suma = suma + (cedula[i] * factor[i]);
-            }
+        // Verificar si la cédula tiene la longitud correcta
+        if (documento.length() != 8) {
+            return false;
         }
 
-        if (correcto != 8) {
-            System.out.println("Debe ingresar solo números o le faltaron dígitos");
-            return false;
-        } else {
-            int resto = suma % 10;
-            if (resto == cedula[7]) {
-                System.out.println("Correcto");
-                return true;
-            } else {
-                System.out.println("No coincide el dígito verificador : " + resto + " --> Dígito ingresado :" + cedula[7]);
+        // Verificar si todos los caracteres son dígitos
+        for (int i = 0; i < documento.length(); i++) {
+            if (!Character.isDigit(documento.charAt(i))) {
+
                 return false;
             }
         }
+
+        // Calcular la suma ponderada
+        for (int i = 0; i < factor.length; i++) {
+            suma += Character.getNumericValue(documento.charAt(i)) * factor[i];
+        }
+
+        // Calcular el dígito verificador
+        int resto = suma % 10;
+        int digitoVerificador = 10 - resto;
+
+        // Verificar si el dígito verificador coincide con el último dígito de la cédula
+        if (digitoVerificador == Character.getNumericValue(documento.charAt(7))) {
+            return true;
+        } else {
+            return false;
+        }
+    
 
 
     }
@@ -141,5 +152,25 @@ public class Validacion {
         return  "El formato del telefono no es correcto";
 
     }
+  //------------------ VALIDACION fecha ------------------------------------------------------------  
+    public boolean validacionEdad(Date fechaNacimiento) {
+        // Obtener la fecha actual
+        LocalDate fechaActual = LocalDate.now();
+
+        // Convertir la fecha de nacimiento a LocalDate
+        LocalDate fechaNacimientoLocalDate = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        // Calcular la edad actual
+        Period periodo = Period.between(fechaNacimientoLocalDate, fechaActual);
+        int edad = periodo.getYears();
+
+        // Validar que la edad sea menor o igual a 18 años
+        return edad <= 18;
+    }
+
+    public String RespuestaValidacionEdad() {
+        return "Debe ser mayor de 18 años para registrarse.";
+    }
+
 
 }
