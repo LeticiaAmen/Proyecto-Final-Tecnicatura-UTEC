@@ -112,6 +112,24 @@ public class Validacion {
         return  "El formato del correo no es correcto";
 
     }
+    public boolean validacionMailFuncionario(String usuario,String mailInstitucional) {
+        boolean validacionMailFuncionario = !mailInstitucional.equals(usuario+"@utec.edu.uy");
+
+
+        return validacionMailFuncionario;
+    }
+    public String RespuestaValidacionMailFuncionario() {
+        return  "El mail institucional es incorrecto, el formato es nombre.apellido@utec.edu.uy";
+    }
+    public boolean validacionMailEstudiantes(String usuario,String mailInstitucional) {
+        boolean validacionMailFuncionario = !mailInstitucional.equals(usuario+"@estudiantes.utec.edu.uy");
+
+
+        return validacionMailFuncionario;
+    }
+    public String RespuestaValidacionMailEstudiantes() {
+        return  "El mail institucional es incorrecto, el formato es nombre.apellido@estudiantes.utec.edu.uy";
+    }
     //------------------ VALIDACION TELEFONO ------------------------------------------------------------
     public boolean validacionTelefono(String telefono) {
         boolean validacionTelefono =  !telefono.matches("^\\d{9}$");

@@ -139,6 +139,13 @@ public class SvRegistroAnalista extends HttpServlet {
 			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
 			return;
 		}
+		//Validación del formato del mailInstitucional
+		if (validacion.validacionMailFuncionario(nomUsuario, mailInst)) {
+			request.setAttribute("error", validacion.RespuestaValidacionMailFuncionario());
+			doGet(request, response);  // Cargar los datos necesarios
+			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+			return;
+		}
 		//Validación del formato del telefono
 		if (validacion.validacionTelefono(telefono)) {
 			request.setAttribute("error", validacion.RespuestaValidacionTelefono());
