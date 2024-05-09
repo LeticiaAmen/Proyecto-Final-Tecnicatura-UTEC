@@ -1,13 +1,15 @@
 package com.servlets;
 
 import java.io.IOException;
+import java.util.Date;
+
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.entidades.Estado;
 import com.entidades.Accion;
 import com.entidades.Reclamo;
 import com.entidades.RegistroAccione;
@@ -45,35 +47,28 @@ public class SvGuardarAccion extends HttpServlet {
                     long nuevoEstadoId = Long.parseLong(nuevoEstadoIdParam);
                     RegistroAccione registroAccion = registroAccionService.obtenerRegistroAccion(nuevoEstadoId);
                     if (registroAccion != null) {
-                        // Verificar si ya existe una acción para este reclamo y este estado
-                        Accion accionExistente = accionService.obtenerAccionExistente(reclamoId, nuevoEstadoId);
-                        if (accionExistente != null) {
-                            // Si existe, crear otra acción manteniendo la misma ID del reclamo
-                            Accion nuevaAccion = new Accion();
-                            nuevaAccion.setReclamo(reclamo);
-                            nuevaAccion.setRegistroAccion(registroAccion);
-                            nuevaAccion.setDetalle(request.getParameter("detalle")); // Guardar el detalle de la nueva acción
+                        Accion accion = new Accion();
+                        accion.setReclamo(reclamo);
+                        accion.setRegistroAccion(registroAccion);
+                        accion.setDetalle(request.getParameter("detalle")); // Guardar el detalle de la acción
+                        
+                     // Establecer la fecha y hora actual
+                        accion.setFechaHora(new Date());
+                    
+                        // Establecer el estado siempre como 1 (activo)
+                        Estado estado = new Estado();
+                        estado.setIdEstado(1); // Cambia 1 por el ID correcto del estado
+                        accion.setEstado(estado);
+                        
+                        // Cambiar el registro accion en reclamo 
+                        reclamo.setRegistroAccione(registroAccion);
+                        reclamoService.actualizarReclamo(reclamo);
 
-                            // Guardar la nueva acción
-                            accionService.guardarAccion(nuevaAccion);
-                            response.sendRedirect("accion.jsp?idReclamo=" + reclamoId);
-                            return;
-                        } else {
-                            // Si no existe, continuar como antes
-                            Accion accion = new Accion();
-                            accion.setReclamo(reclamo);
-                            accion.setRegistroAccion(registroAccion);
-                            accion.setDetalle(request.getParameter("detalle")); // Guardar el detalle de la acción
-
-                            // Cambiar el estado del reclamo
-                            reclamo.setRegistroAccione(registroAccion);
-                            reclamoService.actualizarReclamo(reclamo);
-
-                            // Guardar la acción
-                            accionService.guardarAccion(accion);
-                            response.sendRedirect("accion.jsp?idReclamo=" + reclamoId);
-                            return;
-                        }
+                        
+                        // Guardar la acción
+                        accionService.guardarAccion(accion);
+                        response.sendRedirect("accion.jsp?idReclamo=" + reclamoId);
+                        return;
                     }
                 }
             }
