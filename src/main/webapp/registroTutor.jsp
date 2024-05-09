@@ -41,7 +41,7 @@
 		</p>
 
 		<p>
-			<label>*Contraseña:</label><input type="text" name="contrasenia" required>
+			<label>*Contraseña:</label><input type="password" name="contrasenia" required>
 		</p>
 
 		<p>
