@@ -151,6 +151,13 @@ public class SvRegistroAnalista extends HttpServlet {
 			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
 			return;
 		}
+		//Validación del documento
+		if (!validacion.validacionDocumento(documento)) {
+			request.setAttribute("error", validacion.RespuestaValidacionDocumento());
+			doGet(request, response);  // Cargar los datos necesarios
+			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+			return;
+		}
 		
 		
 		// validacion Nombre de Usuario
@@ -167,14 +174,6 @@ public class SvRegistroAnalista extends HttpServlet {
 			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
 			return;
 		}
-	
-		//Validación del formato del mail
-		if (validacion.validacionMail(mail)) {
-			request.setAttribute("error", validacion.RespuestaValidacionMail());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
 		//Validación del formato del mailInstitucional
 		if (validacion.validacionMailFuncionario(nomUsuario, mailInst)) {
 			request.setAttribute("error", validacion.RespuestaValidacionMailFuncionario());
@@ -182,6 +181,14 @@ public class SvRegistroAnalista extends HttpServlet {
 			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
 			return;
 		}
+		//Validación del formato del mail
+		if (validacion.validacionMail(mail)) {
+			request.setAttribute("error", validacion.RespuestaValidacionMail());
+			doGet(request, response);  // Cargar los datos necesarios
+			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+			return;
+		}
+
 		//Validación del formato del telefono
 		if (validacion.validacionTelefono(telefono)) {
 			request.setAttribute("error", validacion.RespuestaValidacionTelefono());
@@ -196,12 +203,7 @@ public class SvRegistroAnalista extends HttpServlet {
 			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
 			return;
 		}
-		if (!validacion.validacionDocumento(documento)) {
-			request.setAttribute("error", validacion.RespuestaValidacionDocumento());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
+
 		
 		
        ValidacionUsuario usuEstadoSinValidar = validacionService.obtenerValidacionUsuario(2);

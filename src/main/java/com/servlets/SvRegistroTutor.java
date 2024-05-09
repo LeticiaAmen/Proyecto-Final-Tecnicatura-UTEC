@@ -30,6 +30,7 @@ import com.servicios.LocalidadService;
 import com.servicios.RolService;
 import com.servicios.UsuarioService;
 import com.servicios.ValidacionUsuarioService;
+import com.validaciones.Validacion;
 
 
 @WebServlet("/SvRegistroTutor")
@@ -59,10 +60,13 @@ public class SvRegistroTutor extends HttpServlet {
 	
 	@EJB
 	private RolService rolService;
+	
+	private Validacion validacion;
 
 
 	public SvRegistroTutor() {
 		super();
+		validacion = new Validacion(); 
 	}
 
 	
@@ -105,50 +109,24 @@ public class SvRegistroTutor extends HttpServlet {
 			        if (documento != null && !documento.isEmpty()) {
 			            documentoLong = Long.parseLong(documento);
 			        }
-				
 				String apellido = request.getParameter("apellido");
 				String contrasenia = request.getParameter("contrasenia");
-				//validación de formato de la contraseña
-				if (contrasenia.length() < 8 || !contrasenia.matches(".*[A-Za-z].*") || !contrasenia.matches(".*[0-9].*")) {
-		            request.setAttribute("error", "La contraseña debe tener al menos 8 caracteres y contener letras y números.");
-		            doGet(request, response);  // Cargar los datos necesarios
-		            request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-		            return;
-		        }
-				
 				String mailInst = request.getParameter("mailInst");
 				String mail = request.getParameter("mail");
-				//Validación del formato del mail
-				if (!mail.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}") || 
-						!mailInst.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}")) {
-					request.setAttribute("error", "El formato del correo electrónico no es válido.");
-					doGet(request, response);  // Cargar los datos necesarios
-					request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-					return;
-				}
-				
 				String nombre = request.getParameter("nombre");
 				String telefono = request.getParameter("telefono");
-
 				// ---------- obtener departamento y localidad e itr
 				String idDepartamento = request.getParameter("idDepartamento");
 				String idLocalidad = request.getParameter("idLocalidad");
 				String idItr = request.getParameter("idItr");
-				
-	
-				
-				
-				
 				// Convertir a Long 
 			    Long idDepartamentoLong = Long.parseLong(idDepartamento);
 			    Long idLocalidadLong = Long.parseLong(idLocalidad);
 				Long idItrLong = Long.parseLong(idItr);	
-			    
 			    //Obtener las entidades
 			    Departamento departamento = departamentoService.obtenerPorId(idDepartamentoLong);
 			    Localidad localidad = localidadService.obtenerLocalidadPorId(idLocalidadLong);
 				Itr itr = itrService.obtenerItr(idItrLong);
-				
 				//Area y rol
 				String idArea = request.getParameter("idArea");
 				String idRol = request.getParameter("idRol");
@@ -156,15 +134,10 @@ public class SvRegistroTutor extends HttpServlet {
 				Long idRolLong = Long.parseLong(idRol);
 				Area area = areaService.obtenerArea(idAreaLong);
 				Rol rol = rolService.obtenerRol(idRolLong);
-				
-				
-
 		        //obtener el genero seleccionado
 		        String generoSeleccionado = request.getParameter("genero");
 		      //Tomar solo el primer caracter
 				char genero = generoSeleccionado.charAt(0);
-			    
-		        
 			    //Obtener fecha String
 			    String fechaNacimientoStr = request.getParameter("fechaNacimiento");
 			    //formato de fecha
@@ -178,6 +151,75 @@ public class SvRegistroTutor extends HttpServlet {
 		            e.printStackTrace();
 		     System.out.println("Error al convertir la fecha");
 		        }
+		      //Validacion Nombre
+				if (validacion.validacionNombre(nombre)) {
+					request.setAttribute("error", validacion.RespuestaValidacionNombre());
+					doGet(request, response);  // Cargar los datos necesarios
+					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+					return;
+				}
+				
+				//Validacion Apellido
+				if (validacion.validacionApellido(apellido)) {
+					request.setAttribute("error", validacion.RespuestaValidacionAepllido());
+					doGet(request, response);  // Cargar los datos necesarios
+					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+					return;
+				}
+				if (!validacion.validacionDocumento(documento)) {
+					request.setAttribute("error", validacion.RespuestaValidacionDocumento());
+					doGet(request, response);  // Cargar los datos necesarios
+					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+					return;
+				}
+				
+				// validacion Nombre de Usuario
+				if (validacion.validacionUsiario(nomUsuario, nombre, apellido)) {
+					request.setAttribute("error", validacion.RespuestaValidacionUsiario());
+					doGet(request, response);  // Cargar los datos necesarios
+					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+					return;
+				}
+				//validación de formato de la contraseña
+				if (validacion.validacionContraseña(contrasenia)) {
+					request.setAttribute("error", validacion.RespuestaValidacionContraseña());
+					doGet(request, response);  // Cargar los datos necesarios
+					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+					return;
+				}
+				//Validación del formato del mailInstitucional
+				if (validacion.validacionMailFuncionario(nomUsuario, mailInst)) {
+					request.setAttribute("error", validacion.RespuestaValidacionMailFuncionario());
+					doGet(request, response);  // Cargar los datos necesarios
+					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+					return;
+				}
+			
+				//Validación del formato del mail
+				if (validacion.validacionMail(mail)) {
+					request.setAttribute("error", validacion.RespuestaValidacionMail());
+					doGet(request, response);  // Cargar los datos necesarios
+					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+					return;
+				}
+				
+				//Validación del formato del telefono
+				if (validacion.validacionTelefono(telefono)) {
+					request.setAttribute("error", validacion.RespuestaValidacionTelefono());
+					doGet(request, response);  // Cargar los datos necesarios
+					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+					return;
+				}
+				//Validación del fecha nacimiento
+				if (validacion.validacionEdad(fechaNacimiento)) {
+					request.setAttribute("error", validacion.RespuestaValidacionEdad());
+					doGet(request, response);  // Cargar los datos necesarios
+					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+					return;
+				}
+				
+		        
+		    
 		    
 			    ValidacionUsuario usuEstadoSinValidar = validacionService.obtenerValidacionUsuario(2);		
 			    Tutor tutor = new Tutor();
