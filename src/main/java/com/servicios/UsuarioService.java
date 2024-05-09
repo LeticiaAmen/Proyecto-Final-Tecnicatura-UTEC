@@ -166,6 +166,13 @@ public class UsuarioService {
 	    }
 	}
 
+	public Estudiante obtenerEstudiante(Long id) {
+	    Usuario usuario = entityManager.find(Usuario.class, id);
+	    if (usuario instanceof Estudiante) {
+	        return (Estudiante) usuario;
+	    }
+	    return null;
+	}
 
 
 	
