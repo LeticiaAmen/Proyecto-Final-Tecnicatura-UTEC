@@ -1,5 +1,7 @@
 package com.dao;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,5 +19,13 @@ public class TutorDAO {
 		entityManager.flush();
 		
 	}
+	 // Obtener Tutor por ID
+    public Tutor obtenerTutor(long id) {
+        return entityManager.find(Tutor.class, id);
+    }
 
+    // Listar todos los Tutores
+    public List<Tutor> obtenerTutoresTodos() {
+        return entityManager.createQuery("SELECT t FROM Tutor t", Tutor.class).getResultList();
+    }
 }

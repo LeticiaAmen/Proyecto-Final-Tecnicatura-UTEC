@@ -58,8 +58,11 @@
 						<td class="detail" title="Detalle: ${reclamo.detalle}">${reclamo.detalle}</td>
 						<td title="Evento: ${reclamo.evento.tituloEvento}">${reclamo.evento.tituloEvento}</td>
 						<td>${reclamo.registroAccione.nombre}</td>
-						<td><a href="ResponderReclamo?id=${reclamo.idReclamo}">Ver</a>
-						</td>
+						<td><form action="accion" method="get">
+								<input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
+								<input type="submit" value="Ver">
+							</form></td>
+
 					</tr>
 				</c:forEach>
 			</tbody>

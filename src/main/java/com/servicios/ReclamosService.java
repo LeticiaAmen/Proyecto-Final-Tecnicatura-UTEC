@@ -22,6 +22,10 @@ public class ReclamosService {
                  .setParameter("idUsuario", idUsuario)
                  .getResultList();
     }
+    
+    public Reclamo obtenerReclamo(long idReclamo) {
+        return em.find(Reclamo.class, idReclamo);
+    }
 
     public List<Reclamo> obtenerReclamosConFiltros(String filtroUsuario, String estadoReclamo) {
         String jpql = "SELECT r FROM Reclamo r LEFT JOIN r.registroAccione ra WHERE " +
