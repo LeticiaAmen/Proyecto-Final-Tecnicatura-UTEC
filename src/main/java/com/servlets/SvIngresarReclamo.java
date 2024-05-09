@@ -42,28 +42,24 @@ public class SvIngresarReclamo extends HttpServlet {
 
 	public SvIngresarReclamo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		//Lista de eventos para asociar al select
 		List<Evento> eventos = eventoService.obtenerEventosTodos();
 		request.setAttribute("eventos", eventos);
 
 
 		request.getRequestDispatcher("/registroReclamo.jsp").forward(request, response);
-
-
 	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String formSubmitted = request.getParameter("formSubmitted");
 		if ("true".equals(formSubmitted)) {
 
 
-			//REcuperar el id del estudiante de la sesion
+			//Recuperar el id del estudiante de la sesion
 			String idEstudianteStr = request.getParameter("idEstudiante");
 			//Convertir el id a long
 			long idEstudiante = 0;
@@ -110,9 +106,7 @@ public class SvIngresarReclamo extends HttpServlet {
 			reclamo.setEvento(evento);
 			reclamo.setEstudiante(estudiante);
 			reclamo.setFechaHoraReclamo(fechaReclamo);
-			reclamo.setRegistroAccione(registroAccion);
-			
-			
+			reclamo.setRegistroAccione(registroAccion);						
 			
 			try {
 				reclamoService.crearReclamo(reclamo);
@@ -120,14 +114,11 @@ public class SvIngresarReclamo extends HttpServlet {
 			}catch(Exception e){
 				e.printStackTrace();
 				System.out.println("Error al ingresar el Reclamo");
-			}
-			
+			}			
 			response.sendRedirect("listadoReclamos.jsp");
-
 		}else {
 			// Si el formulario no ha sido enviado, redirige al doGet para cargar la página
 			doGet(request, response);
-
 		}
 	}
 }

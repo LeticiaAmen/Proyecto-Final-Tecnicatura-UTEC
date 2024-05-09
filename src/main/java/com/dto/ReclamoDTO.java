@@ -6,7 +6,12 @@ public class ReclamoDTO {
     private Long id;
     private String detalle;  
     private List<String> acciones; 
-	public Long getId() {
+    private Long idEstudiante;
+    private String titulo;
+    private String fechaReclamo;
+    private Long idEvento;
+    
+    public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
@@ -23,6 +28,30 @@ public class ReclamoDTO {
 	}
 	public void setAcciones(List<String> acciones) {
 		this.acciones = acciones;
+	}
+	public Long getIdEstudiante() {
+		return idEstudiante;
+	}
+	public void setIdEstudiante(Long idEstudiante) {
+		this.idEstudiante = idEstudiante;
+	}
+	public String getTitulo() {
+		return titulo;
+	}
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+	public String getFechaReclamo() {
+		return fechaReclamo;
+	}
+	public void setFechaReclamo(String fechaReclamo) {
+		this.fechaReclamo = fechaReclamo;
+	}
+	public Long getIdEvento() {
+		return idEvento;
+	}
+	public void setIdEvento(Long idEvento) {
+		this.idEvento = idEvento;
 	}
     
 }
