@@ -15,6 +15,15 @@
 <link rel="stylesheet" href="listados.css">
 </head>
 <body>
+<% if (session.getAttribute("successMessage") != null) { %>
+    <script>alert('<%= session.getAttribute("successMessage") %>');</script>
+    <% session.removeAttribute("successMessage"); %>
+<% } %>
+<% if (session.getAttribute("errorMessage") != null) { %>
+    <script>alert('<%= session.getAttribute("errorMessage") %>');</script>
+    <% session.removeAttribute("errorMessage"); %>
+<% } %>
+
 	<header>
 		<div>
 			<a> <img alt="Logo de UTEC"
