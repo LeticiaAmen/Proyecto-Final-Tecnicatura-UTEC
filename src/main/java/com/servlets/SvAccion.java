@@ -1,6 +1,7 @@
 package com.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.entidades.Reclamo;
+import com.entidades.RegistroAccione;
+import com.servicios.RegistroAccionService;
 import com.servicios.ReclamoService;
 
 @WebServlet("/accion")
@@ -18,6 +21,9 @@ public class SvAccion extends HttpServlet {
 
     @EJB
     private ReclamoService reclamoService;
+
+    @EJB
+    private RegistroAccionService registroAccionService;
 
     public SvAccion() {
         super();
@@ -33,9 +39,13 @@ public class SvAccion extends HttpServlet {
 
             if (reclamo != null) {
                 String tipoEvento = reclamo.getEvento().getTipoEvento().getNombre();
-                
+
+                // Obtener la lista de estados
+                List<RegistroAccione> estados = registroAccionService.obtenerRegistrosAcciones(); // Agregar esta línea
+
                 request.setAttribute("reclamo", reclamo);
-                request.setAttribute("tipoEvento", tipoEvento); 
+                request.setAttribute("tipoEvento", tipoEvento);
+                request.setAttribute("estados", estados); // Agregar esta línea
 
                 request.getRequestDispatcher("/accion.jsp").forward(request, response);
             } else {
@@ -44,8 +54,5 @@ public class SvAccion extends HttpServlet {
         } else {
             response.sendRedirect("errorPage.jsp");
         }
-
     }
-
 }
-
