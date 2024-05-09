@@ -1,40 +1,42 @@
+<%@page import="com.entidades.RegistroAccione"%>
 <%@page import="com.entidades.Usuario"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Detalles del Reclamo</title>
-    <link rel="stylesheet" href="ListadoReclamos.css">
+<meta charset="UTF-8">
+<title>Detalles del Reclamo</title>
+<link rel="stylesheet" href="accion.css">
 </head>
 <body>
-<header>
-		<div>
-			<a> <img alt="Logo de UTEC"
-				src="images/utec-removebg-preview.png" />
-			</a>
-			<%
-			Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
-			%>
-			<div id="usuario-dropdown">
-				<h1><%=usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos()%>
-				</h1>
-				<div id="dropdown-content">
-					<form action="datosPersonales" method="get">
-						<input type="hidden" name="id"
-							value="<%= usuarioLogeado.getIdUsuario() %>"> <input
-							type="submit" class="button" value="Datos Personales">
-					</form>
+    <header>
+        <div>
+            <a> <img alt="Logo de UTEC"
+                src="images/utec-removebg-preview.png" />
+            </a>
+            <%
+            Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
+            %>
+            <div id="usuario-dropdown">
+                <h1><%=usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos()%>
+                </h1>
+                <div id="dropdown-content">
+                    <form action="datosPersonales" method="get">
+                        <input type="hidden" name="id"
+                            value="<%=usuarioLogeado.getIdUsuario()%>"> <input
+                            type="submit" class="button" value="Datos Personales">
+                    </form>
 
-					<form action="index.jsp">
-						<input type="submit" class="button" value="Cerrar Sesión">
-					</form>
-				</div>
-			</div>
-		</div>
-	</header>
+                    <form action="index.jsp">
+                        <input type="submit" class="button" value="Cerrar Sesión">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
     <h1>Detalles del Reclamo</h1>
     <ul>
         <li>Título del Reclamo: ${reclamo.tituloReclamo}</li>
@@ -49,16 +51,21 @@
     <h2>Registrar Acción</h2>
     <form action="guardarAccion" method="POST">
         <label for="detalle">Detalle de la Acción:</label><br>
-        <textarea id="detalle" name="detalle" rows="4" cols="50"></textarea><br>
-        
-        <label for="estadoAccion">Estado de la Acción:</label><br>
-        <select id="estadoAccion" name="estadoAccion">
-            <c:forEach items="${estadosAcciones}" var="estado">
-                <option value="${estado.idRegistroAccion}">${estado.nombre}</option>
-            </c:forEach>
-        </select><br>
+        <textarea id="detalle" name="detalle" rows="4" cols="50"></textarea>
 
-        <input type="submit" value="Guardar Acción">
+        <br> <select id="registroAccionId" name="registroAccionId">
+			<c:choose>
+				<c:when test="${empty registrosAcciones}">
+					<option value="">No hay registros de acciones disponibles</option>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="registro" items="${registrosAcciones}">
+						<option value="${registro.idRegistroAccion}">${registro.nombre}</option>
+					</c:forEach>
+
+				</c:otherwise>
+			</c:choose>
+		</select> <br> <br> <input type="submit" value="Guardar Acción">
     </form>
 </body>
 </html>
