@@ -63,13 +63,14 @@
 	<% } %>
 	
 	
-	<!-- Botón editar Reclamo, visible solo para estudiantes -->
-	<c:if test="${esAnalista == null || !esAnalista}">
+	<!-- Botón Modificar Reclamo, visible solo para estudiantes y si el reclamo está 'Ingresado' -->
+	<c:if test="${not esAnalista and reclamo.registroAccione.nombre == 'Ingresado'}">
 	    <form action="SvEditarReclamo" method="get">
 	        <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
 	        <input type="submit" value="Modificar">
 	    </form>
 	</c:if>
+
 	
 	<!-- Botón Atrás -->
 	<form action="SvListarReclamos" method="get">
