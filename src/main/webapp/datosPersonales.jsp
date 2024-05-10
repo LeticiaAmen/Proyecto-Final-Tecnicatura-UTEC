@@ -228,7 +228,7 @@
 
 		<!-- Botón Cancelar -->
 		<input type="submit" name="accion" value="Cancelar"
-			onsubmit="return confirmarCancelar();">
+			>
 
 		<%-- Verifica si hay un mensaje de éxito y muéstralo --%>
 		<c:if test="${not empty requestScope.successMessage}">
@@ -240,19 +240,32 @@
 
 	</form>
 
-	<script type="text/javascript">
+<script type="text/javascript">
     function confirmarModificacion() {
-        if (confirm('¿Deseas modificar los datos?')) {
-            if (confirm('Los datos se han modificado correctamente')) {
-                return true;
+        // Obtener el botón que se presionó
+        var botonPresionado = document.activeElement.value;
+
+        if (botonPresionado === 'Modificar') {
+            if (confirm('¿Deseas modificar los datos?')) {
+                alert('Los datos se han modificado correctamente');
+                return true; // Continuar con la acción de modificar
             } else {
-                return false;
+                return false; // Cancela la acción de modificar
+            }
+        } else if (botonPresionado === 'Cancelar') {
+            if (confirm('¿Estás seguro de cancelar la modificación?')) {
+                alert('La modificación ha sido cancelada');
+                return false; // Cancela la acción de cancelar
+            } else {
+                return true; // Continuar con la acción de cancelar
             }
         } else {
-            return false;
+            return true; 
         }
     }
 </script>
+
+
 
 	
 </body>
