@@ -279,7 +279,7 @@ public class SvModificarDatosPersonales extends HttpServlet {
 			         request.setAttribute("nuevoNombreUsuario", usuarioActualizado.getNombres() + " " + usuarioActualizado.getApellidos());
 
 			         // Establecer el mensaje de éxito en la sesión
-			         session.setAttribute("mensajeExito", "Información actualizada correctamente.");
+			         request.setAttribute("successMessage", "Los datos se han guardado exitosamente.");
 
 			         // Redireccionar a la página de datos personales con el ID del usuario
 			         response.sendRedirect("datosPersonales?id=" + userId);

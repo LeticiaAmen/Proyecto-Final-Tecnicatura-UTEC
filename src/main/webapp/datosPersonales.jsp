@@ -58,7 +58,7 @@
 					</form>
 
 					<form action="LogoutServlet" method="post">
-    					<input type="submit" class="button" value="Cerrar Sesión">
+						<input type="submit" class="button" value="Cerrar Sesión">
 					</form>
 				</div>
 			</div>
@@ -230,17 +230,30 @@
 		<input type="submit" name="accion" value="Cancelar"
 			onsubmit="return confirmarCancelar();">
 
+		<%-- Verifica si hay un mensaje de éxito y muéstralo --%>
+		<c:if test="${not empty requestScope.successMessage}">
+			<div class="alert alert-success" role="alert">
+				${requestScope.successMessage}</div>
+		</c:if>
+
+
 
 	</form>
 
 	<script type="text/javascript">
-		function confirmarModificacion() {
-			if (confirm('¿Deseas modificar los datos?')) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	</script>
+    function confirmarModificacion() {
+        if (confirm('¿Deseas modificar los datos?')) {
+            if (confirm('Los datos se han modificado correctamente')) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+</script>
+
+	
 </body>
 </html>
