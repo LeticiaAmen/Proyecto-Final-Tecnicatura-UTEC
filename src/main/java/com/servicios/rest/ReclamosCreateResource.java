@@ -31,7 +31,7 @@ public class ReclamosCreateResource {
 
     @EJB
     private RegistroAccionService registroAccionService;
-
+    
     @POST
     @Path("/crear")
     @Consumes(MediaType.APPLICATION_JSON)

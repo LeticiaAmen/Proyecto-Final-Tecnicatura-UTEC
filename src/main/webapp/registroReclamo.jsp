@@ -23,23 +23,23 @@
 	<form action="SvIngresarReclamo" method="post">
 
 		<p>
-			<label>*Ttulo del Reclamo</label>
+			<label><strong>*Título del Reclamo</strong></label>
 		</p>
 		<input type="text" name="titulo" required>
 
 		<p>
-			<label>*Detalle</label>
+			<label><strong>*Detalle</strong></label>
 		</p>
-		<textarea name="detalle" rows="6" cols="80" required>></textarea>
+		<textarea name="detalle" rows="6" cols="80" required></textarea>
 
 		<p>
-			<label>*Fecha del Reclamo</label>
+			<label><strong>*Fecha del Reclamo</strong></label>
 		</p>
 		<input type="date" name="fechaReclamo" required>
 
 
 		<p>
-			<label>*Evento</label>
+			<label><strong>*Evento</strong></label>
 		</p>
 		<select name="idEvento">
 			<c:forEach var="evento" items="${eventos}">
@@ -54,7 +54,7 @@
 				obligatorios</span>
 		</p>
 
-		<%-- Recuperar el usuario logueado desde la sesin --%>
+		<%-- Recuperar el usuario logueado desde la sesion --%>
 		<% 
             Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
             if (usuarioLogeado != null) {
@@ -64,17 +64,12 @@
 		<% 
             } 
         %>
-
-
 		<!-- Campo oculto para indicar el envo del formulario -->
 		<input type="hidden" name="formSubmitted" value="true">
 		<button type="submit">Enviar</button>
-
 	</form>
-
 	<form action="SvListarReclamos" method="get">
 		<button type="submit">Cancelar</button>
 	</form>
-
 </body>
 </html>

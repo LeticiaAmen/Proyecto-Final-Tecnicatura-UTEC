@@ -1,6 +1,9 @@
 package com.servicios;
 
+import com.dao.ReclamoDAO;
 import com.entidades.Reclamo;
+
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +15,9 @@ public class ReclamosService {
 
     @PersistenceContext(unitName = "PFT2024")
     private EntityManager em;
+    
+    @EJB
+	private ReclamoDAO reclamoDAO;
 
     public List<Reclamo> obtenerTodosReclamos() {
         return em.createQuery("SELECT r FROM Reclamo r", Reclamo.class).getResultList();
@@ -48,4 +54,8 @@ public class ReclamosService {
         query.setParameter("estadoReclamo", (estadoReclamo == null || estadoReclamo.trim().isEmpty()) ? null : estadoReclamo.trim().toLowerCase());
         return query.getResultList();
     }
+    
+    public void eliminarReclamo(long idReclamo) {
+	    reclamoDAO.eliminarReclamo(idReclamo);
+	}
 }

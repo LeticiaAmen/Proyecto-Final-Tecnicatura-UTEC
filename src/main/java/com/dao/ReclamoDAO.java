@@ -74,5 +74,13 @@ public class ReclamoDAO {
 		}
 	}
 	
+	//Baja física del reclamo desde el estudiante
+	public void eliminarReclamo(long id) {
+	    Reclamo reclamo = entityManager.find(Reclamo.class, id);
+	    if (reclamo != null) {
+	        entityManager.remove(reclamo);
+	    }
+	}
+
 
 }
