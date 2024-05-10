@@ -40,8 +40,8 @@
 						<input type="submit" class="button" value="Datos Personales">
 					</form>
 
-					<form action="index.jsp">
-						<input type="submit" class="button" value="Cerrar Sesión">
+					<form action="LogoutServlet" method="post">
+    					<input type="submit" class="button" value="Cerrar Sesión">
 					</form>
 				</div>
 			</div>
@@ -70,6 +70,9 @@
 		<input type="submit" value="Filtrar">
 		</form>
 
+		<form action="SvRegistroItr" class="create-itr-form">
+			<input type="submit" value="Ingresar Nuevo ITR">
+		</form>
 
 		<table border="1">
 			<tr>
@@ -105,9 +108,7 @@
 			%>
 		</table>
 
-		<form action="SvRegistroItr" class="create-itr-form">
-			<input type="submit" value="Ingresar Nuevo ITR">
-		</form>
+		
 	</div>
 
 	<form action="menuAnalista.jsp" method="get" class="back-form">

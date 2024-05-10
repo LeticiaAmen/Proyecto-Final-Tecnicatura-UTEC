@@ -31,7 +31,7 @@
 						<input type="submit" class="button" value="Datos Personales">
 					</form>
 
-					<form action="index.jsp">
+					<form action="LogoutServlet" method="post">
 						<input type="submit" class="button" value="Cerrar Sesión">
 					</form>
 				</div>
@@ -40,7 +40,6 @@
 	</header>
 
 	<div class="container">
-		>
 		<h1>Editar ITR</h1>
 		<%
 		String errorMessage = (String) request.getAttribute("errorMessage");

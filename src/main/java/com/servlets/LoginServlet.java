@@ -53,6 +53,7 @@ public class LoginServlet extends HttpServlet {
 
 	    if (usuarioValido) {
 	        Usuario usuarioLogeado = usuarioService.obtenerUsuarioDesdeBaseDeDatosNombre(nomUsuario);
+	       
 	        if (usuarioLogeado != null && usuarioLogeado.getValidacionUsuario().getIdValidacion() == 1) {
 	            boolean estadoActivo = true; 
 	            if (usuarioLogeado instanceof Estudiante) {
@@ -61,6 +62,8 @@ public class LoginServlet extends HttpServlet {
 	                estadoActivo = ((Tutor) usuarioLogeado).getEstado().getIdEstado() != 2;
 	            } else if (usuarioLogeado instanceof Analista) {
 	                estadoActivo = ((Analista) usuarioLogeado).getEstado().getIdEstado() != 2;
+	                HttpSession sesion = request.getSession();
+	                sesion.setAttribute("esAnalista", usuarioLogeado instanceof Analista);  // Asignar directamente true o false
 	            }
 
 	            if (estadoActivo) {

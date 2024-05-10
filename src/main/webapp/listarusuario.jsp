@@ -47,8 +47,8 @@ window.onload = function() {
 						<input type="submit" class="button" value="Datos Personales">
 					</form>
 
-					<form action="index.jsp">
-						<input type="submit" class="button" value="Cerrar Sesión">
+					<form action="LogoutServlet" method="post">
+    					<input type="submit" class="button" value="Cerrar Sesión">
 					</form>
 				</div>
 			</div>
@@ -109,7 +109,7 @@ window.onload = function() {
 			<% } 
 			 } %>
 		</select> 
-		<input type="submit" value="Filtrar">
+		<input type="submit" value="Filtrar" style="margin-left: 20px">
 	</form>
 
 	<!-- Botón limpiar filtros -->
@@ -117,7 +117,11 @@ window.onload = function() {
 		<input type="submit" class="button" value="Limpiar Filtros">
 	</form>
 
-
+	<!-- Botón para regresar al menú del analista -->
+	<form action="menuAnalista.jsp" method="get" style="margin-left: 22em">
+		<input type="submit" value="Atrás">
+	</form>
+	
 	<table border="1">
 		<tr>
 			<th>Estado</th>
@@ -164,11 +168,5 @@ window.onload = function() {
 		</tr>
 		<% } %>
 	</table>
-
-<!-- Botón para regresar al menú del analista -->
-	<form action="menuAnalista.jsp" method="get">
-		<input type="submit" value="Atras">
-	</form>
-
 </body>
 </html>

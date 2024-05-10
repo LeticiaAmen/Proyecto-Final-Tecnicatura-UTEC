@@ -16,9 +16,22 @@
 			<a> <img alt="Logo de UTEC"
 				src="images/utec-removebg-preview.png" />
 			</a>
+			<%
+				Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
+			%>
+			<div id="usuario-dropdown">
+				<h1><%=usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos()%></h1>
+				<div id="dropdown-content">
+					<form action="LoginServlet" method="get">
+						<input type="submit" class="button" value="Datos Personales">
+					</form>
+					<form action="LogoutServlet" method="post">
+    					<input type="submit" class="button" value="Cerrar Sesión">
+					</form>         
+				</div>
+			</div>
 		</div>
 	</header>
-
 	<h1>Ingresar Reclamo</h1>
 	<form action="SvIngresarReclamo" method="post">
 
@@ -56,7 +69,6 @@
 
 		<%-- Recuperar el usuario logueado desde la sesion --%>
 		<% 
-            Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
             if (usuarioLogeado != null) {
         %>
 		<input type="hidden" name="idEstudiante"

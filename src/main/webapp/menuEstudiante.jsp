@@ -22,9 +22,9 @@
 							value="<%= usuarioLogeado.getIdUsuario() %>"> <input
 							type="submit" class="button" value="Datos Personales">
 					</form>
-                    <form action="index.jsp">
-                        <input type="submit" class="button" value="Cerrar Sesión">
-                    </form>
+                    <form action="LogoutServlet" method="post">
+    					<input type="submit" class="button" value="Cerrar Sesión">
+					</form>
                 </div>
             </div>
         </div>
