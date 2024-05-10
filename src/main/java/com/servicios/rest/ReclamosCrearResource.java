@@ -18,8 +18,8 @@ import com.servicios.ReclamoService;
 import com.servicios.RegistroAccionService;
 import com.servicios.UsuarioService;
 
-@Path("/reclamos")
-public class ReclamosCreateResource {
+@Path("/crear")
+public class ReclamosCrearResource {
 	@EJB
     private ReclamoService reclamoService;
 
@@ -33,7 +33,7 @@ public class ReclamosCreateResource {
     private RegistroAccionService registroAccionService;
     
     @POST
-    @Path("/crear")
+    @Path("/reclamo")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response crearReclamo(ReclamoDTO input) {

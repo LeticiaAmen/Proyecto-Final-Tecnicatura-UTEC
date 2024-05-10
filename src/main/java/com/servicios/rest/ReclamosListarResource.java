@@ -21,9 +21,9 @@ import com.servicios.ReclamosService;
 import com.util.JwtUtil;
 import org.hibernate.Hibernate;
 
-@Path("/reclamos")
+@Path("/listar")
 @Stateless
-public class ReclamosResource {
+public class ReclamosListarResource {
     @EJB
     private ReclamosService reclamosService;
 
@@ -32,7 +32,7 @@ public class ReclamosResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/listar")
+    @Path("/reclamos")
     public Response listarReclamos(@Context HttpHeaders headers, @QueryParam("filtroUsuario") String filtroUsuario, @QueryParam("estadoReclamo") String estadoReclamo) {
         List<String> authHeaders = headers.getRequestHeader("Authorization");
         if (authHeaders == null || authHeaders.isEmpty() || !authHeaders.get(0).startsWith("Bearer ")) {
