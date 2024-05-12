@@ -58,12 +58,12 @@
 		}
 		%>
 
-		<form action="SvRegistroItr" method="POST">
+		<form id="form-itr" action="SvRegistroItr" method="POST">
 
 			<p>
 				<label>Nombre:</label>
 			</p>
-			<input type="text" name="nombre" required />
+			<input type="text" name="nombre" required oninvalid="this.setCustomValidity('Por favor, ingrese el nombre del ITR.')" oninput="this.setCustomValidity('')" />
 
 
 			<!-- Opción elegir estado -->
@@ -71,11 +71,13 @@
 				<label>Estado:</label>
 			</p>
 
-			<select name="idEstado">
-				<c:forEach var="estado" items="${estados}">
-					<option value="${estado.idEstado}">${estado.nombre}</option>
-				</c:forEach>
+			<select name="idEstado" required oninvalid="this.setCustomValidity('Por favor, seleccione un estado.')" oninput="this.setCustomValidity('')">
+			    <option value="">Seleccione un estado...</option>
+			    <c:forEach var="estado" items="${estados}">
+			        <option value="${estado.idEstado}">${estado.nombre}</option>
+			    </c:forEach>
 			</select>
+			
 			<!-- Campo oculto para indicar el envío del formulario -->
 			<input type="hidden" name="formSubmitted" value="true">
 			<button type="submit" class="submit-btn">Enviar</button>
@@ -85,5 +87,16 @@
 			<input type="submit" value="Cancelar">
 		</form>
 	</div>
+	<script>
+		document.getElementById("form-itr").onsubmit = function() {
+    		var estado = document.querySelector("[name='idEstado']").value;
+    		if (estado === "") {
+        		alert("Por favor, seleccione un estado para el ITR.");
+        		return false; // Detiene el envío del formulario
+    		}
+    		return true;
+		};
+</script>
+	
 </body>
 </html>
