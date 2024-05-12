@@ -63,7 +63,7 @@
 			<p>
 				<label>Nombre:</label>
 			</p>
-			<input type="text" name="nombre" />
+			<input type="text" name="nombre" required />
 
 
 			<!-- Opción elegir estado -->
