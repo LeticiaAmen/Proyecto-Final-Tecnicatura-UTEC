@@ -80,7 +80,7 @@ public class SvEditarITR extends HttpServlet {
 				try {
 					itrService.actualizarItr(itrActual);
 					request.getSession().setAttribute("successMessage", "El ITR se ha modificado exitosamente.");
-					response.sendRedirect("SvListarReclamos");
+					response.sendRedirect("ListadoItr");
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.out.println("Error al modificar Itr");
