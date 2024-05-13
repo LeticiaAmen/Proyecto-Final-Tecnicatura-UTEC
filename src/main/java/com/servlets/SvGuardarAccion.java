@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.entidades.Estado;
 import com.entidades.Accion;
+import com.entidades.Analista;
 import com.entidades.Reclamo;
 import com.entidades.RegistroAccione;
+import com.entidades.Usuario;
 import com.servicios.AccionService;
 import com.servicios.ReclamoService;
 import com.servicios.RegistroAccionService;
@@ -29,7 +31,7 @@ public class SvGuardarAccion extends HttpServlet {
 
     @EJB
     private RegistroAccionService registroAccionService;
-    
+
     public SvGuardarAccion() {
         super();
     }
@@ -51,25 +53,28 @@ public class SvGuardarAccion extends HttpServlet {
                         accion.setReclamo(reclamo);
                         accion.setRegistroAccion(registroAccion);
                         accion.setDetalle(request.getParameter("detalle")); // Guardar el detalle de la acción
-                        
-                     // Establecer la fecha y hora actual
                         accion.setFechaHora(new Date());
-                    
+
+                        // Obtener el usuario logeado de la sesión
+                        Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
+                        if (usuarioLogeado instanceof Analista) {
+                            Analista analista = (Analista) usuarioLogeado;
+                            accion.setAnalista(analista);
+                        }
+
                         // Establecer el estado siempre como 1 (activo)
                         Estado estado = new Estado();
-                        estado.setIdEstado(1); // Cambia 1 por el ID correcto del estado
+                        estado.setIdEstado(1);
                         accion.setEstado(estado);
-                        
-                        
-                        // Cambiar el registro accion en reclamo 
+
+                        // Cambiar el registro accion en reclamo
                         reclamo.setRegistroAccione(registroAccion);
                         reclamoService.actualizarReclamo(reclamo);
 
-                        
                         // Guardar la acción
                         accionService.guardarAccion(accion);
                         request.getSession().setAttribute("successMessage", "Se registró la acción correctamente");
-    					response.sendRedirect("SvListarReclamos");
+                        response.sendRedirect("SvListarReclamos");
                         return;
                     }
                 }
