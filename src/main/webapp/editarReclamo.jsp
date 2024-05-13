@@ -62,12 +62,22 @@
 	    <input type="submit" value="Modificar">
 	</form>
 	
-	<form action="SvListarReclamos" method="get">
+	<form action="SvListarReclamos" method="get" onsubmit="return cancelar();">
 		<button type="submit">Cancelar</button>
 	</form>
 	<script>
 	    function confirmarEliminacion() {
-	        return confirm("¿Modificar reclamo?");
+	        if(confirm("¿Modificar reclamo?")) {
+		        alert("¡Reclamo modificado con éxito!")
+		        return true;
+		    }else {
+			    return false
+			}     
+	    }
+	</script>
+	<script>
+	    function cancelar() {
+	        return confirm("¿Cancelar modificación y volver al listado de reclamos?");
 	    }
 	</script>
 </body>

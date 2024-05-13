@@ -34,57 +34,60 @@
 	        </div>
 	    </div>
 	</header>
-	<h1>Detalles del Reclamo</h1>
-	<ul>
-	    <li>Título del Reclamo: ${reclamo.tituloReclamo}</li>
-	    <li>Título del Evento: ${reclamo.evento.tituloEvento}</li>
-	    <li>Detalles del Evento: ${reclamo.evento.informacion}</li>
-	    <li>Créditos del Evento: ${reclamo.evento.creditos}</li>
-	    <li>Modalidad del Evento: ${reclamo.evento.modalidad}</li>
-	    <li>Semestre del Evento: ${reclamo.evento.semestre}</li>
-	    <li>Tipo de Evento: ${reclamo.evento.tipoEvento.nombre}</li>
-	</ul>
-	<% if (esAnalista) { %>
-	    <h2>Acción</h2>
-	    <form action="guardarAccion" method="POST" onsubmit="return confirmarEnvio();">
-	        <label for="nuevoEstado">Estado:</label>
-	        <select name="nuevoEstado">
-	            <option value="${reclamo.registroAccione.idRegistroAccion}" selected>${reclamo.registroAccione.nombre}</option>
-	            <c:forEach items="${estados}" var="estado">
-	                <option value="${estado.idRegistroAccion}">${estado.nombre}</option>
-	            </c:forEach>
-	        </select><br>
-	        <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
-	        <input type="hidden" name="accionType" value="cambiarEstado">
-	        <label for="detalle">Detalle de la Acción:</label><br>
-	        <textarea id="detalle" name="detalle" rows="4" cols="50"></textarea><br>
-	        <input type="submit" name="accion" value="Enviar" class="submit-btn" >
-	    </form>
-	<% } %>
+	<div style="margin-left: 33em">
+		<h1 style="margin-top: 1em">Detalles del Reclamo</h1>
+		<ul>
+		    <li>Título del Reclamo: ${reclamo.tituloReclamo}</li>
+		    <li>Título del Evento: ${reclamo.evento.tituloEvento}</li>
+		    <li>Detalles del Evento: ${reclamo.evento.informacion}</li>
+		    <li>Créditos del Evento: ${reclamo.evento.creditos}</li>
+		    <li>Modalidad del Evento: ${reclamo.evento.modalidad}</li>
+		    <li>Semestre del Evento: ${reclamo.evento.semestre}</li>
+		    <li>Tipo de Evento: ${reclamo.evento.tipoEvento.nombre}</li>
+		</ul>
+		
+		<% if (esAnalista) { %>
+		    <h2 style="margin-top: 2em">Registrar acción</h2>
+		    <form action="guardarAccion" method="POST" onsubmit="return confirmarEnvio();">		        
+		        <label for="nuevoEstado">Estado:</label>		        
+		        <select name="nuevoEstado">
+				    <!-- Lista todos los estados disponibles y marca el actual como seleccionado -->
+				    <c:forEach items="${estados}" var="estado">
+				        <option value="${estado.idRegistroAccion}" 
+				                ${estado.idRegistroAccion == reclamo.registroAccione.idRegistroAccion ? 'selected' : ''}>
+				            ${estado.nombre}
+				        </option>
+				    </c:forEach>
+				</select>
+		        <br>
+    
+		        <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
+		        <input type="hidden" name="accionType" value="cambiarEstado">
+		        
+		        <label for="detalle">Detalle de la Acción:</label><br>
+		        <textarea id="detalle" name="detalle" rows="4" cols="50" required></textarea><br>
+		        <input type="submit" name="accion" value="Enviar" class="submit-btn" >
+		    </form>
+		<% } %>
+		
+		
+		<!-- Botón Modificar Reclamo, visible solo para estudiantes y si el reclamo está 'Ingresado' -->
+		<c:if test="${not esAnalista and reclamo.registroAccione.nombre == 'Ingresado'}">
+		    <form action="SvEditarReclamo" method="get">
+		        <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
+		        <input type="submit" value="Modificar">
+		    </form>
+		</c:if>
 	
-	
-	<!-- Botón Modificar Reclamo, visible solo para estudiantes y si el reclamo está 'Ingresado' -->
-	<c:if test="${not esAnalista and reclamo.registroAccione.nombre == 'Ingresado'}">
-	    <form action="SvEditarReclamo" method="get">
-	        <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
-	        <input type="submit" value="Modificar">
-	    </form>
-	</c:if>
-
-	
-	<!-- Botón Cancelar -->
-	<form action="SvListarReclamos" method="get" onsubmit="return confirmarCancelar();">
-	    <input type="submit" value="Cancelar">
-	</form>
-	
+		
+		<!-- Botón Cancelar -->
+		<form action="SvListarReclamos" method="get">
+		    <input type="submit" value="Cancelar">
+		</form>
+	</div>
 	<script>
 	    function confirmarEnvio() {
-	        return confirm("¿Actualizar estado y detalle del reclamo? Se enviará un email al estudiante con los detalles modificados");
-	    }
-	</script>
-	<script>
-	    function confirmarCancelar() {
-	        return confirm("¿Cancelar y volver al listado de reclamos?");
+	        return confirm("¿Actualizar estado y detalle del reclamo? Se enviará un email al estudiante con los detalles modificados.");
 	    }
 	</script>
 </body>

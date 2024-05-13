@@ -111,6 +111,7 @@ public class SvIngresarReclamo extends HttpServlet {
 			try {
 				reclamoService.crearReclamo(reclamo);
 				request.getSession().setAttribute("ingreso exitoso", "Su reclamo ha sido ingresado con éxito");
+				response.sendRedirect("SvListarReclamos");
 			}catch(Exception e){
 				e.printStackTrace();
 				System.out.println("Error al ingresar el Reclamo");

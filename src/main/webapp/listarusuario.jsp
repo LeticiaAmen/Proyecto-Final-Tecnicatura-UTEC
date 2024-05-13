@@ -43,9 +43,10 @@ window.onload = function() {
 				<h1><%=usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos()%>
 				</h1>
 				<div id="dropdown-content">
-					<form action="datosPersonales.jsp" method="get" target="_blank">
-						<input type="submit" class="button" value="Datos Personales">
-					</form>
+					<form action="datosPersonales" method="get">
+	                    <input type="hidden" name="id" value="<%= usuarioLogeado.getIdUsuario() %>">
+	                    <input type="submit" class="button" value="Datos Personales">
+	                </form>
 
 					<form action="LogoutServlet" method="post">
     					<input type="submit" class="button" value="Cerrar Sesión">
@@ -57,7 +58,7 @@ window.onload = function() {
 	<h1>Lista de Usuarios</h1>
 
 	<form action="SvFiltrarUsuarios" method="get" class="filter-form">
-		<label for="tipoUsuario">Tipo de usuario:</label> 
+		<label for="tipoUsuario" style="margin-left: 10em">Tipo de usuario:</label> 
 		<select name="tipoUsuario" id="tipoUsuario">
 		<option value="todosLosUsuarios">Todos</option>
 		<option value="ESTUDIANTE">Estudiante</option>
@@ -114,12 +115,12 @@ window.onload = function() {
 
 	<!-- Botón limpiar filtros -->
 	<form action="SvListadoDeUsuario" method="get">
-		<input type="submit" class="button" value="Limpiar Filtros">
+		<input type="submit" class="button" value="Limpiar Filtros" style="margin-left: 1em">
 	</form>
 
 	<!-- Botón para regresar al menú del analista -->
-	<form action="menuAnalista.jsp" method="get" style="margin-left: 22em">
-		<input type="submit" value="Atrás">
+	<form action="menuAnalista.jsp" method="get" style="margin-left: 8em">
+		<input type="submit" value="Cancelar">
 	</form>
 	
 	<table border="1">

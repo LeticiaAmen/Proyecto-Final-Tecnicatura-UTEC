@@ -21,9 +21,10 @@
 			<div id="usuario-dropdown">
 				<h1><%=usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos()%></h1>
 				<div id="dropdown-content">
-					<form action="LoginServlet" method="get">
-						<input type="submit" class="button" value="Datos Personales">
-					</form>
+					<form action="datosPersonales" method="get">
+	                    <input type="hidden" name="id" value="<%= usuarioLogeado.getIdUsuario() %>">
+	                    <input type="submit" class="button" value="Datos Personales">
+	                </form>
 					<form action="LogoutServlet" method="post">
     					<input type="submit" class="button" value="Cerrar Sesión">
 					</form>         
@@ -178,7 +179,12 @@
     
     <script type="text/javascript">
     	function confirmarModificacion() {
-        	return confirm('¿Deseas modificar los datos?');
+        	 if (confirm('¿Modificar datos?')) {
+            	 alert('¡Datos modificados con éxito!')
+           	}else {
+            	return false;
+           	}
+            return true;
     	}
 	</script>
     

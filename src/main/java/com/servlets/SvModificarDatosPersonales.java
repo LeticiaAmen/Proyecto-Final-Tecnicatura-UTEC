@@ -280,7 +280,7 @@ public class SvModificarDatosPersonales extends HttpServlet {
 		  
 			      // Actualizar usuario
 			         usuarioService.actualizarUsuario(usuarioModificado);
-
+			         
 			         // Obtener el usuario actualizado
 			         Usuario usuarioActualizado = usuarioService.obtenerUsuario(userId);
 

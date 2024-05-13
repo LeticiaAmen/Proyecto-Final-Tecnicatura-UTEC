@@ -1,6 +1,6 @@
 <%@page import="com.entidades.Usuario"%>
 <%@page
-	import="com.entidades.Estudiante, com.entidades.Usuario, com.entidades.Tutor"%>
+	import="com.entidades.Estudiante, com.entidades.Usuario, com.entidades.Tutor, com.entidades.Analista"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
 <!DOCTYPE html>
@@ -214,56 +214,48 @@
 		</p>
 
 		<!-- Botón Modificar -->
-    		<input type="submit" name="accion" value="Modificar">
-
-		 <!-- Botón Cancelar -->
-			<button type="button" onclick="confirmarCancelacion();">Cancelar</button>
+    		<input type="submit" name="accion" value="Modificar" >   		
 
 		<%-- Verificar si hay un mensaje de éxito y lo mostramos --%>
 		<c:if test="${not empty requestScope.successMessage}">
 			<div class="alert alert-success" role="alert">
 				${requestScope.successMessage}</div>
 		</c:if>
+		
+	</form>
+	
+	<%
+    // Asignar el tipo de usuario a una variable basada en el objeto usuarioLogeado
+    String tipoUsuario = "index.jsp"; // predeterminado a la página de inicio
+    if (usuarioLogeado instanceof Estudiante) {
+        tipoUsuario = "menuEstudiante.jsp";
+    } else if (usuarioLogeado instanceof Tutor) {
+        tipoUsuario = "menuTutor.jsp";
+    } else if (usuarioLogeado instanceof Analista) {
+        tipoUsuario = "menuAnalista.jsp";
+    }
+	%>
+	
+	<!-- Botón Cancelar -->
+	<form action="<%= tipoUsuario %>" method="get">
+    	<input type="submit" value="Cancelar">
 	</form>
 
-	<script>
+	
+	<script type="text/javascript">
 	    function confirmarModificacion() {
 	        // Obtener el botón que se presionó
 	        var botonPresionado = document.activeElement.value;
 	
 	        if (botonPresionado === 'Modificar') {
 	            if (confirm('¿Modificar datos personales?')) {
-	                alert('Datos personales modificados con éxito');
-	                return true; // Permite que el formulario se envíe.
-	            } else {
-	                return false; // Cancela la acción de modificar.
-	            }
-	        } else if (botonPresionado === 'Cancelar') {
-	            return confirmarCancelacion(); // Llama a la función de cancelación si el botón presionado es Cancelar.
+	                alert('¡Datos personales modificados con éxito!');
+	                return true; // Continuar con la acción de modificar
+	            }else {
+	                return false; // Cancela la acción de modificar
+	            	}
+	        	}
 	        }
-	        return true; // Permite que otras acciones del formulario continúen normalmente.
-	    }
-	
-	    function confirmarCancelacion() {
-	        if (confirm('¿Cancelar modificación de datos personales?')) {
-	            var tipoUsuario = '<%=request.getAttribute("tipoUsuario")%>';
-	            switch (tipoUsuario) {
-	                case 'Analista':
-	                    window.location.href = 'menuAnalista.jsp';
-	                    break;
-	                case 'Estudiante':
-	                    window.location.href = 'menuEstudiante.jsp';
-	                    break;
-	                case 'Tutor':
-	                    window.location.href = 'menuTutor.jsp';
-	                    break;
-	                default:
-	                    window.location.href = 'index.jsp'; // Redirige a la página de inicio.
-	            }
-	            return false; // Evitar que el formulario se envíe normalmente.
-	        }
-	        return false; // Si el usuario decide no cancelar, evita que el formulario se envíe.
-	    }
 	</script>
 </body>
 </html>

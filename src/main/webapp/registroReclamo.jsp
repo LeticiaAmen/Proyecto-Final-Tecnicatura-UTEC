@@ -33,7 +33,7 @@
 		</div>
 	</header>
 	<h1>Ingresar Reclamo</h1>
-	<form action="SvIngresarReclamo" method="post">
+	<form action="SvIngresarReclamo" method="post" onsubmit="return confirmarEliminacion();">
 
 		<p>
 			<label><strong>*Título del Reclamo</strong></label>
@@ -76,12 +76,29 @@
 		<% 
             } 
         %>
-		<!-- Campo oculto para indicar el envo del formulario -->
+		<!-- Campo oculto para indicar el envío del formulario -->
 		<input type="hidden" name="formSubmitted" value="true">
 		<button type="submit">Enviar</button>
 	</form>
-	<form action="SvListarReclamos" method="get">
+	
+	<form action="SvListarReclamos" method="get" onsubmit="return cancelar();">
 		<button type="submit">Cancelar</button>
 	</form>
+	
+	<script>
+	    function confirmarEliminacion() {
+	        if(confirm("¿Enviar reclamo?")) {
+		        alert("¡Reclamo enviado con éxito!")
+		        return true;
+		    }else {
+			    return false;
+			}       
+	    }
+	</script>
+	<script>
+	    function cancelar() {
+	        return confirm("¿Cancelar y volver al listado de reclamos?");
+	    }
+	</script>
 </body>
 </html>

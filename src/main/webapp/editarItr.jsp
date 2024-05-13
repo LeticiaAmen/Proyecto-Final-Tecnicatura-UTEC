@@ -27,9 +27,10 @@
 				<h1><%=usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos()%>
 				</h1>
 				<div id="dropdown-content">
-					<form action="LoginServlet" method="get">
-						<input type="submit" class="button" value="Datos Personales">
-					</form>
+					<form action="datosPersonales" method="get">
+	                    <input type="hidden" name="id" value="<%= usuarioLogeado.getIdUsuario() %>">
+	                    <input type="submit" class="button" value="Datos Personales">
+	                </form>
 
 					<form action="LogoutServlet" method="post">
 						<input type="submit" class="button" value="Cerrar Sesión">
@@ -42,26 +43,20 @@
 	<div class="container">
 		<h1>Editar ITR</h1>
 		<%
-		String errorMessage = (String) request.getAttribute("errorMessage");
-		if (errorMessage != null) {
-		%>
-		<div class="error-message">
-			<%=errorMessage%>
-		</div>
-		<%
-		}
-		%>
+			String errorMessage = (String) request.getAttribute("errorMessage");
+			if (errorMessage != null) {	%>
+				<div class="error-message">
+					<%=errorMessage%>
+				</div>
+		<%	}	%>
 
 		<%
-		String successMessage = (String) request.getAttribute("successMessage");
-		if (successMessage != null) {
-		%>
-		<div class="success-message">
-			<%=successMessage%>
-		</div>
-		<%
-		}
-		%>
+			String successMessage = (String) request.getAttribute("successMessage");
+			if (successMessage != null) { %>
+				<div class="success-message">
+					<%=successMessage%>
+				</div>
+		<%	}	%>
 
 		<!-- Obtener ITr a editar -->
 		<%
@@ -73,23 +68,19 @@
 		}
 		%>
 
-		<form action="SvEditarITR" method="post"
-			onsubmit="return confirmarModificacion();">
-			<input type="hidden" name="IdItr"
-				value="<%=itrParaEditar.getIdItr()%>">
-
-
+		<form action="SvEditarITR" method="post" onsubmit="return confirmarModificacion();">
+			<input type="hidden" name="IdItr" value="<%=itrParaEditar.getIdItr()%>">
+			
 			<p>
 				<label>Nombre:</label>
 			</p>
-			<input type="text" name="nombre"
-				value="<%=itrParaEditar.getNombre()%>" required />
+			<input type="text" name="nombre" value="<%=itrParaEditar.getNombre()%>" required />
 
 			<p>
 				<label>Estado:</label>
 			</p>
 
-<!-- Combo box para seleccionar el estado del ITR -->
+			<!-- Menú desplegable: estado del ITR -->
 			<select name="idEstado">
 				<c:forEach var="estado" items="${estados}"> <!-- Iterar sobre todos los estados disponibles para seleccionar uno -->
 					<c:choose>
@@ -106,23 +97,20 @@
 			<!-- Campo oculto para indicar el envío del formulario -->
 			<input type="hidden" name="formSubmitted" value="true">
 
-
 			<!--  Botón Modificar  -->
-			<input type="submit" name="accion" value="Modificar"
-				class="submit-btn">
+			<input type="submit" name="accion" value="Modificar" class="submit-btn">
 
 		</form>
+		
 		<!--Botón cancelar  -->
 		<form action="ListadoItr" method="get">
 			<input type="submit" value="Cancelar">
 		</form>
-
-
-
 	</div>
+	
 	<script type="text/javascript">
 		function confirmarModificacion() {
-			return confirm('¿Deseas modificar los datos?');
+			return confirm('¿Modificar ITR?');
 		}
 	</script>
 </body>

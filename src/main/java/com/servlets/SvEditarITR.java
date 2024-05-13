@@ -79,7 +79,7 @@ public class SvEditarITR extends HttpServlet {
 				itrActual.setEstado(estadoSeleccionado);
 				try {
 					itrService.actualizarItr(itrActual);
-					request.getSession().setAttribute("successMessage", "El ITR se ha modificado exitosamente.");
+					request.getSession().setAttribute("successMessage", "¡ITR modificado con éxito!");
 					response.sendRedirect("ListadoItr");
 				} catch (Exception e) {
 					e.printStackTrace();
