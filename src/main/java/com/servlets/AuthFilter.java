@@ -42,7 +42,7 @@ public class AuthFilter implements Filter {
 	            Algorithm algorithm = Algorithm.HMAC256("tuClaveSecreta");
 	            JWTVerifier verifier = JWT.require(algorithm).withIssuer("auth0").build();
 	            DecodedJWT jwt = verifier.verify(token);
-	            String userId = jwt.getClaim("usuarioId").asString(); // Asegúrate de incluir el usuarioId en el claim del JWT
+	            String userId = jwt.getClaim("usuarioId").asString();
 
 	            // Reconstruir el usuario a partir del ID obtenido del token
 	            if (userId != null) {
@@ -64,7 +64,7 @@ public class AuthFilter implements Filter {
 	                res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
 	            }
 	        } catch (JWTVerificationException exception) {
-	            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+	            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token...Por favor, vuelve a iniciar sesión.");
 	        }
 	    } else {
 	        res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Token Required");
@@ -73,12 +73,12 @@ public class AuthFilter implements Filter {
 
 
 	private String extractToken(HttpServletRequest request) {
-	    // Primero intenta obtener el token del header
+	    // Primero intentamos obtener el token del header
 	    String token = request.getHeader("Authorization");
 	    if (token != null && token.startsWith("Bearer ")) {
 	        return token.substring(7);
 	    }
-	    // Si no está en el header, intenta obtenerlo de la cookie
+	    // Si no está en el header, intentamos obtenerlo de la cookie
 	    Cookie[] cookies = request.getCookies();
 	    if (cookies != null) {
 	        for (Cookie cookie : cookies) {

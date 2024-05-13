@@ -87,7 +87,13 @@
 	</div>
 	<script>
 	    function confirmarEnvio() {
-	        return confirm("¿Actualizar estado y detalle del reclamo? Se enviará un email al estudiante con los detalles modificados.");
+	        if(confirm("¿Actualizar estado y detalle del reclamo? Se enviará un email al estudiante con los detalles modificados.")) {
+		        alert('¡Reclamo actualizado con éxito! Se envió un e-mail al estudiante.')
+		        return true;
+		    }else {
+			    return false;
+			}
+		    return true;
 	    }
 	</script>
 </body>

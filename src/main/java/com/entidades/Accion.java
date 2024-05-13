@@ -1,129 +1,122 @@
 package com.entidades;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
-
+import javax.persistence.*;
 
 @Entity
 @Table(name="ACCIONES")
 @NamedQuery(name="Accion.findAll", query="SELECT a FROM Accion a")
 public class Accion implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="ID_ACCION")
-	private long idAccion;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accion_seq")
+    @SequenceGenerator(name = "accion_seq", sequenceName = "SEQ_ACCION", allocationSize = 1)
+    @Column(name="ID_ACCION")
+    private long idAccion;
 
-	private String detalle;
+    private String detalle;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="FECHA_HORA")
-	private Date fechaHora;
+    @Temporal(TemporalType.DATE)
+    @Column(name="FECHA_HORA")
+    private Date fechaHora;
 
-	//bi-directional many-to-one association to Analista
-	@ManyToOne
-	@JoinColumn(name="ID_USUARIO_ANALISTA")
-	private Analista analista;
+    @ManyToOne
+    @JoinColumn(name="ID_USUARIO_ANALISTA")
+    private Analista analista;
 
-	//bi-directional many-to-one association to Constancia
-	@ManyToOne
-	@JoinColumn(name="ID_CONSTANCIA")
-	private Constancia constancia;
+    @ManyToOne
+    @JoinColumn(name="ID_CONSTANCIA")
+    private Constancia constancia;
 
-	//bi-directional many-to-one association to Estado
-	@ManyToOne
-	@JoinColumn(name="ID_ESTADO")
-	private Estado estado;
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO")
+    private Estado estado;
 
-	//bi-directional many-to-one association to Justificacion
-	@ManyToOne
-	@JoinColumn(name="ID_JUSTIFICACION")
-	private Justificacion justificacion;
+    @ManyToOne
+    @JoinColumn(name="ID_JUSTIFICACION")
+    private Justificacion justificacion;
 
-	//bi-directional many-to-one association to Reclamo
-	@ManyToOne
-	@JoinColumn(name="ID_RECLAMO")
-	private Reclamo reclamo;
+    @ManyToOne
+    @JoinColumn(name="ID_RECLAMO")
+    private Reclamo reclamo;
 
-	//bi-directional many-to-one association to RegistroAccione
-	@ManyToOne
-	@JoinColumn(name="ID_REGISTRO_ACCION")
-	private RegistroAccione registroAccion;
+    @ManyToOne
+    @JoinColumn(name="ID_REGISTRO_ACCION")
+    private RegistroAccione registroAccion;
 
-	public Accion() {
-	}
+    public Accion() {}
 
-	public long getIdAccion() {
-		return this.idAccion;
-	}
+    public long getIdAccion() {
+        return this.idAccion;
+    }
 
-	public void setIdAccion(long idAccion) {
-		this.idAccion = idAccion;
-	}
+    public void setIdAccion(long idAccion) {
+        this.idAccion = idAccion;
+    }
 
-	public String getDetalle() {
-		return this.detalle;
-	}
+    public String getDetalle() {
+        return this.detalle;
+    }
 
-	public void setDetalle(String detalle) {
-		this.detalle = detalle;
-	}
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
 
-	public Date getFechaHora() {
-		return this.fechaHora;
-	}
+    public Date getFechaHora() {
+        return this.fechaHora;
+    }
 
-	public void setFechaHora(Date fechaHora) {
-		this.fechaHora = fechaHora;
-	}
+    public void setFechaHora(Date fechaHora) {
+        this.fechaHora = fechaHora;
+    }
 
-	public Analista getAnalista() {
-		return this.analista;
-	}
+    public Analista getAnalista() {
+        return this.analista;
+    }
 
-	public void setAnalista(Analista analista) {
-		this.analista = analista;
-	}
+    public void setAnalista(Analista analista) {
+        this.analista = analista;
+    }
 
-	public Constancia getConstancia() {
-		return this.constancia;
-	}
+    public Constancia getConstancia() {
+        return this.constancia;
+    }
 
-	public void setConstancia(Constancia constancia) {
-		this.constancia = constancia;
-	}
+    public void setConstancia(Constancia constancia) {
+        this.constancia = constancia;
+    }
 
-	public Estado getEstado() {
-		return this.estado;
-	}
+    public Estado getEstado() {
+        return this.estado;
+    }
 
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
 
-	public Justificacion getJustificacion() {
-		return this.justificacion;
-	}
+    public Justificacion getJustificacion() {
+        return this.justificacion;
+    }
 
-	public void setJustificacion(Justificacion justificacion) {
-		this.justificacion = justificacion;
-	}
+    public void setJustificacion(Justificacion justificacion) {
+        this.justificacion = justificacion;
+    }
 
-	public Reclamo getReclamo() {
-		return this.reclamo;
-	}
+    public Reclamo getReclamo() {
+        return this.reclamo;
+    }
 
-	public void setReclamo(Reclamo reclamo) {
-		this.reclamo = reclamo;
-	}
+    public void setReclamo(Reclamo reclamo) {
+        this.reclamo = reclamo;
+    }
 
-	public RegistroAccione getRegistroAccion() {
-		return this.registroAccion;
-	}
+    public RegistroAccione getRegistroAccion() {
+        return this.registroAccion;
+    }
 
-	public void setRegistroAccion(RegistroAccione registroAccion) {
-		this.registroAccion = registroAccion;
-	}
-
+    public void setRegistroAccion(RegistroAccione registroAccion) {
+        this.registroAccion = registroAccion;
+    }
 }

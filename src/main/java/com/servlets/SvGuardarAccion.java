@@ -69,7 +69,7 @@ public class SvGuardarAccion extends HttpServlet {
                         // Guardar la acción
                         accionService.guardarAccion(accion);
                         request.getSession().setAttribute("successMessage", "Se registró la acción correctamente");
-    					response.sendRedirect("ListadoReclamos");
+    					response.sendRedirect("SvListarReclamos");
                         return;
                     }
                 }

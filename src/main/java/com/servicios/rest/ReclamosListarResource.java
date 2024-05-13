@@ -60,6 +60,9 @@ public class ReclamosListarResource {
                 ReclamoDTO dto = new ReclamoDTO();
                 dto.setId(reclamo.getIdReclamo());
                 dto.setDetalle(reclamo.getDetalle());
+                dto.setTitulo(reclamo.getTituloReclamo());
+                //dto.setFechaReclamo(reclamo.getFechaHoraReclamo());
+                //dto.setIdEvento(reclamo.getEvento());
                 Hibernate.initialize(reclamo.getAcciones());
                 dto.setAcciones(reclamo.getAcciones().stream().map(Accion::getDetalle).collect(Collectors.toList()));
                 reclamosDTO.add(dto);
