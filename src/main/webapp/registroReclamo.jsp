@@ -33,7 +33,7 @@
 		</div>
 	</header>
 	<h1>Ingresar Reclamo</h1>
-	<form action="SvIngresarReclamo" method="post" onsubmit="return confirmarEliminacion();">
+	<form id="form-reclamo-evento" action="SvIngresarReclamo" method="post" onsubmit="return confirmarEliminacion();">
 
 		<p>
 			<label><strong>*Título del Reclamo</strong></label>
@@ -54,7 +54,8 @@
 		<p>
 			<label><strong>*Evento</strong></label>
 		</p>
-		<select name="idEvento">
+		<select name="idEvento" required oninvalid="this.setCustomValidity('Por favor, seleccione un evento.')" oninput="this.setCustomValidity('')">
+			<option value="">Seleccione un evento...</option>
 			<c:forEach var="evento" items="${eventos}">
 				<option value="${evento.idEvento}">${evento.tituloEvento}</option>
 			</c:forEach>
@@ -88,7 +89,7 @@
 	<script>
 	    function confirmarEliminacion() {
 	        if(confirm("¿Enviar reclamo?")) {
-		        alert("¡Reclamo enviado con éxito!")
+		        alert("¡Reclamo registrado con éxito!")
 		        return true;
 		    }else {
 			    return false;

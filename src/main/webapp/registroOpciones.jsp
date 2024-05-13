@@ -18,7 +18,7 @@
 
 	</header>
 
-	<h1>Rol de usuario</h1>
+	<h1 style="margin-top: 2em">Rol de usuario</h1>
 
 	<form action="SvRegistroOpciones" method="Post" name="tipoRegistro">
 		<p
