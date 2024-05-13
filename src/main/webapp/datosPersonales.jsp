@@ -16,45 +16,37 @@
 			<a> <img alt="Logo de UTEC"
 				src="images/utec-removebg-preview.png" />
 			</a>
-			<%
-			Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
-			String jwtToken = null;
-			Cookie[] cookies = request.getCookies();
-			if (cookies != null) {
-				for (Cookie cookie : cookies) {
-					if ("Authorization".equals(cookie.getName())) {
-				jwtToken = cookie.getValue();
-				if (jwtToken.startsWith("Bearer ")) {
-					jwtToken = jwtToken.substring(7); // Elimina "Bearer"
-				}
-				break;
+			
+			<%	Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
+				String jwtToken = null;
+				Cookie[] cookies = request.getCookies();
+				
+				if (cookies != null) {
+					for (Cookie cookie : cookies) {
+						if ("Authorization".equals(cookie.getName())) {
+							jwtToken = cookie.getValue();
+							if (jwtToken.startsWith("Bearer ")) {
+								jwtToken = jwtToken.substring(7); // Elimina "Bearer"
+							}
+							break;
+						}
 					}
-				}
-			}
-			%>
+				} %>
+			
 			<div id="usuario-dropdown">
 				<h1><%=usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos()%></h1>
+				
 				<%-- Muestra el token --%>
-				<%
-				if (jwtToken != null) {
-				%>
-				<%
-				System.out.println(jwtToken);
-				%>
-				<%
-				} else {
-				%>
-				<%
-				System.out.println("No hay token disponible");
-				%>
-				<%
-				}
-				%>
+				<% if (jwtToken != null) { 
+						System.out.println(jwtToken); 
+				 	} else { 
+				 		System.out.println("No hay token disponible"); 
+				 	} %>
+				
 				<div id="dropdown-content">
 					<form action="datosPersonales" method="get">
-						<input type="hidden" name="id"
-							value="<%=usuarioLogeado.getIdUsuario()%>"> <input
-							type="submit" class="button" value="Datos Personales">
+						<input type="hidden" name="id" value="<%=usuarioLogeado.getIdUsuario()%>">
+						<input type="submit" class="button" value="Datos Personales">
 					</form>
 
 					<form action="LogoutServlet" method="post">
@@ -65,60 +57,58 @@
 		</div>
 	</header>
 	<h1>Datos Personales</h1>
-	<%
-	Usuario usuarioAEditar = (Usuario) request.getAttribute("usuarioAEditar");
-	if (usuarioAEditar == null) {
-		response.sendRedirect("errorPage.jsp"); // Redireccionar a una página de error si el usuario no existe.
-		return;
-	}
-	boolean isStudent = usuarioAEditar instanceof Estudiante;
-	Estudiante student = isStudent ? (Estudiante) usuarioAEditar : null;
-	%>
+	
+	<%	Usuario usuarioAEditar = (Usuario) request.getAttribute("usuarioAEditar");
+		if (usuarioAEditar == null) {
+			response.sendRedirect("errorPage.jsp"); // Redireccionar a una página de error si el usuario no existe.
+			return;
+		}
+		
+		boolean isStudent = usuarioAEditar instanceof Estudiante;
+		Estudiante student = isStudent ? (Estudiante) usuarioAEditar : null; %>
 
-	<form action="datosPersonales" method="post"
-		onsubmit="return confirmarModificacion();">
-		<input type="hidden" name="userId"
-			value="<%=usuarioAEditar.getIdUsuario()%>">
+	<form action="datosPersonales" method="post" onsubmit="return confirmarModificacion();">
+		<input type="hidden" name="userId" value="<%=usuarioAEditar.getIdUsuario()%>">
+		
 		<p>
 			<strong>Nombre de Usuario:</strong>
 		</p>
-		<input type="text" name="nomUsuario"
-			value="<%=usuarioAEditar.getNombreUsuario()%>" required>
+		<input type="text" name="nomUsuario" value="<%=usuarioAEditar.getNombreUsuario()%>" required>
+		
 		<p>
 			<strong>Contraseña:</strong>
 		</p>
-		<input type="password" name="passUsuario"
-			value="<%=usuarioAEditar.getHashContraseña()%>" required>
+		<input type="password" name="passUsuario" value="<%=usuarioAEditar.getHashContraseña()%>" required>
+		
 		<p>
 			<strong>Documento*: </strong>
 		</p>
-		<input type="text" name="documento"
-			value="<%=usuarioAEditar.getDocumento()%>" required>
+		<input type="text" name="documento" value="<%=usuarioAEditar.getDocumento()%>" required>
+		
 		<p>
 			<strong>Nombre*: </strong>
 		</p>
-		<input type="text" name="nombre"
-			value="<%=usuarioAEditar.getNombres()%>" required>
+		<input type="text" name="nombre" value="<%=usuarioAEditar.getNombres()%>" required>
+		
 		<p>
 			<strong>Apellido*: </strong>
 		</p>
-		<input type="text" name="apellido"
-			value="<%=usuarioAEditar.getApellidos()%>" required>
+		<input type="text" name="apellido" value="<%=usuarioAEditar.getApellidos()%>" required>
+		
 		<p>
 			<strong>Mail Institucional*: </strong>
 		</p>
-		<input type="text" name="mailInst"
-			value="<%=request.getAttribute("mailInstitucional")%>" required>
+		<input type="text" name="mailInst" value="<%=request.getAttribute("mailInstitucional")%>" required>
+		
 		<p>
 			<strong>Mail*: </strong>
 		</p>
-		<input type="text" name="mail" value="<%=usuarioAEditar.getMail()%>"
-			required>
+		<input type="text" name="mail" value="<%=usuarioAEditar.getMail()%>" required>
+		
 		<p>
 			<strong>Telefono*: </strong>
 		</p>
-		<input type="text" name="telefono"
-			value="<%=usuarioAEditar.getTelefono()%>" required>
+		<input type="text" name="telefono" value="<%=usuarioAEditar.getTelefono()%>" required>
 
 		<p>
 			<label><strong>Departamento*:</strong></label>
@@ -224,49 +214,56 @@
 		</p>
 
 		<!-- Botón Modificar -->
-		<input type="submit" name="accion" value="Modificar">
+    		<input type="submit" name="accion" value="Modificar">
 
-		<!-- Botón Cancelar -->
-		<input type="submit" name="accion" value="Cancelar"
-			>
+		 <!-- Botón Cancelar -->
+			<button type="button" onclick="confirmarCancelacion();">Cancelar</button>
 
-		<%-- Verifica si hay un mensaje de éxito y muéstralo --%>
+		<%-- Verificar si hay un mensaje de éxito y lo mostramos --%>
 		<c:if test="${not empty requestScope.successMessage}">
 			<div class="alert alert-success" role="alert">
 				${requestScope.successMessage}</div>
 		</c:if>
-
-
-
 	</form>
 
-<script type="text/javascript">
-    function confirmarModificacion() {
-        // Obtener el botón que se presionó
-        var botonPresionado = document.activeElement.value;
-
-        if (botonPresionado === 'Modificar') {
-            if (confirm('¿Deseas modificar los datos?')) {
-                alert('Los datos se han modificado correctamente');
-                return true; // Continuar con la acción de modificar
-            } else {
-                return false; // Cancela la acción de modificar
-            }
-        } else if (botonPresionado === 'Cancelar') {
-            if (confirm('¿Estás seguro de cancelar la modificación?')) {
-                alert('La modificación ha sido cancelada');
-                return false; // Cancela la acción de cancelar
-            } else {
-                return true; // Continuar con la acción de cancelar
-            }
-        } else {
-            return true; 
-        }
-    }
-</script>
-
-
-
+	<script>
+	    function confirmarModificacion() {
+	        // Obtener el botón que se presionó
+	        var botonPresionado = document.activeElement.value;
 	
+	        if (botonPresionado === 'Modificar') {
+	            if (confirm('¿Modificar datos personales?')) {
+	                alert('Datos personales modificados con éxito');
+	                return true; // Permite que el formulario se envíe.
+	            } else {
+	                return false; // Cancela la acción de modificar.
+	            }
+	        } else if (botonPresionado === 'Cancelar') {
+	            return confirmarCancelacion(); // Llama a la función de cancelación si el botón presionado es Cancelar.
+	        }
+	        return true; // Permite que otras acciones del formulario continúen normalmente.
+	    }
+	
+	    function confirmarCancelacion() {
+	        if (confirm('¿Cancelar modificación de datos personales?')) {
+	            var tipoUsuario = '<%=request.getAttribute("tipoUsuario")%>';
+	            switch (tipoUsuario) {
+	                case 'Analista':
+	                    window.location.href = 'menuAnalista.jsp';
+	                    break;
+	                case 'Estudiante':
+	                    window.location.href = 'menuEstudiante.jsp';
+	                    break;
+	                case 'Tutor':
+	                    window.location.href = 'menuTutor.jsp';
+	                    break;
+	                default:
+	                    window.location.href = 'index.jsp'; // Redirige a la página de inicio.
+	            }
+	            return false; // Evitar que el formulario se envíe normalmente.
+	        }
+	        return false; // Si el usuario decide no cancelar, evita que el formulario se envíe.
+	    }
+	</script>
 </body>
 </html>

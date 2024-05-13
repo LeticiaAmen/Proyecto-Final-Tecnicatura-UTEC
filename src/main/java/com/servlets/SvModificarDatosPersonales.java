@@ -71,6 +71,15 @@ public class SvModificarDatosPersonales extends HttpServlet {
 			Long userId = Long.parseLong(userIdParam);
 			Usuario usuario = usuarioService.obtenerUsuario(userId);
 
+			if (usuario instanceof Analista) {
+			    request.setAttribute("tipoUsuario", "Analista");
+			} else if (usuario instanceof Estudiante) {
+			    request.setAttribute("tipoUsuario", "Estudiante");
+			} else if (usuario instanceof Tutor) {
+			    request.setAttribute("tipoUsuario", "Tutor");
+			}
+
+			
 			if (usuario != null) {
 				request.setAttribute("usuarioAEditar", usuario);
 				request.setAttribute("idItrUsuario", usuario.getItr().getIdItr());

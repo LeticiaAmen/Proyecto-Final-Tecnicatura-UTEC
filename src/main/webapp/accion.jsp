@@ -46,7 +46,7 @@
 	</ul>
 	<% if (esAnalista) { %>
 	    <h2>Acción</h2>
-	    <form action="guardarAccion" method="POST" onsubmit="return confirmarEliminacion();">
+	    <form action="guardarAccion" method="POST" onsubmit="return confirmarEnvio();">
 	        <label for="nuevoEstado">Estado:</label>
 	        <select name="nuevoEstado">
 	            <option value="${reclamo.registroAccione.idRegistroAccion}" selected>${reclamo.registroAccione.nombre}</option>
@@ -76,14 +76,15 @@
 	<form action="SvListarReclamos" method="get" onsubmit="return confirmarCancelar();">
 	    <input type="submit" value="Cancelar">
 	</form>
+	
 	<script>
-	    function confirmarEliminacion() {
+	    function confirmarEnvio() {
 	        return confirm("¿Actualizar estado y detalle del reclamo? Se enviará un email al estudiante con los detalles modificados");
 	    }
 	</script>
 	<script>
 	    function confirmarCancelar() {
-	        return confirm("¿Cancelar registro de acción sobre el reclamo?");
+	        return confirm("¿Cancelar y volver al listado de reclamos?");
 	    }
 	</script>
 </body>
