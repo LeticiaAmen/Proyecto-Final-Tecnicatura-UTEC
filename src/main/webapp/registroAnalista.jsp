@@ -26,43 +26,43 @@
 	<form action="SvRegistroAnalista" method="POST">
 
 		<p>
-			<label>*Nombre:</label>
+			<label><strong>*Nombre:</strong></label>
 		</p>
 		<input type="text" name="nombre" required>
 
 		<p>
-			<label>*Apellido:</label>
+			<label><strong>*Apellido:</strong></label>
 		</p>
 		<input type="text" name="apellido" required>
 		
 		<p>
-			<label>*Documento:</label>
+			<label><strong>*Documento:</strong></label>
 		</p>
 		<input type="text" name="documento" required>
 
 		<p>
-			<label>*Nombre de Usuario:</label>
+			<label><strong>*Nombre de Usuario:</strong></label>
 		</p><input type="text" name="nomUsuario" required>
 
 		<p>
-			<label>*Contraseña:</label>
+			<label><strong>*Contraseña:</strong></label>
 		</p><input type="password" name="contrasenia" required>
 
 		<p>
-			<label>*Mail Institucional:</label>
+			<label><strong>*Mail Institucional:</strong></label>
 		</p><input type="text" name="mailInst" required>
 
 		<p>
-			<label>*Mail :</label>
+			<label><strong>*Mail:</strong></label>
 		</p><input type="text" name="mail" required>
 	
 		<p>
-			<label>*Telefono:</label>
+			<label><strong>*Telefono:</strong></label>
 		</p>
 		<input type="text" name="telefono" required>
 		
 		<p>
-			<label>*Departamento:</label> </p>
+			<label><strong>*Departamento:</strong></label> </p>
 		<select name="idDepartamento">
 			<c:forEach var="departamento" items="${departamentos}">
 				<option value="${departamento.idDepartamento}">${departamento.nombre}</option>
@@ -70,7 +70,7 @@
 		</select>
 		
 		<p>
-			<label>*Localidad:</label>
+			<label><strong>*Localidad:</strong></label>
 		</p> 
 		<select name="idLocalidad">
 			<c:forEach var="localidad" items="${localidades}">
@@ -79,7 +79,7 @@
 		</select>
 
 		<p>
-			<label>*Género:</label>
+			<label><strong>*Género:</strong></label>
 		</p>
 		<select name="genero">
 			<c:forEach var="genero" items="${generos}">
@@ -88,7 +88,7 @@
 		</select>
 		
 		<p>
-			<label>*ITR:</label>
+			<label><strong>*ITR:</strong></label>
 		</p>
 		<select name="idItr">
 			<c:forEach var="itr" items="${itrs}">
@@ -97,7 +97,7 @@
 		</select>
 
 		<p>
-			<label>*Fecha de Nacimiento:</label>
+			<label><strong>*Fecha de Nacimiento:</strong></label>
 		</p> <input type="date" name="fechaNacimiento" required>
 
 		<p style="text-align: center; margin-top: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">

@@ -25,88 +25,104 @@
 	<form action="SvRegistroTutor" method="POST">
 
 		<p>
-			<label>*Nombre:</label><input type="text" name="nombre" required>
+			<label><strong>*Nombre:</strong></label>
 		</p>
-
-		<p>
-			<label>*Apellido:</label><input type="text" name="apellido" required>
-		</p>
-
-		<p>
-			<label>*Documento:</label><input type="text" name="documento" required>
-		</p>
-
-		<p>
-			<label>*Nombre de Usuario:</label><input type="text" name="nomUsuario" required>
-		</p>
-
-		<p>
-			<label>*Contraseña:</label><input type="password" name="contrasenia" required>
-		</p>
-
-		<p>
-			<label>*Mail Institucional:</label><input type="text" name="mailInst" required>
-		</p>
-
-		<p>
-			<label>*Mail:</label><input type="text" name="mail" required>
-		</p>
-
-		<p>
-			<label>*Telefono:</label><input type="text" name="telefono" required>
-		</p>
-		<p>
-			<label>*Departamento:</label> <select name="idDepartamento">
-				<c:forEach var="departamento" items="${departamentos}">
-					<option value="${departamento.idDepartamento}">${departamento.nombre}</option>
-				</c:forEach>
-			</select>
-		</p>
-		<p>
-			<label>*Localidad:</label> <select name="idLocalidad">
-				<c:forEach var="localidad" items="${localidades}">
-					<option value="${localidad.idLocalidad}">${localidad.nombre}</option>
-				</c:forEach>
-			</select>
-		</p>
-
-		<p>
-			<label>*Género:</label> <select name="genero">
-				<c:forEach var="genero" items="${generos}">
-					<option value="${genero}">${genero}</option>
-				</c:forEach>
-			</select>
-		</p>
-
-		<p>
-			<label>*ITR:</label> <select name="idItr">
-				<c:forEach var="itr" items="${itrs}">
-					<option value="${itr.idItr}">${itr.nombre}</option>
-				</c:forEach>
-			</select>
-		</p>
-		<p>
-			<label>*Área:</label> <select name="idArea">
-				<c:forEach var="area" items="${areas}">
-					<option value="${area.idArea}">${area.nombre}</option>
-				</c:forEach>
-			</select>
-		</p>
-		<p>
-			<label>*Rol:</label> <select name="idRol">
-				<c:forEach var="rol" items="${roles}">
-					<option value="${rol.idRol}">${rol.nombre}</option>
-				</c:forEach>
-			</select>
-		</p>
-		
-		
-		
+		<input type="text" name="nombre" required>
 		
 		<p>
-			<label>*Fecha de Nacimiento:</label> <input type="date"
-				name="fechaNacimiento" required>
+			<label><strong>*Apellido:</strong></label>
 		</p>
+		<input type="text" name="apellido" required>
+		
+		<p>
+			<label><strong>*Documento:</strong></label>
+		</p>
+		<input type="text" name="documento" required>
+		
+		<p>
+			<label><strong>*Nombre de Usuario:</strong></label>
+		</p>
+		<input type="text" name="nomUsuario" required>
+		
+		<p>
+			<label><strong>*Contraseña:</strong></label>
+		</p>
+		<input type="password" name="contrasenia" required>
+		
+		<p>
+			<label><strong>*Mail Institucional:</strong></label>
+		</p>
+		<input type="text" name="mailInst" required>
+
+		<p>
+			<label><strong>*Mail:</strong></label>
+		</p>
+		<input type="text" name="mail" required>
+		
+		<p>
+			<label><strong>*Telefono:</strong></label>
+		</p>
+		<input type="text" name="telefono" required>
+		
+		<p>
+			<label><strong>*Departamento:</strong></label> 
+		</p>
+		<select name="idDepartamento">
+			<c:forEach var="departamento" items="${departamentos}">
+				<option value="${departamento.idDepartamento}">${departamento.nombre}</option>
+			</c:forEach>
+		</select>
+		
+		<p>
+			<label><strong>*Localidad:</strong></label> 
+		</p>
+		<select name="idLocalidad">
+			<c:forEach var="localidad" items="${localidades}">
+				<option value="${localidad.idLocalidad}">${localidad.nombre}</option>
+			</c:forEach>
+		</select>
+		
+
+		<p>
+			<label><strong>*Género:</strong></label>
+		</p>
+		<select name="genero">
+			<c:forEach var="genero" items="${generos}">
+				<option value="${genero}">${genero}</option>
+			</c:forEach>
+		</select>
+		
+		<p>
+			<label><strong>*ITR:</strong></label> 
+		</p>
+		<select name="idItr">
+			<c:forEach var="itr" items="${itrs}">
+				<option value="${itr.idItr}">${itr.nombre}</option>
+			</c:forEach>
+		</select>
+		
+		<p>
+			<label><strong>*Área:</strong></label> 
+		</p>
+		<select name="idArea">
+			<c:forEach var="area" items="${areas}">
+				<option value="${area.idArea}">${area.nombre}</option>
+			</c:forEach>
+		</select>
+			
+		<p>
+			<label><strong>*Rol:</strong></label> 
+		</p>
+		<select name="idRol">
+			<c:forEach var="rol" items="${roles}">
+				<option value="${rol.idRol}">${rol.nombre}</option>
+			</c:forEach>
+		</select>
+				
+		<p>
+			<label><strong>*Fecha de Nacimiento:</strong></label> 
+		</p>
+		<input type="date" name="fechaNacimiento" required>
 
 		<p style="text-align: center; margin-top: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
 			<span style="background-color: white; padding: 0 10px;">*Campos obligatorios</span>
