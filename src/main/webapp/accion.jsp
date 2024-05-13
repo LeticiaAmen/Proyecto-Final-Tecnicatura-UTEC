@@ -72,13 +72,18 @@
 	</c:if>
 
 	
-	<!-- Botón Atrás -->
-	<form action="SvListarReclamos" method="get">
-	    <input type="submit" value="Atrás">
+	<!-- Botón Cancelar -->
+	<form action="SvListarReclamos" method="get" onsubmit="return confirmarCancelar();">
+	    <input type="submit" value="Cancelar">
 	</form>
 	<script>
 	    function confirmarEliminacion() {
 	        return confirm("¿Actualizar estado y detalle del reclamo? Se enviará un email al estudiante con los detalles modificados");
+	    }
+	</script>
+	<script>
+	    function confirmarCancelar() {
+	        return confirm("¿Cancelar registro de acción sobre el reclamo?");
 	    }
 	</script>
 </body>
