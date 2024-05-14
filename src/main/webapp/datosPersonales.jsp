@@ -76,9 +76,9 @@
 		<input type="text" name="nomUsuario" value="<%=usuarioAEditar.getNombreUsuario()%>" required>
 		
 		<p>
-			<strong>Contraseña:</strong>
+			<strong>Contraseña (dejar en blanco si no desea cambiarla):</strong>
 		</p>
-		<input type="password" name="passUsuario" value="<%=usuarioAEditar.getHashContraseña()%>" required>
+		<input type="password" name="passUsuario" value="" >
 		
 		<p>
 			<strong>Documento*: </strong>

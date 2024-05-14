@@ -1,6 +1,8 @@
 package com.servlets;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +35,7 @@ import com.servicios.LocalidadService;
 import com.servicios.RolService;
 import com.servicios.UsuarioService;
 import com.servicios.ValidacionUsuarioService;
+import com.util.PasswordUtils;
 
 @WebServlet("/datosPersonales")
 public class SvModificarDatosPersonales extends HttpServlet {
@@ -227,6 +230,27 @@ public class SvModificarDatosPersonales extends HttpServlet {
 				            response.sendRedirect("editarUsuario.jsp");
 				            return;
 				        }
+			         
+			         // Procesar contraseña si se ha cambiado
+			            String nuevaContrasenia = request.getParameter("passUsuario");
+			            if (nuevaContrasenia != null && !nuevaContrasenia.isEmpty()) {
+			                try {
+			                    // Generar nuevo salt y hash para la contraseña
+			                    String nuevoSalt = PasswordUtils.generateSalt();
+			                    String nuevoHashContrasenia = PasswordUtils.hashPassword(nuevaContrasenia, nuevoSalt);
+
+			                    // Actualizar el salt y hash de la contraseña en el usuario
+			                    usuarioModificado.setSaltContraseña(nuevoSalt);
+			                    usuarioModificado.setHashContraseña(nuevoHashContrasenia);
+			                } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			                    e.printStackTrace();
+			                    session.setAttribute("mensajeError", "Error al procesar la contraseña.");
+			                    response.sendRedirect("editarUsuario.jsp");
+			                    return;
+			                }
+			            }
+			         
+			         
 			  
 			         if (usuarioModificado instanceof Estudiante) {
 			        	    Estudiante estudiante = (Estudiante) usuarioModificado;
