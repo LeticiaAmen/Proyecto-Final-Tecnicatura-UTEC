@@ -30,6 +30,10 @@ import com.servicios.UsuarioService;
 import com.servicios.ValidacionUsuarioService;
 import com.validaciones.Validacion;
 
+import com.util.PasswordUtils;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 @WebServlet("/SvRegistroEstudiante")
 public class SvRegistroEstudiante extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -48,13 +52,13 @@ public class SvRegistroEstudiante extends HttpServlet {
 
 	@EJB
 	private ItrService itrService;
-	
+
 	@EJB 
 	private EstadoService estadoService; 
-	
+
 	@EJB
 	private GeneracionService generacionService; 
-	
+
 	private Validacion validacion;
 
 
@@ -87,8 +91,8 @@ public class SvRegistroEstudiante extends HttpServlet {
 		//Esta se la puse a mano porque ahora que es tabla hay que crear todo para generaciones
 		List<Generacion> generacionesLista = generacionService.obtenerGeneracionesTodas();
 		request.setAttribute("generaciones", generacionesLista);
-		
-		
+
+
 
 		request.getRequestDispatcher("/registroEstudiante.jsp").forward(request, response);
 
@@ -157,7 +161,7 @@ public class SvRegistroEstudiante extends HttpServlet {
 				request.getRequestDispatcher("registroEstudiante.jsp").forward(request, response);
 				return;
 			}
-			
+
 			//Validacion Apellido
 			if (validacion.validacionApellido(apellido)) {
 				request.setAttribute("error", validacion.RespuestaValidacionAepllido());
@@ -172,8 +176,8 @@ public class SvRegistroEstudiante extends HttpServlet {
 				request.getRequestDispatcher("registroEstudiante.jsp").forward(request, response);
 				return;
 			}
-			
-			
+
+
 			// validacion Nombre de Usuario
 			if (validacion.validacionUsiario(nomUsuario, nombre, apellido)) {
 				request.setAttribute("error", validacion.RespuestaValidacionUsiario());
@@ -218,23 +222,42 @@ public class SvRegistroEstudiante extends HttpServlet {
 				return;
 			}
 
-			
-			
+
+
 			//-------------------------------------------------------------------------------------------
+
 
 			ValidacionUsuario usuEstadoSinValidar = validacionService.obtenerValidacionUsuario(2);
 			//-------------------------------------------------------------------------------------------   
 
+
+			//crear el estudiante y procesar la contraseña
+
 			Estudiante estudiante = new Estudiante();
-
-
 
 
 			//setear atributos
 			estudiante.setNombreUsuario(nomUsuario);
 			estudiante.setDocumento(documentoLong);
 			estudiante.setApellidos(apellido);
-			estudiante.setHashContraseña(contrasenia);
+
+
+			try {
+				// Generar salt y hash para la contraseña
+				String salt = PasswordUtils.generateSalt();
+				String hashedPassword = PasswordUtils.hashPassword(contrasenia, salt);
+
+				estudiante.setSaltContraseña(salt);
+				estudiante.setHashContraseña(hashedPassword);
+			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+				e.printStackTrace();
+				request.setAttribute("error", "Error al procesar la contraseña.");
+				doGet(request, response);
+				request.getRequestDispatcher("registroEstudiante.jsp").forward(request, response);
+				return;
+			}
+
+
 			estudiante.setMailInstitucional(mailInst);
 			estudiante.setMail(mail);
 			estudiante.setNombres(nombre);
@@ -242,16 +265,16 @@ public class SvRegistroEstudiante extends HttpServlet {
 
 			//setear sin validar
 			estudiante.setValidacionUsuario(usuEstadoSinValidar);
-			
+
 			//setear estado activo
 			Estado estadoActivo = estadoService.obtenerEstadoId(1);
 			estudiante.setEstado(estadoActivo);
-			
+
 
 			//setear y localidad y itr
 			estudiante.setLocalidad(localidad);
 			estudiante.setItr(itr);
-			
+
 			//setear generacion
 			estudiante.setGeneracion(generacion);
 
@@ -273,6 +296,10 @@ public class SvRegistroEstudiante extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 				System.out.println("Error al crear Estudiante");
+				request.setAttribute("error", "Error al crear el usuario.");
+				doGet(request, response);
+				request.getRequestDispatcher("registroEstudiante.jsp").forward(request, response);
+				return;
 			}
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}else {

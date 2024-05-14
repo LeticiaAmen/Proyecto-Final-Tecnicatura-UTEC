@@ -1,5 +1,7 @@
 package com.dao;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -10,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.entidades.Usuario;
+import com.util.PasswordUtils;
 
 @Stateless
 public class UsuarioDAO {
@@ -19,6 +22,13 @@ public class UsuarioDAO {
 
 	public Usuario crearUsuario(Usuario usuario) {
 		try {
+			//generar salt y hash para la contraseña
+			String salt = PasswordUtils.generateSalt();
+			String hashedPassword = PasswordUtils.hashPassword(usuario.getHashContraseña(), salt);
+			
+			usuario.setSaltContraseña(salt);
+			usuario.setHashContraseña(hashedPassword);
+			
 			entityManager.persist(usuario);
 			entityManager.flush();
 			return usuario;
@@ -48,18 +58,21 @@ public class UsuarioDAO {
 	}
 
 	// validar usuario
-	public boolean validarNombreUsuario(String nomUsuario, String hashContraseña) {
-	    try {
-	        long count = (Long) entityManager.createQuery("SELECT COUNT(u) FROM Usuario u WHERE u.nombreUsuario = :nomUsuario AND u.hashContraseña = :hashContraseña")
-	            .setParameter("nomUsuario", nomUsuario)
-	            .setParameter("hashContraseña", hashContraseña)
-	            .getSingleResult();
-	        return count > 0;
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return false;
-	    }
-	}
+	public boolean validarNombreUsuario(String nomUsuario, String contrasenia) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        try {
+            Usuario usuario = (Usuario) entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :nomUsuario")
+                .setParameter("nomUsuario", nomUsuario)
+                .getSingleResult();
+
+            if (usuario != null) {
+                return PasswordUtils.verifyPassword(contrasenia, usuario.getSaltContraseña(), usuario.getHashContraseña());
+            }
+            return false;
+        } catch (NoResultException | NonUniqueResultException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 	//buscar usuario por nombre de usuario
 	public Usuario obtenerUsuarioDesdeBaseDeDatosNombre(String nomUsuario) {

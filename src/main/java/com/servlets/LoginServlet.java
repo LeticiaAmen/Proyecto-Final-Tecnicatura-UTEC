@@ -2,7 +2,12 @@ package com.servlets;
 
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import javax.ejb.EJB;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,58 +52,69 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    String nomUsuario = request.getParameter("nomUsuario");
-	    String contrasenia = request.getParameter("psw");
-	    boolean usuarioValido = usuarioService.validarUsuario(nomUsuario, contrasenia);
+		String nomUsuario = request.getParameter("nomUsuario");
+        String contrasenia = request.getParameter("psw");
 
-	    if (usuarioValido) {
-	        Usuario usuarioLogeado = usuarioService.obtenerUsuarioDesdeBaseDeDatosNombre(nomUsuario);
-	       
-	        if (usuarioLogeado != null && usuarioLogeado.getValidacionUsuario().getIdValidacion() == 1) {
-	            boolean estadoActivo = true; 
-	            if (usuarioLogeado instanceof Estudiante) {
-	                estadoActivo = ((Estudiante) usuarioLogeado).getEstado().getIdEstado() != 2;
-	            } else if (usuarioLogeado instanceof Tutor) {
-	                estadoActivo = ((Tutor) usuarioLogeado).getEstado().getIdEstado() != 2;
-	            } else if (usuarioLogeado instanceof Analista) {
-	                estadoActivo = ((Analista) usuarioLogeado).getEstado().getIdEstado() != 2;
-	                HttpSession sesion = request.getSession();
-	                sesion.setAttribute("esAnalista", usuarioLogeado instanceof Analista);  // Asignar directamente true o false
-	            }
+        try {
+            boolean usuarioValido = usuarioService.validarUsuario(nomUsuario, contrasenia);
 
-	            if (estadoActivo) {
-	                HttpSession sesion = request.getSession();
-	                sesion.setAttribute("usuario", usuarioLogeado);
+            if (usuarioValido) {
+                Usuario usuarioLogeado = usuarioService.obtenerUsuarioDesdeBaseDeDatosNombre(nomUsuario);
 
-	                String tipoUsuario = usuarioService.determinarTipoUsuario(usuarioLogeado);
-	                String token = usuarioService.generarTokenJWT(String.valueOf(usuarioLogeado.getIdUsuario()), usuarioLogeado.getNombreUsuario(), tipoUsuario);
+                if (usuarioLogeado != null && usuarioLogeado.getValidacionUsuario().getIdValidacion() == 1) {
+                    boolean estadoActivo = true;
+                    if (usuarioLogeado instanceof Estudiante) {
+                        estadoActivo = ((Estudiante) usuarioLogeado).getEstado().getIdEstado() != 2;
+                    } else if (usuarioLogeado instanceof Tutor) {
+                        estadoActivo = ((Tutor) usuarioLogeado).getEstado().getIdEstado() != 2;
+                    } else if (usuarioLogeado instanceof Analista) {
+                        estadoActivo = ((Analista) usuarioLogeado).getEstado().getIdEstado() != 2;
+                        HttpSession sesion = request.getSession();
+                        sesion.setAttribute("esAnalista", usuarioLogeado instanceof Analista);
+                    }
 
-	                // Aquí imprimimos el token generado en la consola del servidor
-	                System.out.println("Generated JWT Token: " + token);
+                    if (estadoActivo) {
+                        HttpSession sesion = request.getSession();
+                        sesion.setAttribute("usuario", usuarioLogeado);
 
-	                // Configura el token en una cookie segura y HttpOnly
-	                Cookie authCookie = new Cookie("Authorization", "Bearer " + token);
-	                authCookie.setHttpOnly(true);
-	                authCookie.setSecure(true); // Asegúrate de que solo se envíe con HTTPS
-	                authCookie.setPath("/");
-	                response.addCookie(authCookie);
+                        String tipoUsuario = usuarioService.determinarTipoUsuario(usuarioLogeado);
+                        String token = usuarioService.generarTokenJWT(String.valueOf(usuarioLogeado.getIdUsuario()), usuarioLogeado.getNombreUsuario(), tipoUsuario);
 
-	                // Redirección
-	                String redirectPage = "menu" + formatPageName(tipoUsuario) + ".jsp";
-	                response.sendRedirect(redirectPage);
-	            } else {
-	                request.setAttribute("error", "Su usuario está inactivo.");
-	                request.getRequestDispatcher("index.jsp").forward(request, response);
-	            }
-	        } else {
-	            request.setAttribute("error", "Su usuario aún no ha sido activado.");
-	            request.getRequestDispatcher("index.jsp").forward(request, response);
-	        }
-	    } else {
-	        request.setAttribute("error", "Nombre de usuario o contraseña incorrectos");
-	        request.getRequestDispatcher("index.jsp").forward(request, response);
-	    }
-	}
+                        // Aquí imprimimos el token generado en la consola del servidor
+                        System.out.println("Generated JWT Token: " + token);
+
+                        // Configura el token en una cookie segura y HttpOnly
+                        Cookie authCookie = new Cookie("Authorization", "Bearer " + token);
+                        authCookie.setHttpOnly(true);
+                        authCookie.setSecure(true); // Asegúrate de que solo se envíe con HTTPS
+                        authCookie.setPath("/");
+                        response.addCookie(authCookie);
+
+                        // Redirección
+                        String redirectPage = "menu" + formatPageName(tipoUsuario) + ".jsp";
+                        response.sendRedirect(redirectPage);
+                    } else {
+                        request.setAttribute("error", "Su usuario está inactivo.");
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                    }
+                } else {
+                    request.setAttribute("error", "Su usuario aún no ha sido activado.");
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
+            } else {
+                request.setAttribute("error", "Nombre de usuario o contraseña incorrectos");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
+        } catch (NoResultException | NonUniqueResultException e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Error en la base de datos al validar el usuario.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Error de seguridad al validar la contraseña.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+    }
 
 
 	private String formatPageName(String tipoUsuario) {

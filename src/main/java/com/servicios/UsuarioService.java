@@ -1,5 +1,7 @@
 package com.servicios;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Date;
 import java.util.List;
 
@@ -64,7 +66,7 @@ public class UsuarioService {
 		estudianteDAO.crearEstudiante(estudiante);
 	}
 	
-	public boolean validarUsuario(String nomUsuario, String contrasenia) {
+	public boolean validarUsuario(String nomUsuario, String contrasenia) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		return usuarioDAO.validarNombreUsuario(nomUsuario, contrasenia);
 	}
 	

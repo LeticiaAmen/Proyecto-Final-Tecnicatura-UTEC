@@ -30,6 +30,10 @@ import com.servicios.UsuarioService;
 import com.servicios.ValidacionUsuarioService;
 import com.validaciones.Validacion;
 
+import com.util.PasswordUtils;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 @WebServlet("/SvRegistroAnalista")
 public class SvRegistroAnalista extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -214,7 +218,26 @@ public class SvRegistroAnalista extends HttpServlet {
 		usuario.setNombreUsuario(nomUsuario);
 		usuario.setDocumento(documentoLong);
 		usuario.setApellidos(apellido);
-		usuario.setHashContraseña(contrasenia);
+		
+		
+		
+		 try {
+             // Generar salt y hash para la contraseña
+             String salt = PasswordUtils.generateSalt();
+             String hashedPassword = PasswordUtils.hashPassword(contrasenia, salt);
+             
+             usuario.setSaltContraseña(salt);
+             usuario.setHashContraseña(hashedPassword);
+         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+             e.printStackTrace();
+             request.setAttribute("error", "Error al procesar la contraseña.");
+             doGet(request, response);
+             request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+             return;
+         }
+		
+		
+		
 		usuario.setMailInstitucional(mailInst);
 		usuario.setMail(mail);
 		usuario.setNombres(nombre);

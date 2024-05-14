@@ -32,6 +32,10 @@ import com.servicios.UsuarioService;
 import com.servicios.ValidacionUsuarioService;
 import com.validaciones.Validacion;
 
+import com.util.PasswordUtils;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 
 @WebServlet("/SvRegistroTutor")
 public class SvRegistroTutor extends HttpServlet {
@@ -220,7 +224,7 @@ public class SvRegistroTutor extends HttpServlet {
 				
 		        
 		    
-		    
+				 // Crear el tutor y procesar la contraseña
 			    ValidacionUsuario usuEstadoSinValidar = validacionService.obtenerValidacionUsuario(2);		
 			    Tutor tutor = new Tutor();
 					
@@ -229,7 +233,26 @@ public class SvRegistroTutor extends HttpServlet {
 			    tutor.setNombreUsuario(nomUsuario);
 			    tutor.setDocumento(documentoLong);
 			    tutor.setApellidos(apellido);
-			    tutor.setHashContraseña(contrasenia);
+			   
+			    
+			    
+			    try {
+	                // Generar salt y hash para la contraseña
+	                String salt = PasswordUtils.generateSalt();
+	                String hashedPassword = PasswordUtils.hashPassword(contrasenia, salt);
+
+	                tutor.setSaltContraseña(salt);
+	                tutor.setHashContraseña(hashedPassword);
+	            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+	                e.printStackTrace();
+	                request.setAttribute("error", "Error al procesar la contraseña.");
+	                doGet(request, response);
+	                request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+	                return;
+	            }
+			    
+			    
+			    
 			    tutor.setMailInstitucional(mailInst);
 			    tutor.setMail(mail);
 			    tutor.setNombres(nombre);
@@ -267,6 +290,10 @@ public class SvRegistroTutor extends HttpServlet {
 				}catch(Exception e) {
 					e.printStackTrace();
 					System.out.println("Error al crear el Tutor");
+					request.setAttribute("error", "Error al crear el usuario.");
+	                doGet(request, response);
+	                request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+	                return;
 				}
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			}else {
