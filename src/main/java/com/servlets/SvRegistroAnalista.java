@@ -155,13 +155,13 @@ public class SvRegistroAnalista extends HttpServlet {
 			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
 			return;
 		}
-		//Validación del documento
-		if (!validacion.validacionDocumento(documento)) {
-			request.setAttribute("error", validacion.RespuestaValidacionDocumento());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
+//		//Validación del documento
+//		if (!validacion.validacionDocumento(documento)) {
+//			request.setAttribute("error", validacion.RespuestaValidacionDocumento());
+//			doGet(request, response);  // Cargar los datos necesarios
+//			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+//			return;
+//		}
 		
 		
 		// validacion Nombre de Usuario

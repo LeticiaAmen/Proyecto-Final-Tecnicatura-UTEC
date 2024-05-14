@@ -170,12 +170,12 @@ public class SvRegistroTutor extends HttpServlet {
 					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
 					return;
 				}
-				if (!validacion.validacionDocumento(documento)) {
-					request.setAttribute("error", validacion.RespuestaValidacionDocumento());
-					doGet(request, response);  // Cargar los datos necesarios
-					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
-					return;
-				}
+//				if (!validacion.validacionDocumento(documento)) {
+//					request.setAttribute("error", validacion.RespuestaValidacionDocumento());
+//					doGet(request, response);  // Cargar los datos necesarios
+//					request.getRequestDispatcher("/registroTutor.jsp").forward(request, response);
+//					return;
+//				}
 				
 				// validacion Nombre de Usuario
 				if (validacion.validacionUsiario(nomUsuario, nombre, apellido)) {
