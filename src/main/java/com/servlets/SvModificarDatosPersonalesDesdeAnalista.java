@@ -35,6 +35,7 @@ import com.servicios.GeneracionService;
 import com.servicios.ItrService;
 import com.servicios.LocalidadService;
 import com.servicios.RolService;
+import com.validaciones.Validacion;
 
 @WebServlet("/datosPersonalesUsuario")
 public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
@@ -66,6 +67,8 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 	
 	@EJB
 	private EstadoService usuarioEstado;
+	
+	private Validacion validacion = new Validacion();
 
 	public SvModificarDatosPersonalesDesdeAnalista() {
 		super();
@@ -146,6 +149,12 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 				request.setAttribute("localidades", localidades);
 				request.setAttribute("itrs", itrs);
 				request.setAttribute("estados", estados);
+				
+				// Obtener mensaje de error si lo hay
+                String mensajeError = request.getParameter("mensajeError");
+                if (mensajeError != null && !mensajeError.isEmpty()) {
+                    request.setAttribute("mensajeError", mensajeError);
+                }
 
 				request.getRequestDispatcher("/editarUsuariosDesdeAnalista.jsp").forward(request, response);
 			} else {
@@ -183,6 +192,13 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 
 		    Estado estado = usuarioEstado.obtenerEstadoId(estadoId);
 		    
+		 // Validar nombre
+            if (validacion.validacionNombre(nombre)) {
+//                session.setAttribute("mensajeError", validacion.RespuestaValidacionNombre());
+//                response.sendRedirect("datosPersonalesUsuario?id=" + userId);
+                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionNombre());
+                return;
+            }
 		    
 		    if (localidad != null && departamento != null) {
 		        localidad.setDepartamento(departamento);
@@ -291,10 +307,12 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 	        //Actualizar usuario
 	        usuarioService.actualizarUsuario(usuarioModificado);
 	        
-	        session.setAttribute("mensajeExito", "Información actualizada correctamente.");
-	        response.sendRedirect("datosPersonalesUsuario?id=" + userId);
+	      //  session.setAttribute("mensajeExito", "Información actualizada correctamente.");
+//	        response.sendRedirect("datosPersonalesUsuario?id=" + userId);
+	        response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeExito=Información actualizada correctamente.");
 	    } else {
-	        session.setAttribute("mensajeError", "No se encontró el usuario.");
+	    	response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=No se encontró el usuario.");
+	       // session.setAttribute("mensajeError", "No se encontró el usuario.");
 	        response.sendRedirect("editarUsuario.jsp");
 	    }
 	}
