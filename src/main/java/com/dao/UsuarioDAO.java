@@ -98,6 +98,15 @@ public class UsuarioDAO {
 	//faltan mas metodos de los filtros.. 
 	
 
+	public boolean existeCorreo(String correo, Long idUsuario) {
+	String jpql = "SELECT COUNT(u) FROM Usuario u WHERE u.mail = :correo AND u.idUsuario <> :idUsuario";
+	Query query = entityManager.createQuery(jpql);
+	query.setParameter("correo", correo);
+	query.setParameter("idUsuario", idUsuario);
+	Long count = (Long) query.getSingleResult();
+	return count > 0;
+	
+	}
 
 
 	public UsuarioDAO() {

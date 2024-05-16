@@ -170,6 +170,7 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 	    Usuario usuarioModificado = usuarioService.obtenerUsuario(userId);
 	    
 	    if (usuarioModificado != null) {
+	    	
 	       
 	    	//Leer atributos a modificar
 	    	String documentoStr = request.getParameter("documento");
@@ -190,12 +191,19 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 		    Localidad localidad = localidadService.obtenerLocalidadPorId(localidadId);
 		    Departamento departamento = departamentoService.obtenerPorId(departamentoId);
 
+		 // Verificar si el correo ya está en uso
+            if (usuarioService.existeCorreo(mail, userId)) {
+               // session.setAttribute("mensajeError", "El correo ya está en uso por otro usuario.");
+               // response.sendRedirect("datosPersonalesUsuario?id=" + userId);
+
+                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + "El correo ya está en uso por otro usuario");
+                return;
+            }
+		    
 		    Estado estado = usuarioEstado.obtenerEstadoId(estadoId);
 		    
 		 // Validar nombre
             if (validacion.validacionNombre(nombre)) {
-//                session.setAttribute("mensajeError", validacion.RespuestaValidacionNombre());
-//                response.sendRedirect("datosPersonalesUsuario?id=" + userId);
                 response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionNombre());
                 return;
             }
@@ -306,9 +314,6 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
   
 	        //Actualizar usuario
 	        usuarioService.actualizarUsuario(usuarioModificado);
-	        
-	      //  session.setAttribute("mensajeExito", "Información actualizada correctamente.");
-//	        response.sendRedirect("datosPersonalesUsuario?id=" + userId);
 	        response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeExito=Información actualizada correctamente.");
 	    } else {
 	    	response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=No se encontró el usuario.");

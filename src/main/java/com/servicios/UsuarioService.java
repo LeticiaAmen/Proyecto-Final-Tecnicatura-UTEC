@@ -177,8 +177,9 @@ public class UsuarioService {
 	}
 
 
-	
-	//FALTAN LOS MÉTODOS DE LOS FILTROS
+	public boolean existeCorreo(String correo, Long idUsuario) {
+		return usuarioDAO.existeCorreo(correo, idUsuario);
+	}
 	
 	
 	
