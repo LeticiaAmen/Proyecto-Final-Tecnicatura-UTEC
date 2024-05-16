@@ -169,7 +169,7 @@ input[type="text"],
 input[type="password"],
 input[type="date"] {
     width: 100%;
-    margin-top: 5px; /* Ajusta el margen superior según tu preferencia */
+    margin-top: 5px; 
 }
 
 footer {

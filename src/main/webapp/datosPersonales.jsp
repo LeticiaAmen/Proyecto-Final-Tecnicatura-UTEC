@@ -103,7 +103,10 @@
 		<p>
 			<strong>Mail*: </strong>
 		</p>
-		<input type="text" name="mail" value="<%=usuarioAEditar.getMail()%>" required>
+		<input style=" width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;
+	    	transition: border 0.3s, box-shadow 0.3s;" type="email" name="mail" value="<%=usuarioAEditar.getMail()%>" required 
+	    	oninvalid="this.setCustomValidity('Por favor, introduce una dirección de correo electrónico personal válido.')" 
+	       	oninput="this.setCustomValidity('')">
 		
 		<p>
 			<strong>Telefono*: </strong>
