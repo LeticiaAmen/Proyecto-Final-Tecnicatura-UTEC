@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.entidades.Reclamo;
+import com.entidades.RegistroAccione;
 import com.entidades.Usuario;
 import com.servicios.ReclamosService;
+import com.servicios.RegistroAccionService;
 import com.servicios.UsuarioService;
 import java.io.IOException;
 import java.util.List;
@@ -19,8 +21,12 @@ public class SvListarReclamos extends HttpServlet {
 
     @EJB
     private ReclamosService reclamosService;
+    
     @EJB
     private UsuarioService usuarioService;
+    
+    @EJB
+    private RegistroAccionService registroAccionService;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
@@ -29,6 +35,9 @@ public class SvListarReclamos extends HttpServlet {
         String estadoReclamo = request.getParameter("estadoReclamo");
         List<Reclamo> reclamos;
         String backUrl = "menuEstudiante.jsp"; // URL por defecto
+        
+        List<RegistroAccione> estadosActivos = registroAccionService.obtenerEstadosActivos(); 
+        request.setAttribute("estadosActivos", estadosActivos);
 
         if (usuarioService.esAnalista(usuarioLogeado.getIdUsuario())) {
             reclamos = reclamosService.obtenerReclamosConFiltros(filtroUsuario, estadoReclamo);

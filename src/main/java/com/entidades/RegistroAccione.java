@@ -5,10 +5,6 @@ import javax.persistence.*;
 import java.util.List;
 
 
-/**
- * The persistent class for the REGISTRO_ACCIONES database table.
- * 
- */
 @Entity
 @Table(name="REGISTRO_ACCIONES")
 @NamedQuery(name="RegistroAccione.findAll", query="SELECT r FROM RegistroAccione r")
@@ -16,9 +12,11 @@ public class RegistroAccione implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reg_accion_seq")
+	@SequenceGenerator(name = "reg_accion_seq", sequenceName = "SEQ_REG_ACCION", allocationSize = 1)
 	@Column(name="ID_REGISTRO_ACCION")
 	private long idRegistroAccion;
-
+	
 	@Column(name="NOMBRE")
 	private String nombre;
 
@@ -79,5 +77,4 @@ public class RegistroAccione implements Serializable {
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-
 }

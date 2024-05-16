@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import com.entidades.Estado;
+import com.entidades.RegistroAccione;
 import com.excepciones.ServiciosException;
 
 @Stateless
@@ -60,5 +61,4 @@ public class EstadoDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

@@ -45,11 +45,12 @@
 		
 		<label for="estadoReclamo">Estado del Reclamo:</label> 
 		<select name="estadoReclamo">
-			<option value="">Todos los estados</option>
-			<option value="ingresado">Ingresado</option>
-			<option value="en proceso">En proceso</option>
-			<option value="finalizado">Finalizado</option>
+		    <option value="">Todos los estados</option>
+		    <c:forEach items="${estadosActivos}" var="estado">
+		        <option value="${estado.idRegistroAccion}">${estado.nombre}</option>
+		    </c:forEach>
 		</select> 
+		
 		
 		<input type="submit" value="Filtrar" style="margin-left: 20px">
 		<input type="submit" value="Limpiar filtros" onclick="window.location.href='SvListarReclamos';" style="margin-left: 20px">

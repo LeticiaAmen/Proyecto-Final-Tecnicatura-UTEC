@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 
 import com.dao.EstadoDAO;
 import com.entidades.Estado;
+import com.entidades.RegistroAccione;
 
 @Stateless
 public class EstadoService {
@@ -25,5 +26,4 @@ public class EstadoService {
 	public List<Estado> obtenerEstados(){
 		return estadoDAO.obtnerEstados();
 	}
-
 }

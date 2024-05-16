@@ -40,12 +40,12 @@ public class SvAccion extends HttpServlet {
             if (reclamo != null) {
                 String tipoEvento = reclamo.getEvento().getTipoEvento().getNombre();
 
-                // Obtener la lista de estados
-                List<RegistroAccione> estados = registroAccionService.obtenerRegistrosAcciones(); 
+                // Obtener la lista de estados activos
+                List<RegistroAccione> estadosActivos = registroAccionService.obtenerEstadosActivos();
 
                 request.setAttribute("reclamo", reclamo);
                 request.setAttribute("tipoEvento", tipoEvento);
-                request.setAttribute("estados", estados); 
+                request.setAttribute("estados", estadosActivos); 
 
                 request.getRequestDispatcher("/accion.jsp").forward(request, response);
             } else {
