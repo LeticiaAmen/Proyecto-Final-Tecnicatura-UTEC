@@ -93,9 +93,8 @@
 		<p>
 			<strong>Apellido*: </strong>
 		</p>
-		<input type="text" name="apellido" value="<%=usuarioAEditar.getApellidos()%>" required minlength="3"
-			oninvalid="this.setCustomValidity('Por favor, introduce un apellido entre 3 y 20 caracteres')" 
-		    oninput="this.setCustomValidity('')">
+		<input type="text" name="apellido" value="<%=usuarioAEditar.getApellidos()%>" required minlength="3" maxlength="21"
+       		oninput="validateLength(this)">
 		
 		<p>
 			<strong>Mail Institucional*: </strong>
@@ -262,5 +261,17 @@
 	        	}
 	        }
 	</script>
+	<script>
+		function validateLength(input) {
+		    // Limpiar previamente cualquier mensaje de error establecido
+		    input.setCustomValidity('');
+		
+		    // Verificar la longitud del valor del input
+		    if (input.value.length < 3 || input.value.length > 20) {
+		        input.setCustomValidity('Por favor, introduce un apellido entre 3 y 20 caracteres');
+		    }
+		}
+</script>
+	
 </body>
 </html>
