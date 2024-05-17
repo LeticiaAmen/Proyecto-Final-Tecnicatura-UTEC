@@ -63,27 +63,11 @@ window.onload = function() {
 	
 		<label for="tipoUsuario" style="margin-left: 1em">Tipo de usuario:</label> 
 		<select name="tipoUsuario" id="tipoUsuario">
-		<option value="todosLosUsuarios">Todos</option>
-		<option value="ESTUDIANTE">Estudiante</option>
-        <option value="ANALISTA">Analista</option>
-        <option value="TUTOR">Tutor</option>
-		
+			<option value="todosLosUsuarios">Todos</option>
+			<option value="ESTUDIANTE">Estudiante</option>
+	        <option value="ANALISTA">Analista</option>
+	        <option value="TUTOR">Tutor</option>	
 		</select>
-		
-		 <!-- Div para seleccionar la generación, visible solo cuando se selecciona Estudiante -->
-	    <div id="generacionSelect" style="display: none;">
-	        <label for="generacion">Generación:</label>
-	        <select name="generacion" id="generacion">
-	            <option value="">Seleccione una generación</option>
-	            <% List<Generacion> generaciones = (List<Generacion>) request.getAttribute("generaciones");
-	            if (generaciones != null) {
-	                for (Generacion g : generaciones) { %>
-	                    <option value="<%= g.getIdGeneracion() %>"><%= g.getNombre() %></option>
-	                <% }
-	            } %>
-	        </select>
-	    </div>
-
 
 		<!-- Filtrado de ITR -->
 		<label for="itr" style="margin-left: 1em">ITR:</label> <select name="itr" id="itr">
@@ -114,6 +98,20 @@ window.onload = function() {
 			 } %>
 		</select> 
 		<input type="submit" value="Filtrar" style="margin-left: 20px">
+		
+		 <!-- Div para seleccionar la generación, visible solo cuando se selecciona Estudiante -->
+	    <div id="generacionSelect" style="margin-left: 21.9em; margin-top: 1em">
+	        <label for="generacion">Generación:</label>
+	        <select name="generacion" id="generacion">
+	            <option value="">Seleccione una generación</option>
+	            <% List<Generacion> generaciones = (List<Generacion>) request.getAttribute("generaciones");
+	            if (generaciones != null) {
+	                for (Generacion g : generaciones) { %>
+	                    <option value="<%= g.getIdGeneracion() %>"><%= g.getNombre() %></option>
+	                <% }
+	            } %>
+	        </select>
+	    </div>
 	</form>
 
 	<!-- Botón limpiar filtros -->
