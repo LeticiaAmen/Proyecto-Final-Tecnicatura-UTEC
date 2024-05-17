@@ -93,7 +93,9 @@
 		<p>
 			<strong>Apellido*: </strong>
 		</p>
-		<input type="text" name="apellido" value="<%=usuarioAEditar.getApellidos()%>" required>
+		<input type="text" name="apellido" value="<%=usuarioAEditar.getApellidos()%>" required minlength="3"
+			oninvalid="this.setCustomValidity('Por favor, introduce un apellido entre 3 y 20 caracteres')" 
+		    oninput="this.setCustomValidity('')">
 		
 		<p>
 			<strong>Mail Institucional*: </strong>
