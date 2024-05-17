@@ -61,35 +61,40 @@
 		<input type="text" name="telefono" required>
 		
 		<p>
-			<label><strong>*Departamento:</strong></label>
-		</p> 
-		<select name="idDepartamento">
-			<c:forEach var="departamento" items="${departamentos}">
-				<option value="${departamento.idDepartamento}">${departamento.nombre}</option>
-			</c:forEach>
-		</select>
-		
-		<p>
-			<label><strong>*Localidad:</strong></label>
-		</p> 
-		<select name="idLocalidad">
-			<c:forEach var="localidad" items="${localidades}">
-				<option value="${localidad.idLocalidad}">${localidad.nombre}</option>
-			</c:forEach>
-		</select>
-		
-		<p>
 			<label><strong>*Género:</strong></label>
 		</p>
-		<select name="genero">
+		<select name="genero" required>
+			<option value="" selected></option>
 			<c:forEach var="genero" items="${generos}">
 				<option value="${genero}">${genero}</option>
 			</c:forEach>
 		</select>
 		
 		<p>
-			<label><strong>*ITR:</strong></label>
-		</p> <select name="idItr">
+			<label><strong>*Departamento:</strong></label> 
+		</p>
+		<select name="idDepartamento" required>
+			<option value="" selected></option>
+			<c:forEach var="departamento" items="${departamentos}">
+				<option value="${departamento.idDepartamento}">${departamento.nombre}</option>
+			</c:forEach>
+		</select>
+		
+		<p>
+			<label><strong>*Localidad:</strong></label> 
+		</p>
+		<select name="idLocalidad" required>
+			<option value="" selected></option>
+			<c:forEach var="localidad" items="${localidades}">
+				<option value="${localidad.idLocalidad}">${localidad.nombre}</option>
+			</c:forEach>
+		</select>
+		
+		<p>
+			<label><strong>*ITR:</strong></label> 
+		</p>
+		<select name="idItr" required>
+			<option value="" selected></option>
 			<c:forEach var="itr" items="${itrs}">
 				<option value="${itr.idItr}">${itr.nombre}</option>
 			</c:forEach>
@@ -97,7 +102,9 @@
 		
 		<p>
 			<label><strong>*Semestre:</strong></label>
-		</p> <select name="semestre">
+		</p> 
+		<select name="semestre" required>
+			<option value="" selected>.</option>
 			<c:forEach var="semestre" items="${semestres}">
 				<option value="${semestre}">${semestre}</option>
 			</c:forEach>
@@ -106,8 +113,8 @@
 		<p>
 			<label><strong>*Generación:</strong></label>
 		</p> 
-		
-		<select name="idGeneracion">
+		<select name="idGeneracion" required>
+			<option value="" selected></option>
 			<c:forEach var="generacion" items="${generaciones}">
 				<option value="${generacion.idGeneracion}">${generacion.nombre}</option>
 			</c:forEach>

@@ -65,9 +65,20 @@
 		<input type="text" name="telefono" required>
 		
 		<p>
+			<label><strong>*Género:</strong></label>
+		</p>
+		<select name="genero" required>
+			<option value="" selected></option>
+			<c:forEach var="genero" items="${generos}">
+				<option value="${genero}">${genero}</option>
+			</c:forEach>
+		</select>
+		
+		<p>
 			<label><strong>*Departamento:</strong></label> 
 		</p>
-		<select name="idDepartamento">
+		<select name="idDepartamento" required>
+			<option value="" selected></option>
 			<c:forEach var="departamento" items="${departamentos}">
 				<option value="${departamento.idDepartamento}">${departamento.nombre}</option>
 			</c:forEach>
@@ -76,26 +87,17 @@
 		<p>
 			<label><strong>*Localidad:</strong></label> 
 		</p>
-		<select name="idLocalidad">
+		<select name="idLocalidad" required>
+			<option value="" selected></option>
 			<c:forEach var="localidad" items="${localidades}">
 				<option value="${localidad.idLocalidad}">${localidad.nombre}</option>
 			</c:forEach>
-		</select>
-		
-
-		<p>
-			<label><strong>*Género:</strong></label>
-		</p>
-		<select name="genero">
-			<c:forEach var="genero" items="${generos}">
-				<option value="${genero}">${genero}</option>
-			</c:forEach>
-		</select>
-		
+		</select>		
 		<p>
 			<label><strong>*ITR:</strong></label> 
 		</p>
-		<select name="idItr">
+		<select name="idItr" required>
+			<option value="" selected></option>
 			<c:forEach var="itr" items="${itrs}">
 				<option value="${itr.idItr}">${itr.nombre}</option>
 			</c:forEach>
@@ -104,7 +106,8 @@
 		<p>
 			<label><strong>*Área:</strong></label> 
 		</p>
-		<select name="idArea">
+		<select name="idArea" required>
+			<option value="" selected></option>
 			<c:forEach var="area" items="${areas}">
 				<option value="${area.idArea}">${area.nombre}</option>
 			</c:forEach>
@@ -113,12 +116,12 @@
 		<p>
 			<label><strong>*Rol:</strong></label> 
 		</p>
-		<select name="idRol">
+		<select name="idRol" required>
+			<option value="" selected></option>
 			<c:forEach var="rol" items="${roles}">
 				<option value="${rol.idRol}">${rol.nombre}</option>
 			</c:forEach>
 		</select>
-				
 		<p>
 			<label><strong>*Fecha de Nacimiento:</strong></label> 
 		</p>

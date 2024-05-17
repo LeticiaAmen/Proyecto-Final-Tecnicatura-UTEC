@@ -62,40 +62,44 @@
 		<input type="text" name="telefono" required>
 		
 		<p>
-			<label><strong>*Departamento:</strong></label> </p>
-		<select name="idDepartamento">
+			<label><strong>*Género:</strong></label>
+		</p>
+		<select name="genero" required>
+			<option value="" selected></option>
+			<c:forEach var="genero" items="${generos}">
+				<option value="${genero}">${genero}</option>
+			</c:forEach>
+		</select>
+		<p>
+			<label><strong>*Departamento:</strong></label> 
+		</p>
+		<select name="idDepartamento" required>
+			<option value="" selected></option>
 			<c:forEach var="departamento" items="${departamentos}">
 				<option value="${departamento.idDepartamento}">${departamento.nombre}</option>
 			</c:forEach>
 		</select>
 		
 		<p>
-			<label><strong>*Localidad:</strong></label>
-		</p> 
-		<select name="idLocalidad">
+			<label><strong>*Localidad:</strong></label> 
+		</p>
+		<select name="idLocalidad" required>
+			<option value="" selected></option>
 			<c:forEach var="localidad" items="${localidades}">
 				<option value="${localidad.idLocalidad}">${localidad.nombre}</option>
 			</c:forEach>
 		</select>
-
-		<p>
-			<label><strong>*Género:</strong></label>
-		</p>
-		<select name="genero">
-			<c:forEach var="genero" items="${generos}">
-				<option value="${genero}">${genero}</option>
-			</c:forEach>
-		</select>
 		
 		<p>
-			<label><strong>*ITR:</strong></label>
+			<label><strong>*ITR:</strong></label> 
 		</p>
-		<select name="idItr">
+		<select name="idItr" required>
+			<option value="" selected></option>
 			<c:forEach var="itr" items="${itrs}">
 				<option value="${itr.idItr}">${itr.nombre}</option>
 			</c:forEach>
 		</select>
-
+		
 		<p>
 			<label><strong>*Fecha de Nacimiento:</strong></label>
 		</p> <input type="date" name="fechaNacimiento" required>
