@@ -36,19 +36,26 @@ public class SvFiltrarUsuarios extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	String tipoUsuario = request.getParameter("tipoUsuario");
 	String generacionId = request.getParameter("generacion");
 	String itrId = request.getParameter("itr");
 	String validacionId = request.getParameter("validacionUsuario");
+	String nombreUsuario = request.getParameter("nombreUsuario").toLowerCase();
 	
+	List<Usuario> usuarios = null;
 	List<ValidacionUsuario> validaciones = validacionService.obtenerValidaciones();
 	List<Itr> itrs = itrService.obtenerItrTodos();
 	List<Usuario> listaFiltrada = usuarioService.obtenerUsuarios();
 	request.setAttribute("validacionesUsuario", validaciones);
 	
-	
+	//Filtrar por nombre o apellido
+	if (nombreUsuario != null && !nombreUsuario.isEmpty()) {
+        usuarios = usuarioService.buscarPorNombre(nombreUsuario);
+    } else {
+        usuarios = usuarioService.obtenerUsuarios(); 
+    }
+
 	//Filtramos por tipo con instance of
 	if (!"todosLosUsuarios".equals(tipoUsuario)) {
 		listaFiltrada = listaFiltrada.stream()
@@ -64,7 +71,7 @@ public class SvFiltrarUsuarios extends HttpServlet {
             .collect(Collectors.toList());
     }
     
- // Filtrar por validación
+    // Filtrar por validación
     if (!"todasLasValidaciones".equals(validacionId)) {
         long idValidacion = Long.parseLong(validacionId);
         listaFiltrada = listaFiltrada.stream()
@@ -72,7 +79,7 @@ public class SvFiltrarUsuarios extends HttpServlet {
             .collect(Collectors.toList());
     }
     
- // Filtrar por generación, solo aplicable a estudiantes
+    // Filtrar por generación, solo aplicable a estudiantes
     if (tipoUsuario.equals("ESTUDIANTE") && generacionId != null && !generacionId.isEmpty()) {
         long genId = Long.parseLong(generacionId);
         listaFiltrada = listaFiltrada.stream()
@@ -80,22 +87,16 @@ public class SvFiltrarUsuarios extends HttpServlet {
             .collect(Collectors.toList());
     }
     
- // Configurar atributos para la vista JSP
+    // Configurar atributos para la vista JSP
     request.setAttribute("itrList", itrs);
     request.setAttribute("validacionesUsuario", validaciones);
     request.setAttribute("usuarios", listaFiltrada);
+    request.setAttribute("usuarios", usuarios);
 
     // Reenviar a la página JSP para mostrar resultados
     request.getRequestDispatcher("/listarusuario.jsp").forward(request, response);
 }
 	
-	
-	
-
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

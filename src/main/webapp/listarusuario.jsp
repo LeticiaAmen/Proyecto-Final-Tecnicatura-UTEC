@@ -58,7 +58,10 @@ window.onload = function() {
 	<h1>Lista de Usuarios</h1>
 
 	<form action="SvFiltrarUsuarios" method="get" class="filter-form">
-		<label for="tipoUsuario" style="margin-left: 10em">Tipo de usuario:</label> 
+    	<input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Ingrese nombre o apellido.." style="margin-left: 5em">
+    	<input type="submit" value="Buscar">
+	
+		<label for="tipoUsuario" style="margin-left: 1em">Tipo de usuario:</label> 
 		<select name="tipoUsuario" id="tipoUsuario">
 		<option value="todosLosUsuarios">Todos</option>
 		<option value="ESTUDIANTE">Estudiante</option>
@@ -68,22 +71,22 @@ window.onload = function() {
 		</select>
 		
 		 <!-- Div para seleccionar la generación, visible solo cuando se selecciona Estudiante -->
-    <div id="generacionSelect" style="display: none;">
-        <label for="generacion">Generación:</label>
-        <select name="generacion" id="generacion">
-            <option value="">Seleccione una generación</option>
-            <% List<Generacion> generaciones = (List<Generacion>) request.getAttribute("generaciones");
-            if (generaciones != null) {
-                for (Generacion g : generaciones) { %>
-                    <option value="<%= g.getIdGeneracion() %>"><%= g.getNombre() %></option>
-                <% }
-            } %>
-        </select>
-    </div>
+	    <div id="generacionSelect" style="display: none;">
+	        <label for="generacion">Generación:</label>
+	        <select name="generacion" id="generacion">
+	            <option value="">Seleccione una generación</option>
+	            <% List<Generacion> generaciones = (List<Generacion>) request.getAttribute("generaciones");
+	            if (generaciones != null) {
+	                for (Generacion g : generaciones) { %>
+	                    <option value="<%= g.getIdGeneracion() %>"><%= g.getNombre() %></option>
+	                <% }
+	            } %>
+	        </select>
+	    </div>
 
 
-<!-- Filtrado de ITR -->
-		<label for="itr">ITR:</label> <select name="itr" id="itr">
+		<!-- Filtrado de ITR -->
+		<label for="itr" style="margin-left: 1em">ITR:</label> <select name="itr" id="itr">
 			<option value="todosLosItr">TODOS</option>
 
 			<% List<Itr> listaItr = (List<Itr>) request.getAttribute("itrList"); %>
@@ -99,7 +102,7 @@ window.onload = function() {
 		
 		
 		<!-- Filtrado de Validaciones -->
-		<label for="validacionUsuario">Validación: </label> 
+		<label for="validacionUsuario" style="margin-left: 1em">Validación: </label> 
 		<select
 			name="validacionUsuario" id="validacionUsuario">
 			<option value="todasLasValidaciones">TODOS</option>
@@ -115,11 +118,11 @@ window.onload = function() {
 
 	<!-- Botón limpiar filtros -->
 	<form action="SvListadoDeUsuario" method="get">
-		<input type="submit" class="button" value="Limpiar Filtros" style="margin-left: 1em">
+		<input type="submit" class="button" value="Limpiar Filtros">
 	</form>
 
 	<!-- Botón para regresar al menú del analista -->
-	<form action="menuAnalista.jsp" method="get" style="margin-left: 8em">
+	<form action="menuAnalista.jsp" method="get">
 		<input type="submit" value="Cancelar">
 	</form>
 	

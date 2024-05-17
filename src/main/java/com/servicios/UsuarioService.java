@@ -181,7 +181,13 @@ public class UsuarioService {
 		return usuarioDAO.existeCorreo(correo, idUsuario);
 	}
 	
-	
+	//Buscar por nombre o apellido
+	public List<Usuario> buscarPorNombre(String nombre) {
+	    return entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario LIKE :nombre", Usuario.class)
+	                        .setParameter("nombre", "%" + nombre + "%")
+	                        .getResultList();
+	}
+
 	
 
 }
