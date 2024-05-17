@@ -93,7 +93,7 @@
 		<p>
 			<strong>Apellido*: </strong>
 		</p>
-		<input type="text" name="apellido" value="<%=usuarioAEditar.getApellidos()%>" required minlength="3" maxlength="21"
+		<input type="text" name="apellido" value="<%=usuarioAEditar.getApellidos()%>" required
        		oninput="validateLength(this)">
 		
 		<p>

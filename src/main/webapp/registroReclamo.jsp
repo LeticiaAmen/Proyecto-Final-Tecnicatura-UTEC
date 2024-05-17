@@ -22,7 +22,8 @@
 			<div id="usuario-dropdown">
 				<h1><%=usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos()%></h1>
 				<div id="dropdown-content">
-					<form action="LoginServlet" method="get">
+					<form action="datosPersonales" method="get">
+						<input type="hidden" name="id" value="<%=usuarioLogeado.getIdUsuario()%>">
 						<input type="submit" class="button" value="Datos Personales">
 					</form>
 					<form action="LogoutServlet" method="post">
@@ -38,7 +39,8 @@
 		<p>
 			<label><strong>*Título del Reclamo</strong></label>
 		</p>
-		<input type="text" name="titulo" required>
+		<input type="text" name="titulo" required oninvalid="this.setCustomValidity('Por favor, introduce un título entre 3 y 20 caracteres')" 
+       		oninput="validateLength(this)">
 
 		<p>
 			<label><strong>*Detalle</strong></label>
@@ -101,5 +103,17 @@
 	        return confirm("¿Cancelar y volver al listado de reclamos?");
 	    }
 	</script>
+	
+	<script>
+		function validateLength(input) {
+		    // Limpiar previamente cualquier mensaje de error establecido
+		    input.setCustomValidity('');
+		
+		    // Verificar la longitud del valor del input
+		    if (input.value.length < 3 || input.value.length > 20) {
+		        input.setCustomValidity('Por favor, introduce un título entre 3 y 20 caracteres');
+		    }
+		}
+</script>
 </body>
 </html>
