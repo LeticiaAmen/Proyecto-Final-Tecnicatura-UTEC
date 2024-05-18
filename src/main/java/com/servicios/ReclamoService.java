@@ -22,6 +22,10 @@ public class ReclamoService {
 		return reclamoDAO.obtenerReclamo(id);
 	}
 	
+	public Reclamo obtenerReclamoConAcciones(long id) {
+	    return reclamoDAO.obtenerReclamoConAcciones(id);
+	}
+	
 	public List<Reclamo> obtenerReclamosTodos(){
 		return reclamoDAO.obtenerReclamosTodos();
 	}
@@ -37,7 +41,4 @@ public class ReclamoService {
 	public Reclamo obtenerReclamoDesdeBaseDeDatosNombre(String nombre) {
 		return reclamoDAO.obtenerReclamoDesdeBaseDeDatosNombre(nombre);
 	}
-
-	
-
 }

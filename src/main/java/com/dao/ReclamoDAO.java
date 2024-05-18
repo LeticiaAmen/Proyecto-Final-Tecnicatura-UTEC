@@ -35,6 +35,19 @@ public class ReclamoDAO {
 		return entityManager.find(Reclamo.class, id);
 	}
 	
+	public Reclamo obtenerReclamoConAcciones(long idReclamo) {
+	    try {
+	        return entityManager.createQuery(
+	            "SELECT r FROM Reclamo r LEFT JOIN FETCH r.acciones WHERE r.id = :idReclamo", Reclamo.class)
+	            .setParameter("idReclamo", idReclamo)
+	            .getSingleResult();
+	    } catch (Exception e) {
+	        System.out.println("Error during fetching Reclamo with actions: " + e.getMessage());
+	        return null;
+	    }
+	}
+
+
 	//listar todo
 	public List<Reclamo> obtenerReclamosTodos(){
 		return entityManager.createQuery("SELECT r FROM Reclamo r", Reclamo.class).getResultList();

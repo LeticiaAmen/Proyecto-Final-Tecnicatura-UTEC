@@ -26,4 +26,5 @@ public class EstadoService {
 	public List<Estado> obtenerEstados(){
 		return estadoDAO.obtnerEstados();
 	}
+	
 }
