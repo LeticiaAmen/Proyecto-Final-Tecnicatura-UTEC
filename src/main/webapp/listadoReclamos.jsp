@@ -86,9 +86,9 @@
 				    <tr>
 				        <td>${reclamo.estudiante.nombres} ${reclamo.estudiante.apellidos}</td>
 				        <td>${reclamo.fechaHoraReclamo}</td>
-				        <td class="title" title="Título: ${reclamo.tituloReclamo}">${reclamo.tituloReclamo}</td>
-				        <td class="detail" title="Detalle: ${reclamo.detalle}">${reclamo.detalle}</td>
-				        <td title="Evento: ${reclamo.evento.tituloEvento}">${reclamo.evento.tituloEvento}</td>
+				        <td class="title"  ${reclamo.tituloReclamo}>${reclamo.tituloReclamo}</td>
+				        <td class="detail" ${reclamo.detalle}>${reclamo.detalle}</td>
+				        <td ${reclamo.evento.tituloEvento}>${reclamo.evento.tituloEvento}</td>
 				        <td>${reclamo.registroAccione.nombre}</td>
 				        <td>
 				            <form action="accion" method="get">

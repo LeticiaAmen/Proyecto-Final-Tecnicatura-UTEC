@@ -8,7 +8,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Detalles del Reclamo</title>
-	<link rel="stylesheet" href="accion.css">
+	<link rel="stylesheet" href="verReclamo.css">
 </head>
 <body>
 	<header>
@@ -34,20 +34,52 @@
 	        </div>
 	    </div>
 	</header>
-	<div style="margin-left: 33em">
-		<h1 style="margin-top: 1em">Detalles del Reclamo</h1>
+	<h1 style="margin-top: 1em; margin-right: 24em">Detalles del Reclamo</h1>
+	<div style="margin-left: 13em">
 		<ul>
-		    <li>Título del Reclamo: ${reclamo.tituloReclamo}</li>
-		    <li>Título del Evento: ${reclamo.evento.tituloEvento}</li>
-		    <li>Detalles del Evento: ${reclamo.evento.informacion}</li>
-		    <li>Créditos del Evento: ${reclamo.evento.creditos}</li>
-		    <li>Modalidad del Evento: ${reclamo.evento.modalidad}</li>
-		    <li>Semestre del Evento: ${reclamo.evento.semestre}</li>
-		    <li>Tipo de Evento: ${reclamo.evento.tipoEvento.nombre}</li>
+		    <li><strong>Título del Reclamo:</strong> ${reclamo.tituloReclamo}</li>
+		    <li><strong>Título del Evento:</strong> ${reclamo.evento.tituloEvento}</li>
+		    <li><strong>Detalles del Evento:</strong> ${reclamo.evento.informacion}</li>
+		    <li><strong>Créditos del Evento:</strong> ${reclamo.evento.creditos}</li>
+		    <li><strong>Modalidad del Evento:</strong> ${reclamo.evento.modalidad}</li>
+		    <li><strong>Semestre del Evento:</strong> ${reclamo.evento.semestre}</li>
+		    <li><strong>Tipo de Evento:</strong> ${reclamo.evento.tipoEvento.nombre}</li>
+		    <li><strong>Detalle ingresado por el estudiante:</strong> 
+        		<div style="margin-right: 14em" id="reclamoEstudiante">
+        			<ul>
+            			<li>${reclamo.detalle}</li>
+        			</ul>
+        		</div>
+    		</li>
 		</ul>
+	</div>
+		<!-- Sección para mostrar acciones -->
+		<h2 style="margin-left: 10em; margin-top: 2em">Acciones Registradas</h2>
+		<c:if test="${not empty reclamo.acciones}">
+		    <table>
+		        <tr>
+		            <th>Fecha</th>
+		            <th>Analista</th>
+		            <th>Detalle</th>
+		            <th>Estado</th>
+		        </tr>
+		        <c:forEach items="${reclamo.acciones}" var="accion">
+		            <tr>
+		                <td>${accion.fechaHora}</td>
+		                <td>${accion.analista.nombres} ${accion.analista.apellidos}</td>
+		                <td>${accion.detalle}</td>
+		                <td>${accion.registroAccion.nombre}</td>
+		            </tr>
+		        </c:forEach>
+		    </table>
+		</c:if>
+		<c:if test="${empty reclamo.acciones}">
+		    <p style="margin-left: 15em" >No hay acciones registradas.</p>
+		</c:if>
 		
+		<div style="margin-left: 14.5em">	
 		<% if (esAnalista) { %>
-		    <h2 style="margin-top: 2em">Registrar acción</h2>
+		    <h2 style="margin-left: 10px; margin-top: 1.5em" >Registrar acción</h2>
 		    <form action="guardarAccion" method="POST" onsubmit="return confirmarEnvio();">		        
 		        <label for="nuevoEstado">Estado:</label>		        
 		        <select name="nuevoEstado">
@@ -59,32 +91,32 @@
 				        </option>
 				    </c:forEach>
 				</select>
-		        <br>
+		        <br><br>
     
 		        <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
 		        <input type="hidden" name="accionType" value="cambiarEstado">
 		        
 		        <label for="detalle">Detalle de la Acción:</label><br>
-		        <textarea id="detalle" name="detalle" rows="4" cols="50" required></textarea><br>
-		        <input type="submit" name="accion" value="Enviar" class="submit-btn" >
+		        <textarea id="detalle" name="detalle" rows="4" cols="50" required oninvalid="this.setCustomValidity('Por favor, ingrese un detalle.')"></textarea><br>
+		        <input type="submit" name="accion" value="Enviar" class="submit-btn">
 		    </form>
 		<% } %>
-		
-		
+		</div>
+			
 		<!-- Botón Modificar Reclamo, visible solo para estudiantes y si el reclamo está 'Ingresado' -->
 		<c:if test="${not esAnalista and reclamo.registroAccione.nombre == 'Ingresado'}">
 		    <form action="SvEditarReclamo" method="get">
 		        <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
-		        <input type="submit" value="Modificar">
+		        <input style="margin-left: 14em" type="submit" value="Modificar">
 		    </form>
 		</c:if>
 	
 		
 		<!-- Botón Cancelar -->
-		<form action="SvListarReclamos" method="get">
+		<form action="SvListarReclamos" method="get" style="margin-left: 75em">
 		    <input type="submit" value="Cancelar">
 		</form>
-	</div>
+
 	<script>
 	    function confirmarEnvio() {
 	        if(confirm("¿Actualizar estado y detalle del reclamo? Se enviará un email al estudiante con los detalles modificados.")) {
