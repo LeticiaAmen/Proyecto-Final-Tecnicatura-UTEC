@@ -37,6 +37,8 @@ import com.servicios.LocalidadService;
 import com.servicios.RolService;
 import com.validaciones.Validacion;
 
+
+
 @WebServlet("/datosPersonalesUsuario")
 public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -202,11 +204,19 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 		    
 		    Estado estado = usuarioEstado.obtenerEstadoId(estadoId);
 		    
-		 // Validar nombre
-            if (validacion.validacionNombre(nombre)) {
-                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionNombre());
-                return;
-            }
+		   Validacion validacionUsuario = new Validacion();
+
+		// Validar el nombre
+		   if (validacionUsuario.validacionNombre(nombre)) {
+		       response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacionUsuario.RespuestaValidacionNombre());
+		       return;
+		   }
+		    
+		    // Validar el telefono
+		    if (validacionUsuario.validacionTelefono(telefono)) {
+		     response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacionUsuario.RespuestaValidacionTelefono());
+		     return;
+		 }
 		    
 		    if (localidad != null && departamento != null) {
 		        localidad.setDepartamento(departamento);
