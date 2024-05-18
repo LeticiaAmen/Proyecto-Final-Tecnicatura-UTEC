@@ -36,10 +36,12 @@ public class ReclamosService {
     public List<Reclamo> obtenerReclamosConFiltros(String filtroUsuario, String estadoReclamo) {
         String jpql = "SELECT r FROM Reclamo r LEFT JOIN r.registroAccione ra WHERE " +
                       "(:filtroUsuario IS NULL OR LOWER(r.estudiante.nombreUsuario) LIKE :filtroUsuario) AND " +
-                      "(:estadoReclamo IS NULL OR LOWER(ra.nombre) = :estadoReclamo)";
+                      "(:estadoReclamo IS NULL OR ra.idRegistroAccion = :estadoReclamo)";
+
         TypedQuery<Reclamo> query = em.createQuery(jpql, Reclamo.class);
         query.setParameter("filtroUsuario", (filtroUsuario == null || filtroUsuario.trim().isEmpty()) ? null : '%' + filtroUsuario.trim().toLowerCase() + '%');
-        query.setParameter("estadoReclamo", (estadoReclamo == null || estadoReclamo.trim().isEmpty()) ? null : estadoReclamo.trim().toLowerCase());
+        query.setParameter("estadoReclamo", (estadoReclamo == null || estadoReclamo.isEmpty()) ? null : Long.parseLong(estadoReclamo)); // Ajustado aquí
+
         return query.getResultList();
     }
 
@@ -47,13 +49,15 @@ public class ReclamosService {
         String jpql = "SELECT r FROM Reclamo r LEFT JOIN r.registroAccione ra WHERE " +
                       "r.estudiante.idUsuario = :idUsuario AND " +
                       "(:filtroUsuario IS NULL OR LOWER(r.estudiante.nombreUsuario) LIKE :filtroUsuario) AND " +
-                      "(:estadoReclamo IS NULL OR LOWER(ra.nombre) = :estadoReclamo)";
+                      "(:estadoReclamo IS NULL OR ra.idRegistroAccion = :estadoReclamo)";
         TypedQuery<Reclamo> query = em.createQuery(jpql, Reclamo.class);
         query.setParameter("idUsuario", idUsuario);
         query.setParameter("filtroUsuario", (filtroUsuario == null || filtroUsuario.trim().isEmpty()) ? null : '%' + filtroUsuario.trim().toLowerCase() + '%');
-        query.setParameter("estadoReclamo", (estadoReclamo == null || estadoReclamo.trim().isEmpty()) ? null : estadoReclamo.trim().toLowerCase());
+        query.setParameter("estadoReclamo", (estadoReclamo == null || estadoReclamo.isEmpty()) ? null : Long.parseLong(estadoReclamo)); // Ajustado aquí
+
         return query.getResultList();
     }
+
     
     public void eliminarReclamo(long idReclamo) {
 	    reclamoDAO.eliminarReclamo(idReclamo);

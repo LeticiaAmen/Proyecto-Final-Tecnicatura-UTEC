@@ -42,15 +42,14 @@
 			<label for="filtroUsuario">Filtrar por Usuario:</label>
 			<input type="text" name="filtroUsuario" placeholder="Nombre de usuario...">
 		</c:if>
-		
-		<label for="estadoReclamo">Estado del Reclamo:</label> 
-		<select name="estadoReclamo">
-		    <option value="">Todos los estados</option>
-		    <c:forEach items="${estadosActivos}" var="estado">
-		        <option value="${estado.idRegistroAccion}">${estado.nombre}</option>
-		    </c:forEach>
-		</select> 
-		
+				
+		<label for="estadoReclamo">Estado del Reclamo:</label>
+        <select name="estadoReclamo">
+            <option value="">Todos los estados</option>
+            <c:forEach items="${estadosActivos}" var="estado">
+    			<option value="${estado.idRegistroAccion}">${estado.nombre}</option>
+			</c:forEach>
+        </select>
 		
 		<input type="submit" value="Filtrar" style="margin-left: 20px">
 		<input type="submit" value="Limpiar filtros" onclick="window.location.href='SvListarReclamos';" style="margin-left: 20px">

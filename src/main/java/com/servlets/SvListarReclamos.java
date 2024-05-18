@@ -45,6 +45,7 @@ public class SvListarReclamos extends HttpServlet {
         } else {
             reclamos = reclamosService.obtenerReclamosPorUsuarioConFiltros(usuarioLogeado.getIdUsuario(), filtroUsuario, estadoReclamo);
         }
+        
         request.setAttribute("esAnalista", esAnalista);
         request.setAttribute("reclamos", reclamos);
         request.setAttribute("backUrl", backUrl); // Enviamos la URL correcta al JSP
