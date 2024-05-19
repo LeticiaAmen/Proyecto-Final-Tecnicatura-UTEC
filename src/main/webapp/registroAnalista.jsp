@@ -7,13 +7,11 @@
 <meta charset="ISO-8859-1">
 <title>Registro Analista</title>
 <link rel="stylesheet" href="formularios.css">
-
 </head>
 <body>
 	<header>
 		<div>
-			<a> <img alt="Logo de UTEC"
-				src="images/utec-removebg-preview.png" />
+			<a> <img alt="Logo de UTEC" src="images/utec-removebg-preview.png" />
 			</a>
 		</div>
 	</header>
@@ -24,42 +22,45 @@
 	</c:if>
 
 	<form action="SvRegistroAnalista" method="POST">
-
 		<p>
 			<label><strong>*Nombre:</strong></label>
 		</p>
-		<input type="text" name="nombre" required>
+		<input type="text" name="nombre" value="${param.nombre}" required>
 
 		<p>
 			<label><strong>*Apellido:</strong></label>
 		</p>
-		<input type="text" name="apellido" required>
+		<input type="text" name="apellido" value="${param.apellido}" required>
 		
 		<p>
 			<label><strong>*Documento:</strong></label>
 		</p>
-		<input type="text" name="documento" required>
+		<input type="text" name="documento" value="${param.documento}" required>
 
 		<p>
 			<label><strong>*Nombre de Usuario:</strong></label>
-		</p><input type="text" name="nomUsuario" required>
+		</p>
+		<input type="text" name="nomUsuario" value="${param.nomUsuario}" required>
 
 		<p>
 			<label><strong>*Contraseña:</strong></label>
-		</p><input type="password" name="contrasenia" required>
+		</p>
+		<input type="password" name="contrasenia" value="${param.contrasenia}" required>
 
 		<p>
 			<label><strong>*Mail Institucional:</strong></label>
-		</p><input type="text" name="mailInst" required>
+		</p>
+		<input type="text" name="mailInst" value="${param.mailInst}" required>
 
 		<p>
 			<label><strong>*Mail:</strong></label>
-		</p><input type="text" name="mail" required>
+		</p>
+		<input type="text" name="mail" value="${param.mail}" required>
 	
 		<p>
-			<label><strong>*Telefono:</strong></label>
+			<label><strong>*Teléfono:</strong></label>
 		</p>
-		<input type="text" name="telefono" required>
+		<input type="text" name="telefono" value="${param.telefono}" required>
 		
 		<p>
 			<label><strong>*Género:</strong></label>
@@ -67,42 +68,44 @@
 		<select name="genero" required>
 			<option value="" selected></option>
 			<c:forEach var="genero" items="${generos}">
-				<option value="${genero}">${genero}</option>
+				<option value="${genero}" <c:if test="${genero == param.genero}">selected</c:if>>${genero}</option>
 			</c:forEach>
 		</select>
+		
 		<p>
-			<label><strong>*Departamento:</strong></label> 
+			<label><strong>*Departamento:</strong></label>
 		</p>
 		<select name="idDepartamento" required>
 			<option value="" selected></option>
 			<c:forEach var="departamento" items="${departamentos}">
-				<option value="${departamento.idDepartamento}">${departamento.nombre}</option>
+				<option value="${departamento.idDepartamento}" <c:if test="${departamento.idDepartamento == param.idDepartamento}">selected</c:if>>${departamento.nombre}</option>
 			</c:forEach>
 		</select>
 		
 		<p>
-			<label><strong>*Localidad:</strong></label> 
+			<label><strong>*Localidad:</strong></label>
 		</p>
 		<select name="idLocalidad" required>
 			<option value="" selected></option>
 			<c:forEach var="localidad" items="${localidades}">
-				<option value="${localidad.idLocalidad}">${localidad.nombre}</option>
+				<option value="${localidad.idLocalidad}" <c:if test="${localidad.idLocalidad == param.idLocalidad}">selected</c:if>>${localidad.nombre}</option>
 			</c:forEach>
 		</select>
 		
 		<p>
-			<label><strong>*ITR:</strong></label> 
+			<label><strong>*ITR:</strong></label>
 		</p>
 		<select name="idItr" required>
 			<option value="" selected></option>
 			<c:forEach var="itr" items="${itrs}">
-				<option value="${itr.idItr}">${itr.nombre}</option>
+				<option value="${itr.idItr}" <c:if test="${itr.idItr == param.idItr}">selected</c:if>>${itr.nombre}</option>
 			</c:forEach>
 		</select>
 		
 		<p>
 			<label><strong>*Fecha de Nacimiento:</strong></label>
-		</p> <input type="date" name="fechaNacimiento" required>
+		</p> 
+		<input type="date" name="fechaNacimiento" value="${param.fechaNacimiento}" required>
 
 		<p style="text-align: center; margin-top: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
 			<span style="background-color: white; padding: 0 10px;">*Campos obligatorios</span>
