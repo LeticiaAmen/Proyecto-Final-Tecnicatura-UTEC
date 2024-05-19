@@ -52,66 +52,55 @@ public class SvEditarReclamo extends HttpServlet {
 	                request.setAttribute("eventos", eventos);
 	                request.getRequestDispatcher("/editarReclamo.jsp").forward(request, response);
 	            } else {
-	                // Manejar error: reclamo no encontrado
 	                response.sendRedirect("listadoReclamos.jsp");
 	            }
 	        } catch (NumberFormatException e) {
-	            // Manejar error: ID no es un número
 	            response.sendRedirect("listadoReclamos.jsp");
 	        }
 	    } else {
-	        // Manejar error: ID de reclamo no proporcionado
 	        response.sendRedirect("listadoReclamos.jsp");
 	    }
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String formSubmitted = request.getParameter("formSubmitted");
-		if ("true".equals(formSubmitted)) {
-		String idReclamoStr = request.getParameter("idReclamo");
-		long idReclamo = Long.parseLong(idReclamoStr);
-		
-	    // Cargar el reclamo existente
-	    Reclamo reclamo = reclamoService.obtenerReclamo(idReclamo);
+	    String formSubmitted = request.getParameter("formSubmitted");
+	    if ("true".equals(formSubmitted)) {
+	        String idReclamoStr = request.getParameter("idReclamo");
+	        long idReclamo = Long.parseLong(idReclamoStr);
+	        
+	        // Cargar el reclamo existente
+	        Reclamo reclamo = reclamoService.obtenerReclamo(idReclamo);
 
-	    // Actualizar datos del reclamo con la información del formulario
-	    String titulo = request.getParameter("titulo");
-	    String detalle = request.getParameter("detalle");
-	    String fechaReclamoStr = request.getParameter("fechaReclamo");
-	    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-	    Date fechaReclamo = null;
+	        // Actualizar datos del reclamo con la información del formulario
+	        String titulo = request.getParameter("titulo");
+	        String detalle = request.getParameter("detalle");
+	        
+	        // Establecer la fecha actual como la fecha del reclamo
+	        Date fechaReclamo = new Date();  // Fecha actual
 
-	    try {
-	        fechaReclamo = formato.parse(fechaReclamoStr);
-	    } catch (ParseException e) {
-	        e.printStackTrace();
-	        System.out.println("Error al convertir la fecha");
+	        String idEvento = request.getParameter("idEvento");
+	        Long idEventoLong = Long.parseLong(idEvento);
+	        Evento evento = eventoService.obtenerEvento(idEventoLong);
+
+	        // Actualiza los atributos del reclamo
+	        reclamo.setTituloReclamo(titulo);
+	        reclamo.setDetalle(detalle);
+	        reclamo.setFechaHoraReclamo(fechaReclamo); // Usar la nueva fecha
+	        reclamo.setEvento(evento);
+
+	        try {
+	            // Actualizar el reclamo en la base de datos
+	            reclamoService.actualizarReclamo(reclamo);
+	            request.getSession().setAttribute("mensaje", "Reclamo actualizado con éxito");
+	            response.sendRedirect("SvListarReclamos");
+	        } catch (Exception e) {
+	            request.getSession().setAttribute("mensaje", "Error al actualizar el reclamo");
+	            e.printStackTrace();
+	            response.sendRedirect("editarReclamo.jsp?idReclamo=" + idReclamo); // En caso de error, redirige a editar de nuevo
+	        }
+	    } else {
+	        // Si el formulario no ha sido enviado, redirige al doGet para cargar la página
+	        doGet(request, response);
 	    }
-
-	    String idEvento = request.getParameter("idEvento");
-	    Long idEventoLong = Long.parseLong(idEvento);
-	    Evento evento = eventoService.obtenerEvento(idEventoLong);
-
-	    // Actualiza los atributos del reclamo
-	    reclamo.setTituloReclamo(titulo);
-	    reclamo.setDetalle(detalle);
-	    reclamo.setFechaHoraReclamo(fechaReclamo);
-	    reclamo.setEvento(evento);
-
-	    try {
-	        // Actualizar el reclamo en la base de datos
-	        reclamoService.actualizarReclamo(reclamo);
-	        request.getSession().setAttribute("mensaje", "Reclamo actualizado con éxito");
-	    } catch (Exception e) {
-	        request.getSession().setAttribute("mensaje", "Error al actualizar el reclamo");
-	        e.printStackTrace();
-	    }
-
-	    // Redirige al listado de reclamos o a la página de detalles del reclamo
-	    response.sendRedirect("SvListarReclamos");
-	} else {
-	    // Si el formulario no ha sido enviado, redirige al doGet para cargar la página
-	    doGet(request, response);
-		}
 	}
 }

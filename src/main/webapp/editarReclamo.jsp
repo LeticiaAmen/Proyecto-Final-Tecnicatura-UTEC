@@ -47,10 +47,6 @@
 	    <p><label><strong>*Detalle:</strong></label></p>
 	    <textarea name="detalle" rows="6" cols="80" required>${reclamo.detalle}</textarea>
 	
-	    <p><label><strong>*Fecha del Reclamo:</strong></label></p>
-	    
-	    <input type="date" name="fechaReclamo" value="${reclamo.fechaHoraReclamo}" pattern="yyyy-MM-dd" required>
-	
 	    <p><label><strong>*Evento:</strong></label></p>
 	    <select name="idEvento">
 	        <c:forEach var="evento" items="${eventos}">
