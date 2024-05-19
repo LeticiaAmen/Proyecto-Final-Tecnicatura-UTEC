@@ -20,7 +20,7 @@ import com.servicios.UsuarioService;
 
 @Path("/crear")
 public class ReclamosCrearResource {
-	@EJB
+    @EJB
     private ReclamoService reclamoService;
 
     @EJB
@@ -31,7 +31,7 @@ public class ReclamosCrearResource {
 
     @EJB
     private RegistroAccionService registroAccionService;
-    
+
     @POST
     @Path("/reclamo")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -48,8 +48,8 @@ public class ReclamosCrearResource {
                 return Response.status(Response.Status.BAD_REQUEST).entity("Evento no encontrado").build();
             }
 
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            Date fechaReclamo = formato.parse(input.getFechaReclamo());
+            // Establecer la fecha actual en el servidor como la fecha del reclamo
+            Date fechaReclamo = new Date();
 
             RegistroAccione registroAccion = registroAccionService.obtenerRegistroAccion(1); // Estado 'Ingresado'
 
