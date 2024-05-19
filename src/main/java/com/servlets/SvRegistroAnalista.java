@@ -19,7 +19,6 @@ import com.entidades.Departamento;
 import com.entidades.Estado;
 import com.entidades.Itr;
 import com.entidades.Localidad;
-import com.entidades.Usuario;
 import com.entidades.ValidacionUsuario;
 
 import com.servicios.DepartamentoService;
@@ -36,244 +35,201 @@ import java.security.spec.InvalidKeySpecException;
 
 @WebServlet("/SvRegistroAnalista")
 public class SvRegistroAnalista extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-	@EJB
-	private UsuarioService usuarioService; 
-	
-	@EJB
-	private DepartamentoService departamentoService; 
-	
-	@EJB
-	private LocalidadService localidadService; 
-	
-	@EJB
-	private ValidacionUsuarioService validacionService; 
-	
-	@EJB
-	private ItrService itrService; 
-	
-	@EJB 
-	private EstadoService estadoService; 
-	
-	private Validacion validacion;
-	
-	
+    private static final long serialVersionUID = 1L;
+
+    @EJB
+    private UsuarioService usuarioService;
+
+    @EJB
+    private DepartamentoService departamentoService;
+
+    @EJB
+    private LocalidadService localidadService;
+
+    @EJB
+    private ValidacionUsuarioService validacionService;
+
+    @EJB
+    private ItrService itrService;
+
+    @EJB
+    private EstadoService estadoService;
+
+    private Validacion validacion;
+
     public SvRegistroAnalista() {
         super();
-       validacion = new Validacion(); 
+        validacion = new Validacion();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		List<Departamento> departamentos = departamentoService.obtenerTodosDepartamento();
-		request.setAttribute("departamentos", departamentos);
-				
-		List<Localidad> localidades = localidadService.obtenerTodasLocalidades();
-		request.setAttribute("localidades", localidades);
-		
-		List<Itr> itrs = itrService.obtenerItrTodos();
-		request.setAttribute("itrs", itrs);
-		
-		//Definimos las opciones ya que no tenemos enum ahora
-		List<String> generosLista = Arrays.asList("Masculino", "Femenino", "Otros");
-		request.setAttribute("generos", generosLista);
-		
-		request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-		
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Departamento> departamentos = departamentoService.obtenerTodosDepartamento();
+        request.setAttribute("departamentos", departamentos);
 
+        List<Localidad> localidades = localidadService.obtenerTodasLocalidades();
+        request.setAttribute("localidades", localidades);
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String formSubmitted = request.getParameter("formSubmitted");
-		if ("true".equals(formSubmitted)) {
-		
-		String nomUsuario = request.getParameter("nomUsuario");
-		String documento = request.getParameter("documento");
-		  long documentoLong = 0;
-	    
-		  if (documento != null && !documento.isEmpty()) {
-	            documentoLong = Long.parseLong(documento);
-	        }
-		
-		String apellido = request.getParameter("apellido");
-		String contrasenia = request.getParameter("contrasenia");
-		
-		String mailInst = request.getParameter("mailInst");
-		String mail = request.getParameter("mail");
-		String nombre = request.getParameter("nombre");
-		String telefono = request.getParameter("telefono");
-		
-		// ---------- obtener departamento, localidad e ITR seleccionado
-		String idDepartamento = request.getParameter("idDepartamento");
-		String idLocalidad = request.getParameter("idLocalidad");
-		String idItr = request.getParameter("idItr");
-		
-		// Convertir a Long 
-	    Long idDepartamentoLong = Long.parseLong(idDepartamento);
-	    Long idLocalidadLong = Long.parseLong(idLocalidad);
-	    Long idItrLong = Long.parseLong(idItr);	
-	    
-	    //Obtener las entidades
-	    Departamento departamento = departamentoService.obtenerPorId(idDepartamentoLong);
-	    Localidad localidad = localidadService.obtenerLocalidadPorId(idLocalidadLong);
-	    Itr itr = itrService.obtenerItr(idItrLong);
-		
-	    //obtener el genero seleccionado
-		String generoSeleccionado = request.getParameter("genero");
-		
-		//Tomar solo el primer caracter
-		char genero = generoSeleccionado.charAt(0); 
-	    
-	    //Obtener fecha String
-	    String fechaNacimientoStr = request.getParameter("fechaNacimiento");
-	    //formato de fecha
-	    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-	    
-	    // Convertir a java.util.Date
-        Date fechaNacimiento = null;
-        try {
-            fechaNacimiento = formato.parse(fechaNacimientoStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-     System.out.println("Error al convertir la fecha");
+        List<Itr> itrs = itrService.obtenerItrTodos();
+        request.setAttribute("itrs", itrs);
+
+        List<String> generosLista = Arrays.asList("Masculino", "Femenino", "Otros");
+        request.setAttribute("generos", generosLista);
+
+        request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String formSubmitted = request.getParameter("formSubmitted");
+        if ("true".equals(formSubmitted)) {
+            String nomUsuario = request.getParameter("nomUsuario");
+            String documento = request.getParameter("documento");
+            long documentoLong = 0;
+
+            if (documento != null && !documento.isEmpty()) {
+                documentoLong = Long.parseLong(documento);
+            }
+
+            String apellido = request.getParameter("apellido");
+            String contrasenia = request.getParameter("contrasenia");
+
+            String mailInst = request.getParameter("mailInst");
+            String mail = request.getParameter("mail");
+            String nombre = request.getParameter("nombre");
+            String telefono = request.getParameter("telefono");
+
+            String idDepartamento = request.getParameter("idDepartamento");
+            String idLocalidad = request.getParameter("idLocalidad");
+            String idItr = request.getParameter("idItr");
+
+            Long idDepartamentoLong = Long.parseLong(idDepartamento);
+            Long idLocalidadLong = Long.parseLong(idLocalidad);
+            Long idItrLong = Long.parseLong(idItr);
+
+            Departamento departamento = departamentoService.obtenerPorId(idDepartamentoLong);
+            Localidad localidad = localidadService.obtenerLocalidadPorId(idLocalidadLong);
+            Itr itr = itrService.obtenerItr(idItrLong);
+
+            String generoSeleccionado = request.getParameter("genero");
+            char genero = generoSeleccionado.charAt(0);
+
+            String fechaNacimientoStr = request.getParameter("fechaNacimiento");
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date fechaNacimiento = null;
+            try {
+                fechaNacimiento = formato.parse(fechaNacimientoStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                System.out.println("Error al convertir la fecha");
+            }
+
+            if (validacion.validacionNombre(nombre)) {
+                setErrorAndReturn(request, response, validacion.RespuestaValidacionNombre(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
+            }
+
+            if (validacion.validacionApellido(apellido)) {
+                setErrorAndReturn(request, response, validacion.RespuestaValidacionAepllido(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
+            }
+
+            if (validacion.validacionUsiario(nomUsuario, nombre, apellido)) {
+                setErrorAndReturn(request, response, validacion.RespuestaValidacionUsiario(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
+            }
+
+            if (validacion.validacionContraseña(contrasenia)) {
+                setErrorAndReturn(request, response, validacion.RespuestaValidacionContraseña(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
+            }
+
+            if (validacion.validacionMailFuncionario(nomUsuario, mailInst)) {
+                setErrorAndReturn(request, response, validacion.RespuestaValidacionMailFuncionario(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
+            }
+
+            if (validacion.validacionMail(mail)) {
+                setErrorAndReturn(request, response, validacion.RespuestaValidacionMail(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
+            }
+
+            if (validacion.validacionTelefono(telefono)) {
+                setErrorAndReturn(request, response, validacion.RespuestaValidacionTelefono(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
+            }
+
+            if (validacion.validacionEdad(fechaNacimiento)) {
+                setErrorAndReturn(request, response, validacion.RespuestaValidacionEdad(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
+            }
+
+            ValidacionUsuario usuEstadoSinValidar = validacionService.obtenerValidacionUsuario(2);
+
+            Analista usuario = new Analista();
+
+            usuario.setNombreUsuario(nomUsuario);
+            usuario.setDocumento(documentoLong);
+            usuario.setApellidos(apellido);
+
+            try {
+                String salt = PasswordUtils.generateSalt();
+                String hashedPassword = PasswordUtils.hashPassword(contrasenia, salt);
+
+                usuario.setSaltContraseña(salt);
+                usuario.setHashContraseña(hashedPassword);
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                e.printStackTrace();
+                request.setAttribute("error", "Error al procesar la contraseña.");
+                setErrorAndReturn(request, response, "Error al procesar la contraseña.", nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
+            }
+
+            usuario.setMailInstitucional(mailInst);
+            usuario.setMail(mail);
+            usuario.setNombres(nombre);
+            usuario.setTelefono(telefono);
+
+            usuario.setValidacionUsuario(usuEstadoSinValidar);
+            usuario.setLocalidad(localidad);
+            usuario.setItr(itr);
+            usuario.setGenero(genero);
+            usuario.setFechaNacimiento(fechaNacimiento);
+
+            Estado estadoActivo = estadoService.obtenerEstadoId(1);
+            usuario.setEstado(estadoActivo);
+
+            try {
+                usuarioService.crearAnalista(usuario);
+                request.getSession().setAttribute("registroExitoso", "Su usuario ha sido registrado. Por favor, espere a que un analista valide su cuenta.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error al crear Analista");
+            }
+
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } else {
+            doGet(request, response);
         }
-
-		//Validacion Nombre
-		if (validacion.validacionNombre(nombre)) {
-			request.setAttribute("error", validacion.RespuestaValidacionNombre());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
-		
-		//Validacion Apellido
-		if (validacion.validacionApellido(apellido)) {
-			request.setAttribute("error", validacion.RespuestaValidacionAepllido());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
-//		//Validación del documento
-//		if (!validacion.validacionDocumento(documento)) {
-//			request.setAttribute("error", validacion.RespuestaValidacionDocumento());
-//			doGet(request, response);  // Cargar los datos necesarios
-//			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-//			return;
-//		}
-		
-		
-		// validacion Nombre de Usuario
-		if (validacion.validacionUsiario(nomUsuario, nombre, apellido)) {
-			request.setAttribute("error", validacion.RespuestaValidacionUsiario());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
-		//validación de formato de la contraseña
-		if (validacion.validacionContraseña(contrasenia)) {
-			request.setAttribute("error", validacion.RespuestaValidacionContraseña());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
-		//Validación del formato del mailInstitucional
-		if (validacion.validacionMailFuncionario(nomUsuario, mailInst)) {
-			request.setAttribute("error", validacion.RespuestaValidacionMailFuncionario());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
-		//Validación del formato del mail
-		if (validacion.validacionMail(mail)) {
-			request.setAttribute("error", validacion.RespuestaValidacionMail());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
-
-		//Validación del formato del telefono
-		if (validacion.validacionTelefono(telefono)) {
-			request.setAttribute("error", validacion.RespuestaValidacionTelefono());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
-		//Validación del fecha nacimiento
-		if (validacion.validacionEdad(fechaNacimiento)) {
-			request.setAttribute("error", validacion.RespuestaValidacionEdad());
-			doGet(request, response);  // Cargar los datos necesarios
-			request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-			return;
-		}
-
-		
-		
-       ValidacionUsuario usuEstadoSinValidar = validacionService.obtenerValidacionUsuario(2);
-		
-		Analista usuario = new Analista();
-
-		//setear atributos
-		usuario.setNombreUsuario(nomUsuario);
-		usuario.setDocumento(documentoLong);
-		usuario.setApellidos(apellido);
-		
-		
-		
-		 try {
-             // Generar salt y hash para la contraseña
-             String salt = PasswordUtils.generateSalt();
-             String hashedPassword = PasswordUtils.hashPassword(contrasenia, salt);
-             
-             usuario.setSaltContraseña(salt);
-             usuario.setHashContraseña(hashedPassword);
-         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-             e.printStackTrace();
-             request.setAttribute("error", "Error al procesar la contraseña.");
-             doGet(request, response);
-             request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
-             return;
-         }
-		
-		
-		
-		usuario.setMailInstitucional(mailInst);
-		usuario.setMail(mail);
-		usuario.setNombres(nombre);
-		usuario.setTelefono(telefono);
-		
-		//setear sin validar
-		usuario.setValidacionUsuario(usuEstadoSinValidar);
-				
-	    // localidad e itr
-		usuario.setLocalidad(localidad);
-		usuario.setItr(itr);
-	    
-	    //setear genero
-		usuario.setGenero(genero);
-	    
-	    // Establecer la fecha de nacimiento en el usuario
-		usuario.setFechaNacimiento(fechaNacimiento);
-		
-		//setear estado
-		Estado estadoActivo = estadoService.obtenerEstadoId(1);
-		usuario.setEstado(estadoActivo);
-
-		try {
-			usuarioService.crearAnalista((Analista)usuario);
-			// Agregar mensaje de éxito a la sesión
-			request.getSession().setAttribute("registroExitoso", "Su usuario ha sido registrado. Por favor, espere a que un analista valide su cuenta.");
-
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("Error al crear Analista");
-		}
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
-	}else {
-        // Si el formulario no ha sido enviado, redirige al doGet para cargar la página
-        doGet(request, response);
     }
-}
 
+    private void setErrorAndReturn(HttpServletRequest request, HttpServletResponse response, String errorMsg, String nombre, String apellido, String documento, String nomUsuario, String contrasenia, String mailInst, String mail, String telefono, String generoSeleccionado, String idDepartamento, String idLocalidad, String idItr, String fechaNacimientoStr) throws ServletException, IOException {
+        request.setAttribute("error", errorMsg);
+
+        request.setAttribute("nombre", nombre);
+        request.setAttribute("apellido", apellido);
+        request.setAttribute("documento", documento);
+        request.setAttribute("nomUsuario", nomUsuario);
+        request.setAttribute("contrasenia", contrasenia);
+        request.setAttribute("mailInst", mailInst);
+        request.setAttribute("mail", mail);
+        request.setAttribute("telefono", telefono);
+        request.setAttribute("generoSeleccionado", generoSeleccionado);
+        request.setAttribute("idDepartamento", idDepartamento);
+        request.setAttribute("idLocalidad", idLocalidad);
+        request.setAttribute("idItr", idItr);
+        request.setAttribute("fechaNacimiento", fechaNacimientoStr);
+
+        doGet(request, response);
+        request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+    }
 }
