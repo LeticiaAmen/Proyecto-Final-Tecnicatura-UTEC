@@ -1,6 +1,5 @@
 package com.servicios.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ejb.EJB;
@@ -19,9 +18,10 @@ import com.entidades.Accion;
 import com.entidades.Reclamo;
 import com.servicios.ReclamosService;
 import com.util.JwtUtil;
-import org.hibernate.Hibernate;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
-@Path("/listar")
+@Path("/listar/reclamos")
 @Stateless
 public class ReclamosListarResource {
     @EJB
@@ -32,18 +32,28 @@ public class ReclamosListarResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/reclamos")
     public Response listarReclamos(@Context HttpHeaders headers, @QueryParam("filtroUsuario") String filtroUsuario, @QueryParam("estadoReclamo") String estadoReclamo) {
         List<String> authHeaders = headers.getRequestHeader("Authorization");
         if (authHeaders == null || authHeaders.isEmpty() || !authHeaders.get(0).startsWith("Bearer ")) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("No authorization token provided").build();
         }
 
-        String token = authHeaders.get(0).substring(7); // extraer el token JWT
+        String token = authHeaders.get(0).substring(7); 
+		/* System.out.println("Received Token: " + token); */
+
         try {
             DecodedJWT jwt = JwtUtil.verifyToken(token);
+			/*
+			 * System.out.println("Decoded JWT: " + jwt); System.out.println("Claims: " +
+			 * jwt.getClaims());
+			 */
+
             String role = jwt.getClaim("rol").asString();
-            Long userId = jwt.getClaim("userId").asLong();
+            Long userId = Long.parseLong(jwt.getClaim("usuarioId").asString()); 
+
+			/*
+			 * System.out.println("Rol: " + role); System.out.println("UserID: " + userId);
+			 */
 
             List<Reclamo> reclamos;
             if ("ANALISTA".equals(role)) {
@@ -54,22 +64,34 @@ public class ReclamosListarResource {
                 return Response.status(Response.Status.FORBIDDEN).entity("Access denied").build();
             }
 
-            List<ReclamoDTO> reclamosDTO = new ArrayList<>();
-            for (Reclamo reclamo : reclamos) {
-                entityManager.refresh(reclamo);
-                ReclamoDTO dto = new ReclamoDTO();
-                dto.setId(reclamo.getIdReclamo());
-                dto.setDetalle(reclamo.getDetalle());
-                dto.setTitulo(reclamo.getTituloReclamo());
-                //dto.setFechaReclamo(reclamo.getFechaHoraReclamo());
-                //dto.setIdEvento(reclamo.getEvento());
-                Hibernate.initialize(reclamo.getAcciones());
-                dto.setAcciones(reclamo.getAcciones().stream().map(Accion::getDetalle).collect(Collectors.toList()));
-                reclamosDTO.add(dto);
-            }
+            List<ReclamoDTO> reclamosDTO = reclamos.stream().map(this::convertToDTO).collect(Collectors.toList());
             return Response.ok(reclamosDTO).build();
         } catch (JWTVerificationException e) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid or expired token").build();
         }
+    }
+
+    private ReclamoDTO convertToDTO(Reclamo reclamo) {
+        ReclamoDTO dto = new ReclamoDTO();
+        dto.setId(reclamo.getIdReclamo());
+        dto.setDetalle(reclamo.getDetalle());
+        dto.setTitulo(reclamo.getTituloReclamo());
+
+        if (reclamo.getFechaHoraReclamo() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            dto.setFechaReclamo(sdf.format(reclamo.getFechaHoraReclamo()));
+        } else {
+            dto.setFechaReclamo(null);
+        }
+
+        if (reclamo.getEvento() != null) {
+            dto.setIdEvento(reclamo.getEvento().getIdEvento());
+        }
+        dto.setAcciones(reclamo.getAcciones().stream().map(Accion::getDetalle).collect(Collectors.toList()));
+        if (reclamo.getEstudiante() != null) {
+            dto.setIdEstudiante(reclamo.getEstudiante().getIdUsuario());
+        }
+        return dto;
     }
 }

@@ -24,9 +24,12 @@ public class ReclamosService {
     }
 
     public List<Reclamo> obtenerReclamosPorUsuario(Long idUsuario) {
-        return em.createQuery("SELECT r FROM Reclamo r WHERE r.estudiante.idUsuario = :idUsuario", Reclamo.class)
-                 .setParameter("idUsuario", idUsuario)
-                 .getResultList();
+        System.out.println("Consultando reclamos para el usuario: " + idUsuario);
+        List<Reclamo> resultados = em.createQuery("SELECT r FROM Reclamo r WHERE r.estudiante.idUsuario = :idUsuario", Reclamo.class)
+                                      .setParameter("idUsuario", idUsuario)
+                                      .getResultList();
+        System.out.println("Número de reclamos encontrados: " + resultados.size());
+        return resultados;
     }
     
     public Reclamo obtenerReclamo(long idReclamo) {

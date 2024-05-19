@@ -26,75 +26,71 @@ import com.servicios.UsuarioService;
 @WebFilter(urlPatterns = {"/menuAnalista.jsp", "/menuEstudiante.jsp", "/menuTutor.jsp", "/SvListadoDeUsuario", "/ListadoItr", "/registroItr.jsp"})
 public class AuthFilter implements Filter {
 
-	@EJB
-	private UsuarioService usuarioService; 
-	
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-	        throws IOException, ServletException {
+    @EJB
+    private UsuarioService usuarioService; 
 
-	    HttpServletRequest req = (HttpServletRequest) request;
-	    HttpServletResponse res = (HttpServletResponse) response;
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
 
-	    String token = extractToken(req);
-	    if (token != null) {
-	        try {
-	            Algorithm algorithm = Algorithm.HMAC256("tuClaveSecreta");
-	            JWTVerifier verifier = JWT.require(algorithm).withIssuer("auth0").build();
-	            DecodedJWT jwt = verifier.verify(token);
-	            String userId = jwt.getClaim("usuarioId").asString();
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
 
-	            // Reconstruir el usuario a partir del ID obtenido del token
-	            if (userId != null) {
-	                Usuario usuario = usuarioService.obtenerUsuario(Long.parseLong(userId));
-	                if (usuario != null) {
-	                    HttpSession session = req.getSession(true);
-	                    session.setAttribute("usuario", usuario); // Establecer usuario en la sesión
+        String token = extractToken(req);
+        if (token != null) {
+            try {
+                Algorithm algorithm = Algorithm.HMAC256("tuClaveSecreta");
+                JWTVerifier verifier = JWT.require(algorithm).withIssuer("auth0").build();
+                DecodedJWT jwt = verifier.verify(token);
+                String userId = jwt.getClaim("usuarioId").asString();
 
-	                    String role = jwt.getClaim("rol").asString();
-	                    if (!isRoleAllowed(role, req.getRequestURI())) {
-	                        res.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
-	                        return;
-	                    }
-	                    chain.doFilter(request, response);
-	                } else {
-	                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not found");
-	                }
-	            } else {
-	                res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
-	            }
-	        } catch (JWTVerificationException exception) {
-	            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token...Por favor, vuelve a iniciar sesión.");
-	        }
-	    } else {
-	        res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Token Required");
-	    }
-	}
+                if (userId != null) {
+                    Usuario usuario = usuarioService.obtenerUsuario(Long.parseLong(userId));
+                    if (usuario != null) {
+                        HttpSession session = req.getSession(true);
+                        session.setAttribute("usuario", usuario); // Establecer usuario en la sesión
 
+                        String role = jwt.getClaim("rol").asString();
+                        if (!isRoleAllowed(role, req.getRequestURI())) {
+                            res.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+                            return;
+                        }
+                        chain.doFilter(request, response);
+                    } else {
+                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not found");
+                    }
+                } else {
+                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                }
+            } catch (JWTVerificationException exception) {
+                res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token...Por favor, vuelve a iniciar sesión.");
+            }
+        } else {
+            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Token Required");
+        }
+    }
 
-	private String extractToken(HttpServletRequest request) {
-	    // Primero intentamos obtener el token del header
-	    String token = request.getHeader("Authorization");
-	    if (token != null && token.startsWith("Bearer ")) {
-	        return token.substring(7);
-	    }
-	    // Si no está en el header, intentamos obtenerlo de la cookie
-	    Cookie[] cookies = request.getCookies();
-	    if (cookies != null) {
-	        for (Cookie cookie : cookies) {
-	            if ("Authorization".equals(cookie.getName())) {
-	                String value = cookie.getValue();
-	                if (value.startsWith("Bearer ")) {
-	                    return value.substring(7);
-	                }
-	                return value;
-	            }
-	        }
-	    }
-	    return null;
-	}
-
-
+    private String extractToken(HttpServletRequest request) {
+        // Primero intentamos obtener el token del header
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            return token.substring(7);
+        }
+        // Si no está en el header, intentamos obtenerlo de la cookie
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("Authorization".equals(cookie.getName())) {
+                    String value = cookie.getValue();
+                    if (value.startsWith("Bearer ")) {
+                        return value.substring(7);
+                    }
+                    return value;
+                }
+            }
+        }
+        return null;
+    }
 
     private boolean isRoleAllowed(String role, String path) {
         if (role != null) {

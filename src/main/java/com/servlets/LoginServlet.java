@@ -1,6 +1,5 @@
 package com.servlets;
 
-
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -25,34 +24,31 @@ import com.servicios.UsuarioService;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@EJB
-	private UsuarioService usuarioService;
-	public Usuario usuarioLogeado;
+    @EJB
+    private UsuarioService usuarioService;
+    public Usuario usuarioLogeado;
 
-	public LoginServlet() {
-		super();
-		usuarioLogeado = new Usuario();
-	}
+    public LoginServlet() {
+        super();
+        usuarioLogeado = new Usuario();
+    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession sesion = request.getSession();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession sesion = request.getSession();
         Usuario usuarioLogeado = (Usuario) sesion.getAttribute("usuario");
 
         if (usuarioLogeado != null) {
-            // Actualizar la información del usuario
             usuarioLogeado = usuarioService.obtenerUsuario(usuarioLogeado.getIdUsuario());
             sesion.setAttribute("usuario", usuarioLogeado);
-
-            // Redirigir a ModificarDatosPersonalesServlet para cargar los datos
             RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarDatosPersonalesServlet");
             dispatcher.forward(request, response);
         }
-	}
+    }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String nomUsuario = request.getParameter("nomUsuario");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String nomUsuario = request.getParameter("nomUsuario");
         String contrasenia = request.getParameter("psw");
 
         try {
@@ -80,17 +76,16 @@ public class LoginServlet extends HttpServlet {
                         String tipoUsuario = usuarioService.determinarTipoUsuario(usuarioLogeado);
                         String token = usuarioService.generarTokenJWT(String.valueOf(usuarioLogeado.getIdUsuario()), usuarioLogeado.getNombreUsuario(), tipoUsuario);
 
-                        // Aquí imprimimos el token generado en la consola del servidor
                         System.out.println("Generated JWT Token: " + token);
 
-                        // Configura el token en una cookie segura y HttpOnly
                         Cookie authCookie = new Cookie("Authorization", "Bearer " + token);
                         authCookie.setHttpOnly(true);
-                        authCookie.setSecure(true); // Asegúrate de que solo se envíe con HTTPS
+                        authCookie.setSecure(true);
                         authCookie.setPath("/");
                         response.addCookie(authCookie);
 
-                        // Redirección
+                        response.setHeader("Authorization", "Bearer " + token);
+
                         String redirectPage = "menu" + formatPageName(tipoUsuario) + ".jsp";
                         response.sendRedirect(redirectPage);
                     } else {
@@ -116,13 +111,10 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-
-	private String formatPageName(String tipoUsuario) {
-	    if (tipoUsuario == null || tipoUsuario.isEmpty()) return "Error";
-	    return tipoUsuario.substring(0, 1).toUpperCase() + tipoUsuario.substring(1).toLowerCase();
-	}
-
-
-
-
+    private String formatPageName(String tipoUsuario) {
+        if (tipoUsuario == null || tipoUsuario.isEmpty()) return "Error";
+        return tipoUsuario.substring(0, 1).toUpperCase() + tipoUsuario.substring(1).toLowerCase();
+    }
 }
+
+
