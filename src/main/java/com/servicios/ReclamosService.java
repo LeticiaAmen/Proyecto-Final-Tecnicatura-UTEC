@@ -40,7 +40,7 @@ public class ReclamosService {
 
         TypedQuery<Reclamo> query = em.createQuery(jpql, Reclamo.class);
         query.setParameter("filtroUsuario", (filtroUsuario == null || filtroUsuario.trim().isEmpty()) ? null : '%' + filtroUsuario.trim().toLowerCase() + '%');
-        query.setParameter("estadoReclamo", (estadoReclamo == null || estadoReclamo.isEmpty()) ? null : Long.parseLong(estadoReclamo)); // Ajustado aquí
+        query.setParameter("estadoReclamo", (estadoReclamo == null || estadoReclamo.isEmpty()) ? null : Long.parseLong(estadoReclamo)); 
 
         return query.getResultList();
     }
@@ -53,7 +53,7 @@ public class ReclamosService {
         TypedQuery<Reclamo> query = em.createQuery(jpql, Reclamo.class);
         query.setParameter("idUsuario", idUsuario);
         query.setParameter("filtroUsuario", (filtroUsuario == null || filtroUsuario.trim().isEmpty()) ? null : '%' + filtroUsuario.trim().toLowerCase() + '%');
-        query.setParameter("estadoReclamo", (estadoReclamo == null || estadoReclamo.isEmpty()) ? null : Long.parseLong(estadoReclamo)); // Ajustado aquí
+        query.setParameter("estadoReclamo", (estadoReclamo == null || estadoReclamo.isEmpty()) ? null : Long.parseLong(estadoReclamo)); 
 
         return query.getResultList();
     }

@@ -55,71 +55,52 @@ public class SvIngresarReclamo extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String formSubmitted = request.getParameter("formSubmitted");
-		if ("true".equals(formSubmitted)) {
+	    String formSubmitted = request.getParameter("formSubmitted");
+	    if ("true".equals(formSubmitted)) {
+	        //Recuperar el id del estudiante de la sesión
+	        String idEstudianteStr = request.getParameter("idEstudiante");
+	        long idEstudiante = Long.parseLong(idEstudianteStr);
 
+	        String titulo = request.getParameter("titulo");
+	        String detalle = request.getParameter("detalle");
 
-			//Recuperar el id del estudiante de la sesion
-			String idEstudianteStr = request.getParameter("idEstudiante");
-			//Convertir el id a long
-			long idEstudiante = 0;
-			try {
-				idEstudiante = Long.parseLong(idEstudianteStr);
-			} catch (NumberFormatException e) {
-				// Error al obtener el id del estudiante
-				System.out.println("Error al obtener el id del usuario logueado");
-				e.printStackTrace();
-			}
+	        // Obtener la fecha actual en el servidor para el registro del reclamo
+	        Date fechaReclamo = new Date();
 
+	        // Obtener el ID del evento seleccionado en el formulario
+	        String idEventoStr = request.getParameter("idEvento");
+	        Long idEvento = Long.parseLong(idEventoStr);
+	        Evento evento = eventoService.obtenerEvento(idEvento);
 
-			String titulo = request.getParameter("titulo");
-			String detalle = request.getParameter("detalle");
-			//obtener fecha string
-			String fechaReclamoStr= request.getParameter("fechaReclamo");
-			//formato de fecha
-			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-			//convertir a java.util.date
-			Date fechaReclamo = null; 
-			try {
-				fechaReclamo = formato.parse(fechaReclamoStr);
-			}catch (ParseException e) {
-				e.printStackTrace();
-				System.out.println("Error al convertir la fecha");
-			}
-			//obtener evento
-			String idEvento = request.getParameter("idEvento");
-			//cpnvertir a long
-			Long idEventoLong = Long.parseLong(idEvento);
-			//obtener entidad
-			Evento evento =  eventoService.obtenerEvento(idEventoLong);
-			Estudiante estudiante = (Estudiante) usuarioService.obtenerUsuario(idEstudiante);
+	        // Obtener el estudiante de la base de datos usando el ID almacenado en la sesión
+	        Estudiante estudiante = (Estudiante) usuarioService.obtenerUsuario(idEstudiante);
 
-			//se lo seteamos en 1 que es ingresado
-			RegistroAccione registroAccion = registroAccionService.obtenerRegistroAccion(1);
+	        // Se lo setea en 1 que es el estado 'Ingresado'
+	        RegistroAccione registroAccion = registroAccionService.obtenerRegistroAccion(1);
 
-			Reclamo reclamo = new Reclamo();
+	        // Crear el nuevo reclamo con la información obtenida y completada
+	        Reclamo reclamo = new Reclamo();
+	        reclamo.setTituloReclamo(titulo);
+	        reclamo.setDetalle(detalle);
+	        reclamo.setFechaHoraReclamo(fechaReclamo);
+	        reclamo.setEvento(evento);
+	        reclamo.setEstudiante(estudiante);
+	        reclamo.setRegistroAccione(registroAccion);
 
-			//setear atributos
-
-			reclamo.setDetalle(detalle);
-			reclamo.setTituloReclamo(titulo);
-			reclamo.setEvento(evento);
-			reclamo.setEstudiante(estudiante);
-			reclamo.setFechaHoraReclamo(fechaReclamo);
-			reclamo.setRegistroAccione(registroAccion);						
-			
-			try {
-				reclamoService.crearReclamo(reclamo);
-				request.getSession().setAttribute("ingreso exitoso", "Su reclamo ha sido ingresado con éxito");
-				response.sendRedirect("SvListarReclamos");
-			}catch(Exception e){
-				e.printStackTrace();
-				System.out.println("Error al ingresar el Reclamo");
-			}			
-			response.sendRedirect("listadoReclamos.jsp");
-		}else {
-			// Si el formulario no ha sido enviado, redirige al doGet para cargar la página
-			doGet(request, response);
-		}
+	        try {
+	            reclamoService.crearReclamo(reclamo);
+	            // Atributo de sesión para mostrar un mensaje de éxito en la interfaz de usuario
+	            request.getSession().setAttribute("ingresoExitoso", "Su reclamo ha sido ingresado con éxito.");
+	            response.sendRedirect("SvListarReclamos");
+	        } catch (Exception e) {
+	            // Si ocurre un error, se imprime en consola y se puede redirigir a una página de error
+	            e.printStackTrace();
+	            response.sendRedirect("error.jsp"); 
+	        }
+	    } else {
+	        // Si no se envió el formulario, recargar la página de registro de reclamo
+	        doGet(request, response);
+	    }
 	}
+
 }

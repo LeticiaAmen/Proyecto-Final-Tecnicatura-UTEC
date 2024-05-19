@@ -48,12 +48,6 @@
 		<textarea name="detalle" rows="6" cols="80" required></textarea>
 
 		<p>
-			<label><strong>*Fecha del Reclamo</strong></label>
-		</p>
-		<input type="date" name="fechaReclamo" required>
-
-
-		<p>
 			<label><strong>*Evento</strong></label>
 		</p>
 		<select name="idEvento" required oninvalid="this.setCustomValidity('Por favor, seleccione un evento.')" oninput="this.setCustomValidity('')">
