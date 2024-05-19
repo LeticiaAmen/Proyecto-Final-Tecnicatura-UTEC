@@ -172,5 +172,23 @@ public class Validacion {
         return "Debe ser mayor de 18 años para registrarse.";
     }
 
+    
+    public boolean validacionMailInstitucional(String mailInstitucional, String tipoUsuario) {
+        if (tipoUsuario.equals("ANALISTA") || tipoUsuario.equals("TUTOR")) {
+            return mailInstitucional.endsWith("@utec.edu.uy");
+        } else if (tipoUsuario.equals("ESTUDIANTE")) {
+            return mailInstitucional.endsWith("@estudiantes.utec.edu.uy");
+        }
+        return false;
+    }
+    
+    public String RespuestaValidacionMailInstitucional(String tipoUsuario) {
+        if (tipoUsuario.equals("ANALISTA") || tipoUsuario.equals("TUTOR")) {
+            return "El correo institucional debe terminar en @utec.edu.uy";
+        } else if (tipoUsuario.equals("ESTUDIANTE")) {
+            return "El correo institucional debe terminar en @estudiantes.utec.edu.uy";
+        }
+        return "Tipo de usuario no válido para la validación de correo institucional.";
+    }
 
 }

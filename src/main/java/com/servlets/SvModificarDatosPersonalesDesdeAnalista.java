@@ -192,18 +192,38 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
 		    Long estadoId = Long.parseLong(request.getParameter("estadoUsuarioId"));		    
 		    Localidad localidad = localidadService.obtenerLocalidadPorId(localidadId);
 		    Departamento departamento = departamentoService.obtenerPorId(departamentoId);
+		    
+		    
+		    //asignar tipo de usuario para validaciones
+		    String tipoUsuario = "";
+            if (usuarioModificado instanceof Analista) {
+                tipoUsuario = "ANALISTA";
+            } else if (usuarioModificado instanceof Tutor) {
+                tipoUsuario = "TUTOR";
+            } else if (usuarioModificado instanceof Estudiante) {
+                tipoUsuario = "ESTUDIANTE";
+            }
+            
+            //validación mail institucional
+            if (!validacion.validacionMailInstitucional(mailInstitucional, tipoUsuario)) {
+                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMailInstitucional(tipoUsuario));
+                return;
+            }
+		    
 
 		 // Verificar si el correo ya está en uso
             if (usuarioService.existeCorreo(mail, userId)) {
-               // session.setAttribute("mensajeError", "El correo ya está en uso por otro usuario.");
-               // response.sendRedirect("datosPersonalesUsuario?id=" + userId);
-
                 response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + "El correo ya está en uso por otro usuario");
                 return;
             }
 		    
-		    Estado estado = usuarioEstado.obtenerEstadoId(estadoId);
-		    
+            // Validar el correo electrónico
+            if (validacion.validacionMail(mail)) {
+                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMail());
+                return;
+            }
+            
+            Estado estado = usuarioEstado.obtenerEstadoId(estadoId);
 		   Validacion validacionUsuario = new Validacion();
 
 		// Validar el nombre
