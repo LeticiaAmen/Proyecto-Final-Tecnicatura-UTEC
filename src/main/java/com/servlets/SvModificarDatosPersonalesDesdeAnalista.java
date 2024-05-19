@@ -204,6 +204,12 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
                 tipoUsuario = "ESTUDIANTE";
             }
             
+         // Validar el documento
+            if (!validacion.validacionDocumento(documentoStr)) {
+                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionDocumento());
+                return;
+            }
+            
             //validación mail institucional
             if (!validacion.validacionMailInstitucional(mailInstitucional, tipoUsuario)) {
                 response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMailInstitucional(tipoUsuario));

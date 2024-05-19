@@ -57,20 +57,15 @@ public class Validacion {
             suma += Character.getNumericValue(documento.charAt(i)) * factor[i];
         }
 
-        // Calcular el dígito verificador
+     // Calcular el dígito verificador
         int resto = suma % 10;
-        int digitoVerificador = 10 - resto;
+        int digitoVerificador = (resto == 0) ? 0 : 10 - resto;
 
-        // Verificar si el dígito verificador coincide con el último dígito de la cédula
-        if (digitoVerificador == Character.getNumericValue(documento.charAt(7))) {
-            return true;
-        } else {
-            return false;
+     // Verificar si el dígito verificador coincide con el último dígito de la cédula
+        return digitoVerificador == Character.getNumericValue(documento.charAt(7));
         }
     
 
-
-    }
     public String RespuestaValidacionDocumento() {
         return  "El formato del numero de documento no es correcto, debe ser 12345678.";
 
