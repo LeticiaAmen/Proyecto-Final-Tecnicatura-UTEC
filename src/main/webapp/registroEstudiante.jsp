@@ -6,6 +6,11 @@
     <meta charset="UTF-8">
     <title>Registro Estudiante</title>
     <link rel="stylesheet" href="formularios.css">
+    <script type="text/javascript">
+    function confirmarEnvio() {
+        return confirm("¿Está seguro de que desea enviar el formulario?");
+    }
+</script>
 </head>
 <body>
 <header>
@@ -20,7 +25,7 @@
     <div class="error">${error}</div>
 </c:if>
 
-<form action="SvRegistroEstudiante" method="POST">
+<form action="SvRegistroEstudiante" method="POST" onsubmit="return confirmarEnvio();">
 
     <p>
         <label><strong>*Nombre:</strong></label>
