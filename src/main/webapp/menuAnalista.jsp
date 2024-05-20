@@ -47,5 +47,8 @@
 	<form action="SvListaAuxiliarEstado" method="get">
 		<input type="submit" value="Lista Auxiliar Estados">
 	</form>
+	  <form action="SvReportes" method="get">
+        <input type="submit" class="button" value="Reportes">
+    </form>
 </body>
 </html>

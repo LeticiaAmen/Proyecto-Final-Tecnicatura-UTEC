@@ -42,7 +42,7 @@ public class UsuarioDAO {
 		return entityManager.find(Usuario.class, id);
 	}
 
-	public List<Usuario> obtenerUSuarios(){
+	public List<Usuario> obtenerUsuarios(){
 		return entityManager.createQuery("FROM Usuario", Usuario.class).getResultList();
 	}
 
@@ -50,7 +50,6 @@ public class UsuarioDAO {
 	    entityManager.merge(usuario);
 	    entityManager.flush(); 
 	}
-
 
 	//listar todo
 	public List<Usuario> obtenerTodosLosUsuarios() {

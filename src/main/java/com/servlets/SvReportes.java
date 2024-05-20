@@ -19,10 +19,10 @@ import com.servicios.ItrService;
 import com.servicios.UsuarioService;
 import com.servicios.ValidacionUsuarioService;
 
-@WebServlet("/SvListadoDeUsuario")
-public class SvListadoDeUsuario extends HttpServlet {
+@WebServlet("/SvReportes")
+public class SvReportes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+	
 	@EJB
 	private ValidacionUsuarioService validacionService;
 	
@@ -34,13 +34,13 @@ public class SvListadoDeUsuario extends HttpServlet {
 	@EJB
 	private GeneracionService generacionService; 
 	
-    public SvListadoDeUsuario() {
+    public SvReportes() {
         super();
     }
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// Obtiene los datos necesarios para el listado
+    	// Obtiene los datos necesarios para el listado
 		List<Usuario> usuarios = usuarioService.obtenerUsuarios();
 		List<Itr> itrs =  itrService.obtenerItrTodos();
 		List<ValidacionUsuario> listaValidaciones = validacionService.obtenerValidaciones();
@@ -53,12 +53,10 @@ public class SvListadoDeUsuario extends HttpServlet {
 		request.setAttribute("generaciones", generaciones);
 		
 		// Reenvía la solicitud al JSP para mostrar la lista
-		request.getRequestDispatcher("/listarusuario.jsp").forward(request, response);
-		
+		request.getRequestDispatcher("/reportes.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

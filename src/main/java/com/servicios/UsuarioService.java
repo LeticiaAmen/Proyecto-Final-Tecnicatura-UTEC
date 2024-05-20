@@ -4,13 +4,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Date;
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
+import javax.persistence.TypedQuery;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -41,7 +39,7 @@ public class UsuarioService {
     @EJB
     private TutorDAO tutorDAO;
     
-    public void crearUsuario (Usuario usuario) {
+    public void crearUsuario(Usuario usuario) {
         usuarioDAO.crearUsuario(usuario);
     }
     
@@ -50,18 +48,18 @@ public class UsuarioService {
     }
     
     public List<Usuario> obtenerUsuarios(){
-        return usuarioDAO.obtenerUSuarios();
+        return usuarioDAO.obtenerUsuarios();
     }
     
     public void crearAnalista(Analista analista) {
         analistaDAO.crearAnalista(analista);
     }
     
-    public void crearTutor (Tutor tutor) {
+    public void crearTutor(Tutor tutor) {
         tutorDAO.crearTutor(tutor);
     }
     
-    public void crearEstudiante (Estudiante estudiante) {
+    public void crearEstudiante(Estudiante estudiante) {
         estudianteDAO.crearEstudiante(estudiante);
     }
     
@@ -84,7 +82,7 @@ public class UsuarioService {
     
     public Usuario obtenerUsuarioDesdeBaseDeDatosNombre(String nomUsuario) {
         try {
-            Query query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :nomUsuario", Usuario.class);
+            TypedQuery<Usuario> query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :nomUsuario", Usuario.class);
             query.setParameter("nomUsuario", nomUsuario);
             List<Usuario> usuarios = query.getResultList();
             if (!usuarios.isEmpty()) {
@@ -128,27 +126,31 @@ public class UsuarioService {
     }
 
     public boolean esAnalista(long idUsuario) {
-        List<Analista> result = entityManager.createQuery(
-            "SELECT a FROM Analista a WHERE a.idUsuario = :idUsuario", Analista.class)
-            .setParameter("idUsuario", idUsuario)
-            .getResultList();
-        return !result.isEmpty();
+        TypedQuery<Long> query = entityManager.createQuery(
+                "SELECT COUNT(a) FROM Analista a WHERE a.idUsuario = :idUsuario", Long.class);
+        query.setParameter("idUsuario", idUsuario);
+        Long count = query.getSingleResult();
+        return count > 0;
     }
 
-    public boolean esEstudiante(long idUsuario) {
-        List<Estudiante> result = entityManager.createQuery(
-            "SELECT e FROM Estudiante e WHERE e.idUsuario = :idUsuario", Estudiante.class)
-            .setParameter("idUsuario", idUsuario)
-            .getResultList();
-        return !result.isEmpty();
+    public boolean esEstudiante(Long idUsuario) {
+        TypedQuery<Long> query = entityManager.createQuery(
+                "SELECT COUNT(e) FROM Estudiante e WHERE e.idUsuario = :idUsuario", Long.class);
+        query.setParameter("idUsuario", idUsuario);
+        Long count = query.getSingleResult();
+        return count > 0;
     }
 
+    public Usuario obtenerUsuarioPorId(Long idUsuario) {
+        return entityManager.find(Usuario.class, idUsuario);
+    }
+    
     public boolean esTutor(long idUsuario) {
-        List<Tutor> result = entityManager.createQuery(
-            "SELECT t FROM Tutor t WHERE t.idUsuario = :idUsuario", Tutor.class)
-            .setParameter("idUsuario", idUsuario)
-            .getResultList();
-        return !result.isEmpty();
+        TypedQuery<Long> query = entityManager.createQuery(
+                "SELECT COUNT(t) FROM Tutor t WHERE t.idUsuario = :idUsuario", Long.class);
+        query.setParameter("idUsuario", idUsuario);
+        Long count = query.getSingleResult();
+        return count > 0;
     }
 
     public void actualizarUsuario(Usuario usuario) {
@@ -177,4 +179,9 @@ public class UsuarioService {
                             .setParameter("nombre", "%" + nombre + "%")
                             .getResultList();
     }
+    
+    public List<Estudiante> obtenerEstudiantes() {
+        return entityManager.createQuery("SELECT e FROM Estudiante e", Estudiante.class).getResultList();
+    }
+
 }

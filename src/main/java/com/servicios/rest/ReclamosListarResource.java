@@ -88,6 +88,8 @@ public class ReclamosListarResource {
         if (reclamo.getEvento() != null) {
             dto.setIdEvento(reclamo.getEvento().getIdEvento());
         }
+     /* Utiliza la API de Streams de Java para transformar la lista de entidades `Accion` asociadas al reclamo en una lista de detalles (String).
+      	Convierte la lista en un stream, aplica la función `getDetalle` a cada elemento del stream y recoge los resultados en una nueva lista.*/
         dto.setAcciones(reclamo.getAcciones().stream().map(Accion::getDetalle).collect(Collectors.toList()));
         if (reclamo.getEstudiante() != null) {
             dto.setIdEstudiante(reclamo.getEstudiante().getIdUsuario());
