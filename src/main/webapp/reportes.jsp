@@ -64,7 +64,7 @@
         <input type="submit" class="button" value="Limpiar Filtros">
     </form>
     <form action="menuAnalista.jsp" method="get">
-        <input style="margin-left: 3em" type="submit" value="Cancelar">
+        <input style="margin-left: 3em" type="submit" value="Volver">
     </form>
     
     <table border="1">

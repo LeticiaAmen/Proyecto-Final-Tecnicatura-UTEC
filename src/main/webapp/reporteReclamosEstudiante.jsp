@@ -69,7 +69,7 @@
     
     <!-- Botón para regresar al menú de reportes -->
     <form action="SvReportes" method="get">
-        <input style="margin-left: 14em" type="submit" value="Cancelar">
+        <input style="margin-left: 14em" type="submit" value="Volver">
     </form>
     
     <div class="container" style="margin-top: 1em">
