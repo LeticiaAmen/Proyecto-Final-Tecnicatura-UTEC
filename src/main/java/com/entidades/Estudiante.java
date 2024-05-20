@@ -51,11 +51,12 @@ public class Estudiante extends Usuario {
 	public Estudiante() {
 	}
 
-
+	@Override
 	public String getMailInstitucional() {
 		return this.mailInstitucional;
 	}
 
+	@Override
 	public void setMailInstitucional(String mailInstitucional) {
 		this.mailInstitucional = mailInstitucional;
 	}

@@ -48,13 +48,15 @@ public class Tutor extends Usuario {
 	public Tutor() {
 	}
 
-	public String getMailInstitucional() {
-		return this.mailInstitucional;
-	}
+	@Override
+    public String getMailInstitucional() {
+        return this.mailInstitucional;
+    }
 
-	public void setMailInstitucional(String mailInstitucional) {
-		this.mailInstitucional = mailInstitucional;
-	}
+    @Override
+    public void setMailInstitucional(String mailInstitucional) {
+        this.mailInstitucional = mailInstitucional;
+    }
 
 	public Area getArea() {
 		return this.area;

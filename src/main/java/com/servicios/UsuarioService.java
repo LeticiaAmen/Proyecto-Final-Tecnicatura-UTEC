@@ -41,7 +41,15 @@ public class UsuarioService {
     @EJB
     private TutorDAO tutorDAO;
     
-    public void crearUsuario (Usuario usuario) {
+    public void crearUsuario(Usuario usuario) {
+        if (usuarioDAO.existeNombreUsuario(usuario.getNombreUsuario())) {
+            throw new RuntimeException("El nombre de usuario ya está en uso.");
+        }
+        
+        if (usuarioDAO.existeCorreoInstitucional(usuario.getMailInstitucional())) {
+            throw new RuntimeException("El correo institucional ya está en uso.");
+        }
+        
         usuarioDAO.crearUsuario(usuario);
     }
     
@@ -50,18 +58,21 @@ public class UsuarioService {
     }
     
     public List<Usuario> obtenerUsuarios(){
-        return usuarioDAO.obtenerUSuarios();
+        return usuarioDAO.obtenerUsuarios();
     }
     
     public void crearAnalista(Analista analista) {
+        crearUsuario(analista);
         analistaDAO.crearAnalista(analista);
     }
     
-    public void crearTutor (Tutor tutor) {
+    public void crearTutor(Tutor tutor) {
+        crearUsuario(tutor);
         tutorDAO.crearTutor(tutor);
     }
     
-    public void crearEstudiante (Estudiante estudiante) {
+    public void crearEstudiante(Estudiante estudiante) {
+        crearUsuario(estudiante);
         estudianteDAO.crearEstudiante(estudiante);
     }
     

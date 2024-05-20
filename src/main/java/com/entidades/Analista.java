@@ -37,13 +37,16 @@ public class Analista extends Usuario {
 	}
 
 
-	public String getMailInstitucional() {
-		return this.mailInstitucional;
-	}
+	@Override
+    public String getMailInstitucional() {
+        return this.mailInstitucional;
+    }
 
-	public void setMailInstitucional(String mailInstitucional) {
-		this.mailInstitucional = mailInstitucional;
-	}
+    @Override
+    public void setMailInstitucional(String mailInstitucional) {
+        this.mailInstitucional = mailInstitucional;
+    }
+    
 
 	public List<Accion> getAcciones() {
 		return this.acciones;
