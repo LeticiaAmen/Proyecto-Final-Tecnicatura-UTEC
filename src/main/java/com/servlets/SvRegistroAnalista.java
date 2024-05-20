@@ -201,13 +201,18 @@ public class SvRegistroAnalista extends HttpServlet {
             try {
                 usuarioService.crearAnalista(usuario);
                 request.getSession().setAttribute("registroExitoso", "Su usuario ha sido registrado. Por favor, espere a que un analista valide su cuenta.");
+            } catch (RuntimeException e) {
+                setErrorAndReturn(request, response, e.getMessage(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error al crear Analista");
             }
 
             request.getRequestDispatcher("/index.jsp").forward(request, response);
-        } else {
+        }
+        
+        else {
             doGet(request, response);
         }
     }

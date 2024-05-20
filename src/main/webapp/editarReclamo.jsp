@@ -59,7 +59,7 @@
 	</form>
 	
 	<form action="SvListarReclamos" method="get" onsubmit="return cancelar();">
-		<button type="submit">Cancelar</button>
+		<button type="submit">Volver</button>
 	</form>
 	<script>
 	    function confirmarEliminacion() {

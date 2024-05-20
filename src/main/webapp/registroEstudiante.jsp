@@ -25,50 +25,50 @@
     <p>
         <label><strong>*Nombre:</strong></label>
     </p>
-    <input type="text" name="nombre" value="${param.nombre}" required>
+    <input type="text" name="nombre" value="${nombre}" required>
     
     <p>
         <label><strong>*Apellido:</strong></label>
     </p>
-    <input type="text" name="apellido" value="${param.apellido}" required>
+    <input type="text" name="apellido" value="${apellido}" required>
     
     <p>
         <label><strong>*Documento:</strong></label>
     </p>
-    <input type="text" name="documento" value="${param.documento}" required>
+    <input type="text" name="documento" value="${documento}" required>
     
     <p>
         <label><strong>*Nombre de Usuario:</strong></label>
     </p>
-    <input type="text" name="nomUsuario" value="${param.nomUsuario}" required>
+    <input type="text" name="nomUsuario" value="${nomUsuario}" required>
     
     <p>
         <label><strong>*Contraseña:</strong></label>
     </p>
-    <input type="password" name="contrasenia" required>
+    <input type="password" name="contrasenia" value="${contrasenia}" required>
 
     <p>
         <label><strong>*Mail Institucional:</strong></label>
     </p>
-    <input type="text" name="mailInst" value="${param.mailInst}" required>
+    <input type="text" name="mailInst" value="${mailInst}" required>
     
     <p>
         <label><strong>*Mail:</strong></label>
     </p>
-    <input type="text" name="mail" value="${param.mail}" required>
+    <input type="text" name="mail" value="${mail}" required>
     
     <p>
-        <label><strong>*Telefono:</strong></label>
+        <label><strong>*Teléfono:</strong></label>
     </p>
-    <input type="text" name="telefono" value="${param.telefono}" required>
+    <input type="text" name="telefono" value="${telefono}" required>
     
     <p>
         <label><strong>*Género:</strong></label>
     </p>
     <select name="genero" required>
-        <option value="" ${param.genero == '' ? 'selected' : ''}></option>
+        <option value="" <c:if test="${genero eq ''}">selected</c:if>></option>
         <c:forEach var="genero" items="${generos}">
-            <option value="${genero}" ${param.genero == genero ? 'selected' : ''}>${genero}</option>
+            <option value="${genero}" <c:if test="${genero eq generoSeleccionado}">selected</c:if>>${genero}</option>
         </c:forEach>
     </select>
     
@@ -76,9 +76,9 @@
         <label><strong>*Departamento:</strong></label>
     </p>
     <select name="idDepartamento" required>
-        <option value="" ${param.idDepartamento == '' ? 'selected' : ''}></option>
+        <option value="" <c:if test="${idDepartamento eq ''}">selected</c:if>></option>
         <c:forEach var="departamento" items="${departamentos}">
-            <option value="${departamento.idDepartamento}" ${param.idDepartamento == departamento.idDepartamento ? 'selected' : ''}>${departamento.nombre}</option>
+            <option value="${departamento.idDepartamento}" <c:if test="${departamento.idDepartamento eq idDepartamento}">selected</c:if>>${departamento.nombre}</option>
         </c:forEach>
     </select>
     
@@ -86,9 +86,9 @@
         <label><strong>*Localidad:</strong></label>
     </p>
     <select name="idLocalidad" required>
-        <option value="" ${param.idLocalidad == '' ? 'selected' : ''}></option>
+        <option value="" <c:if test="${idLocalidad eq ''}">selected</c:if>></option>
         <c:forEach var="localidad" items="${localidades}">
-            <option value="${localidad.idLocalidad}" ${param.idLocalidad == localidad.idLocalidad ? 'selected' : ''}>${localidad.nombre}</option>
+            <option value="${localidad.idLocalidad}" <c:if test="${localidad.idLocalidad eq idLocalidad}">selected</c:if>>${localidad.nombre}</option>
         </c:forEach>
     </select>
     
@@ -96,9 +96,9 @@
         <label><strong>*ITR:</strong></label>
     </p>
     <select name="idItr" required>
-        <option value="" ${param.idItr == '' ? 'selected' : ''}></option>
+        <option value="" <c:if test="${idItr eq ''}">selected</c:if>></option>
         <c:forEach var="itr" items="${itrs}">
-            <option value="${itr.idItr}" ${param.idItr == itr.idItr ? 'selected' : ''}>${itr.nombre}</option>
+            <option value="${itr.idItr}" <c:if test="${itr.idItr eq idItr}">selected</c:if>>${itr.nombre}</option>
         </c:forEach>
     </select>
     
@@ -106,9 +106,9 @@
         <label><strong>*Semestre:</strong></label>
     </p>
     <select name="semestre" required>
-        <option value="" ${param.semestre == '' ? 'selected' : ''}></option>
+        <option value="" <c:if test="${semestre eq ''}">selected</c:if>></option>
         <c:forEach var="semestre" items="${semestres}">
-            <option value="${semestre}" ${param.semestre == semestre ? 'selected' : ''}>${semestre}</option>
+            <option value="${semestre}" <c:if test="${semestre eq semestreSeleccionado}">selected</c:if>>${semestre}</option>
         </c:forEach>
     </select>
     
@@ -116,16 +116,16 @@
         <label><strong>*Generación:</strong></label>
     </p>
     <select name="idGeneracion" required>
-        <option value="" ${param.idGeneracion == '' ? 'selected' : ''}></option>
+        <option value="" <c:if test="${idGeneracion eq ''}">selected</c:if>></option>
         <c:forEach var="generacion" items="${generaciones}">
-            <option value="${generacion.idGeneracion}" ${param.idGeneracion == generacion.idGeneracion ? 'selected' : ''}>${generacion.nombre}</option>
+            <option value="${generacion.idGeneracion}" <c:if test="${generacion.idGeneracion eq idGeneracion}">selected</c:if>>${generacion.nombre}</option>
         </c:forEach>
     </select>
     
     <p>
         <label><strong>*Fecha de Nacimiento:</strong></label>
     </p>
-    <input type="date" name="fechaNacimiento" value="${param.fechaNacimiento}" required>
+    <input type="date" name="fechaNacimiento" value="${fechaNacimiento}" required>
     
     <p style="text-align: center; margin-top: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
         <span style="background-color: white; padding: 0 10px;">*Campos obligatorios</span>
@@ -136,7 +136,7 @@
 </form>
 
 <form action="index.jsp" method="get">
-    <button type="submit">Cancelar</button>
+    <button type="submit">Volver</button>
 </form>
 
 </body>

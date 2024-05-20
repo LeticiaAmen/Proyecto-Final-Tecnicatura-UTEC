@@ -81,7 +81,7 @@
 	</div>
 	
 	<form action="menuAnalista.jsp" method="get">
-    	<input type="submit" value="Cancelar">
+    	<input type="submit" value="Volver">
     </form>
    
 	<script>

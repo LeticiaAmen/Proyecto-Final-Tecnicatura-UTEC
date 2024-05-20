@@ -40,6 +40,17 @@ public class UsuarioService {
     private TutorDAO tutorDAO;
     
     public void crearUsuario(Usuario usuario) {
+<<<<<<< HEAD
+=======
+        if (usuarioDAO.existeNombreUsuario(usuario.getNombreUsuario())) {
+            throw new RuntimeException("El nombre de usuario ya está en uso.");
+        }
+        
+        if (usuarioDAO.existeCorreoInstitucional(usuario.getMailInstitucional())) {
+            throw new RuntimeException("El correo institucional ya está en uso.");
+        }
+        
+>>>>>>> 7e2bd7adc161b907a8598322c1e715b54dfd5192
         usuarioDAO.crearUsuario(usuario);
     }
     
@@ -52,14 +63,23 @@ public class UsuarioService {
     }
     
     public void crearAnalista(Analista analista) {
+        crearUsuario(analista);
         analistaDAO.crearAnalista(analista);
     }
     
     public void crearTutor(Tutor tutor) {
+<<<<<<< HEAD
+=======
+        crearUsuario(tutor);
+>>>>>>> 7e2bd7adc161b907a8598322c1e715b54dfd5192
         tutorDAO.crearTutor(tutor);
     }
     
     public void crearEstudiante(Estudiante estudiante) {
+<<<<<<< HEAD
+=======
+        crearUsuario(estudiante);
+>>>>>>> 7e2bd7adc161b907a8598322c1e715b54dfd5192
         estudianteDAO.crearEstudiante(estudiante);
     }
     

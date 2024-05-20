@@ -75,7 +75,7 @@
 		</form>
 		
 		<form action="menuAnalista.jsp" method="get" class="back-form" style="margin-left: 13em">
-			<input type="submit" value="Cancelar">
+			<input type="submit" value="Volver">
 		</form>
 		
 		<table border="1">

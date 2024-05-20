@@ -59,7 +59,7 @@
 		
 
 		<form action="ListadoItr" method="get">
-			<input type="submit" value="Cancelar">
+			<input type="submit" value="Volver">
 		</form>
 	</div>
 	<script>

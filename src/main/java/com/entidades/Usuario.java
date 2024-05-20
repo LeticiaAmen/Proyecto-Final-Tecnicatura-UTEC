@@ -186,5 +186,14 @@ public class Usuario implements Serializable {
 	public void setValidacionUsuario(ValidacionUsuario validacionUsuario) {
 		this.validacionUsuario = validacionUsuario;
 	}
+	
+	 // Métodos a agregar para mailInstitucional (actualizado para subclases)
+    public String getMailInstitucional() {
+        return null;
+    }
+
+    public void setMailInstitucional(String mailInstitucional) {
+        // Implementación vacía para ser sobrescrita por subclases
+    }
 
 }
