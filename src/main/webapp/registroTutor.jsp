@@ -135,7 +135,7 @@
 </form>
 
 <form action="index.jsp" method="get">
-    <button type="submit">Cancelar</button>
+    <button type="submit">Volver</button>
 </form>
 
 </body>

@@ -112,9 +112,9 @@
 		</c:if>
 	
 		
-		<!-- Botón Cancelar -->
+		<!-- Botón Volver-->
 		<form action="SvListarReclamos" method="get" style="margin-left: 75em">
-		    <input type="submit" value="Cancelar">
+		    <input type="submit" value="Volver">
 		</form>
 
 	<script>

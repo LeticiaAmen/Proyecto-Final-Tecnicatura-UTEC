@@ -62,9 +62,9 @@
 	    </form>
 	</c:if>
 	
-	<!-- Botón Cancelar -->
+	<!-- Botón Volver -->
 	<form action="${backUrl}" method="get">
-		<input type="submit" value="Cancelar" style="margin-left: 10em;">
+		<input type="submit" value="Volver" style="margin-left: 10em;">
 	</form>
 	
 	<div class="container">

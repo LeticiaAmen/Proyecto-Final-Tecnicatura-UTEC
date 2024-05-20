@@ -240,9 +240,9 @@
     }
 	%>
 	
-	<!-- Botón Cancelar -->
+	<!-- Botón Volver-->
 	<form action="<%= tipoUsuario %>" method="get">
-    	<input type="submit" value="Cancelar">
+    	<input type="submit" value="Volver">
 	</form>
 
 	

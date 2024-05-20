@@ -121,7 +121,7 @@ window.onload = function() {
 
 	<!-- Botón para regresar al menú del analista -->
 	<form action="menuAnalista.jsp" method="get">
-		<input type="submit" value="Cancelar">
+		<input type="submit" value="Volver">
 	</form>
 	
 	<table border="1">

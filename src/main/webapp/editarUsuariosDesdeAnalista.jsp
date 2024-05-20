@@ -266,7 +266,7 @@
 	</script>
 
 	<form action="SvListadoDeUsuario" method="get">
-		<input type="submit" value="Cancelar">
+		<input type="submit" value="Volver">
 	</form>
 </body>
 </html>
