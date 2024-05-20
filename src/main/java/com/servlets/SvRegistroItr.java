@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.entidades.Estado;
 import com.entidades.Itr;
 import com.servicios.EstadoService;
@@ -29,27 +30,22 @@ public class SvRegistroItr extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Estado> estados = estadoService.obtenerEstados();
-        request.setAttribute("estados", estados);
-        
-        request.getRequestDispatcher("/registroItr.jsp").forward(request, response);
-    	
+        cargarEstadosYDespachar(request, response);
     }
-   
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	String formSubmitted = request.getParameter("formSubmitted");
+        String formSubmitted = request.getParameter("formSubmitted");
         if ("true".equals(formSubmitted)) {
             String nombre = request.getParameter("nombre");
-            String idestadoStr = request.getParameter("idEstado");
-            Long idEstado = Long.parseLong(idestadoStr);  // convertir a long
-            Estado estadoSeleccionado = estadoService.obtenerEstadoId(idEstado);  // obtener la entidad
+            String idEstadoStr = request.getParameter("idEstado");
+            Long idEstado = Long.parseLong(idEstadoStr);
+            Estado estadoSeleccionado = estadoService.obtenerEstadoId(idEstado);
 
             Itr existente = itrService.obtenerItrDesdeBaseDeDatosNombre(nombre);
             if (existente != null) {
                 String errorMessage = "Ya existe un ITR con este nombre.";
                 request.setAttribute("errorMessage", errorMessage);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/registroItr.jsp");
-                dispatcher.forward(request, response);
+                cargarEstadosYDespachar(request, response);
             } else {
                 Itr itrNuevo = new Itr();
                 itrNuevo.setNombre(nombre);
@@ -58,16 +54,21 @@ public class SvRegistroItr extends HttpServlet {
                     itrService.crearItr(itrNuevo);
                     String successMessage = "El ITR se ha creado exitosamente.";
                     request.setAttribute("successMessage", successMessage);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/registroItr.jsp");
-                    dispatcher.forward(request, response);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("Error al crear Itr");
+                    String errorMessage = "Error al crear el ITR.";
+                    request.setAttribute("errorMessage", errorMessage);
                 }
+                cargarEstadosYDespachar(request, response);
             }
         } else {
-            // Si el formulario no ha sido enviado, redirige al doGet para cargar la página
             doGet(request, response);
         }
+    }
+
+    private void cargarEstadosYDespachar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Estado> estados = estadoService.obtenerEstados();
+        request.setAttribute("estados", estados);
+        request.getRequestDispatcher("/registroItr.jsp").forward(request, response);
     }
 }

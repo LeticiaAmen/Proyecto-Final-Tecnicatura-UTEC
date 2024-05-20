@@ -42,8 +42,10 @@
 	    <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
 	
 	    <p><label><strong>*Título del Reclamo:</strong></label></p>
-	    <input type="text" name="titulo" value="${reclamo.tituloReclamo}" required>
-	
+	    <input type="text" name="titulo" value="${reclamo.tituloReclamo}"required oninvalid="this.setCustomValidity('Por favor, introduce un título entre 3 y 20 caracteres')" 
+       		oninput="validateLength(this)">
+
+		<p>
 	    <p><label><strong>*Detalle:</strong></label></p>
 	    <textarea name="detalle" rows="6" cols="80" required>${reclamo.detalle}</textarea>
 	
@@ -59,7 +61,7 @@
 	</form>
 	
 	<form action="SvListarReclamos" method="get" onsubmit="return cancelar();">
-		<button type="submit">Volver</button>
+		<button type="submit">Cancelar</button>
 	</form>
 	<script>
 	    function confirmarEliminacion() {
@@ -71,6 +73,17 @@
 			}     
 	    }
 	</script>
+	<script>
+		function validateLength(input) {
+		    // Limpiar previamente cualquier mensaje de error establecido
+		    input.setCustomValidity('');
+		
+		    // Verificar la longitud del valor del input
+		    if (input.value.length < 3 || input.value.length > 20) {
+		        input.setCustomValidity('Por favor, introduce un título entre 3 y 20 caracteres');
+		    }
+		}
+</script>
 	<script>
 	    function cancelar() {
 	        return confirm("¿Cancelar modificación y volver al listado de reclamos?");

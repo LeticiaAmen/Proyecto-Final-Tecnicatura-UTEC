@@ -98,7 +98,7 @@
 			<input type="hidden" name="formSubmitted" value="true">
 
 			<!--  Botón Modificar  -->
-			<input type="submit" name="accion" value="Modificar" class="submit-btn">
+			<input type="submit" name="accion" value="Editar" class="submit-btn">
 
 		</form>
 		

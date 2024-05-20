@@ -107,7 +107,7 @@
 		<c:if test="${not esAnalista and reclamo.registroAccione.nombre == 'Ingresado'}">
 		    <form action="SvEditarReclamo" method="get">
 		        <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
-		        <input style="margin-left: 14em" type="submit" value="Modificar">
+		        <input style="margin-left: 14em" type="submit" value="Modificar Reclamo">
 		    </form>
 		</c:if>
 	
