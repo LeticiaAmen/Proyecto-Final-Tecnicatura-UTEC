@@ -204,7 +204,7 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
                 tipoUsuario = "ESTUDIANTE";
             }
             
-         // Validar el documento
+            // Validar el documento
             if (!validacion.validacionDocumento(documentoStr)) {
                 response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionDocumento());
                 return;
@@ -217,7 +217,7 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
             }
 		    
 
-		 // Verificar si el correo ya está en uso
+            // Verificar si el correo ya está en uso
             if (usuarioService.existeCorreo(mail, userId)) {
                 response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + "El correo ya está en uso por otro usuario");
                 return;
@@ -232,10 +232,16 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
             Estado estado = usuarioEstado.obtenerEstadoId(estadoId);
 		   Validacion validacionUsuario = new Validacion();
 
-		// Validar el nombre
+		   // Validar el nombre
 		   if (validacionUsuario.validacionNombre(nombre)) {
 		       response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacionUsuario.RespuestaValidacionNombre());
 		       return;
+		   }
+		   
+		   //validar apellido
+		   if(validacionUsuario.validacionApellido(apellido)) {
+			   response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacionUsuario.RespuestaValidacionAepllido());
+			   return;
 		   }
 		    
 		    // Validar el telefono

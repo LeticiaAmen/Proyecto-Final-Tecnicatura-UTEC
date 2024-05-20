@@ -100,13 +100,6 @@ public class ReclamoDAO {
     }
     
     /* Consulta genérica en SQL:
-	SELECT *
-	FROM reclamos r
-	WHERE r.id_usuario_estudiante = ?
-	AND EXTRACT(YEAR FROM r.fecha_hora_reclamo) = ?
-	AND EXTRACT(MONTH FROM r.fecha_hora_reclamo) = ?
-	ORDER BY fecha_hora_reclamo DESC;
-	
 	Ejemplo de consulta en SQL con un estudiante con id 21 para el mes 5 y el año 2024
 	SELECT *
 	FROM reclamos r
