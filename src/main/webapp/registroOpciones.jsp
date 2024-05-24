@@ -23,7 +23,8 @@
 	<form action="SvRegistroOpciones" method="Post" name="tipoRegistro">
 		<p
 			style="text-align: center; margin-top: 20px; display: flex; align-items: center; justify-content: center;">
-			<select name="tipoRegistro">
+			<select name="tipoRegistro" style="width: 200px;">
+				<option value="ANALISTA">Seleciona un rol...</option>
 				<option value="ANALISTA">Analista</option>
 				<option value="TUTOR">Tutor</option>
 				<option value="ESTUDIANTE">Estudiante</option>
