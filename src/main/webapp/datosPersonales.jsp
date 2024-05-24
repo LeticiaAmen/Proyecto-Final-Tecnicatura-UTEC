@@ -66,6 +66,17 @@
 		
 		boolean isStudent = usuarioAEditar instanceof Estudiante;
 		Estudiante student = isStudent ? (Estudiante) usuarioAEditar : null; %>
+		      <%-- Mostrar mensajes de error y éxito --%>
+    <c:if test="${not empty param.mensajeError}">
+        <div class="alert alert-danger" role="alert" style ="color: red;">
+            ${param.mensajeError}
+        </div>
+    </c:if>
+    <c:if test="${not empty param.mensajeExito}">
+        <div class="alert alert-success" role="alert" style = "color: blue;">
+            ${param.mensajeExito}
+        </div>
+    </c:if>
 
 	<form action="datosPersonales" method="post" onsubmit="return confirmarModificacion();">
 		<input type="hidden" name="userId" value="<%=usuarioAEditar.getIdUsuario()%>">

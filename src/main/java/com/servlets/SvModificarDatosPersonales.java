@@ -36,6 +36,7 @@ import com.servicios.RolService;
 import com.servicios.UsuarioService;
 import com.servicios.ValidacionUsuarioService;
 import com.util.PasswordUtils;
+import com.validaciones.Validacion;
 
 @WebServlet("/datosPersonales")
 public class SvModificarDatosPersonales extends HttpServlet {
@@ -61,6 +62,8 @@ public class SvModificarDatosPersonales extends HttpServlet {
 
 	@EJB
 	private AreaService areaService;
+	
+	private Validacion validacion = new Validacion();
 
 	public SvModificarDatosPersonales() {
 		super();
@@ -181,6 +184,48 @@ public class SvModificarDatosPersonales extends HttpServlet {
 				     
 				    Localidad localidad = localidadService.obtenerLocalidadPorId(localidadId);
 				    Departamento departamento = departamentoService.obtenerPorId(departamentoId);
+				    
+				    
+				    
+				    // Validar el nombre
+		            if (!validacion.validacionNombre(nombre)) {
+		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionNombre());
+		                return;
+		            }
+				    
+				    // Validar el documento
+		            if (!validacion.validacionDocumento(documentoStr)) {
+		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionDocumento());
+		                return;
+		            }
+
+
+		            // Verificar si el correo ya está en uso
+		            if (usuarioService.existeCorreo(mail, userId)) {
+		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=El correo ya está en uso por otro usuario");
+		                return;
+		            }
+
+		            // Validar el correo electrónico
+		            if (!validacion.validacionMail(mail)) {
+		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMail());
+		                return;
+		            }
+
+		          
+
+		            // Validar el apellido
+		            if (!validacion.validacionApellido(apellido)) {
+		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionAepllido());
+		                return;
+		            }
+
+		            // Validar el teléfono
+		            if (!validacion.validacionTelefono(telefono)) {
+		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionTelefono());
+		                return;
+		            }
+
 
 				    if (localidad != null && departamento != null) {
 				        localidad.setDepartamento(departamento);
@@ -194,6 +239,8 @@ public class SvModificarDatosPersonales extends HttpServlet {
 				     Itr itr = itrService.obtenerItr(itrId);
 				     
 				     localidadService.actualizarLocalidad(localidad);
+				     
+				     
 		    
 				     // Actualizar atributos
 			         try {
