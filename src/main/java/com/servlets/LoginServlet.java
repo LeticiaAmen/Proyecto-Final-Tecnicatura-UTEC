@@ -93,7 +93,7 @@ public class LoginServlet extends HttpServlet {
                         request.getRequestDispatcher("index.jsp").forward(request, response);
                     }
                 } else {
-                    request.setAttribute("error", "Su usuario aún no ha sido activado.");
+                    request.setAttribute("error", "Su usuario aún no ha sido validado.");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 }
             } else {
