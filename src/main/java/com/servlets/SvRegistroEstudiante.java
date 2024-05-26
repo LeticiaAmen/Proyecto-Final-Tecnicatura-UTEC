@@ -28,6 +28,7 @@ import com.servicios.ItrService;
 import com.servicios.LocalidadService;
 import com.servicios.UsuarioService;
 import com.servicios.ValidacionUsuarioService;
+import com.servicios.rest.LdapService;
 import com.validaciones.Validacion;
 
 import com.util.PasswordUtils;
@@ -60,10 +61,12 @@ public class SvRegistroEstudiante extends HttpServlet {
     private GeneracionService generacionService; 
 
     private Validacion validacion;
+    private LdapService ldapService;
 
     public SvRegistroEstudiante() {
         super();
         validacion = new Validacion();
+        ldapService = new LdapService();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -211,6 +214,14 @@ public class SvRegistroEstudiante extends HttpServlet {
             estudiante.setFechaNacimiento(fechaNacimiento);
 
             try {
+                // Crear usuario en AD
+                boolean adUserCreated = ldapService.createUser(nomUsuario, contrasenia);
+                if (!adUserCreated) {
+                    request.setAttribute("error", "Error al crear el usuario en Active Directory.");
+                    setErrorAndReturn(request, response, "Error al crear el usuario en Active Directory.", nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idGeneracion, semestreSeleccionado, fechaNacimientoStr);
+                    return;
+                }
+
                 usuarioService.crearEstudiante(estudiante);
                 request.getSession().setAttribute("registroExitoso", "Su usuario ha sido registrado. Por favor, espere a que un analista valide su cuenta.");
             } catch (Exception e) {

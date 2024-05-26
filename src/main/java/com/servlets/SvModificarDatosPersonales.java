@@ -232,7 +232,7 @@ public class SvModificarDatosPersonales extends HttpServlet {
 				        localidadService.actualizarLocalidad(localidad);
 				    } else {
 				        session.setAttribute("mensajeError", "Departamento o localidad no encontrada.");
-				        response.sendRedirect("editarUsuario.jsp");
+				        response.sendRedirect("datosPersonales.jsp");
 				        return;
 				    }
 
@@ -247,7 +247,7 @@ public class SvModificarDatosPersonales extends HttpServlet {
 			             usuarioModificado.setDocumento(documento);
 			         } catch (NumberFormatException e) {
 			             session.setAttribute("mensajeError", "El formato del documento no es válido.");
-			             response.sendRedirect("editarUsuario.jsp");
+			             response.sendRedirect("datosPersonales.jsp");
 			             return;
 			         }  
 			         usuarioModificado.setNombres(nombre);
@@ -274,7 +274,7 @@ public class SvModificarDatosPersonales extends HttpServlet {
 				        } catch (ParseException e) {
 				            e.printStackTrace();
 				            session.setAttribute("mensajeError", "Formato de fecha incorrecto.");
-				            response.sendRedirect("editarUsuario.jsp");
+				            response.sendRedirect("datosPersonales.jsp");
 				            return;
 				        }
 			         
@@ -292,7 +292,7 @@ public class SvModificarDatosPersonales extends HttpServlet {
 			                } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			                    e.printStackTrace();
 			                    session.setAttribute("mensajeError", "Error al procesar la contraseña.");
-			                    response.sendRedirect("editarUsuario.jsp");
+			                    response.sendRedirect("datosPersonales.jsp");
 			                    return;
 			                }
 			            }
@@ -313,12 +313,12 @@ public class SvModificarDatosPersonales extends HttpServlet {
 			        	            estudiante.setGeneracion(generacion);
 			        	        } else {
 			        	            session.setAttribute("mensajeError", "Generación no encontrada.");
-			        	            response.sendRedirect("editarUsuario.jsp");
+			        	            response.sendRedirect("datosPersonales.jsp");
 			        	            return;
 			        	        }
 			        	    } catch (NumberFormatException e) {
 			        	        session.setAttribute("mensajeError", "Formato numérico incorrecto.");
-			        	        response.sendRedirect("editarUsuario.jsp");
+			        	        response.sendRedirect("datosPersonales.jsp");
 			        	        return;
 			        	    }
 			        	}
@@ -338,12 +338,12 @@ public class SvModificarDatosPersonales extends HttpServlet {
 			        	            tutor.setArea(area);
 			        	        } else {
 			        	            session.setAttribute("mensajeError", "Rol o área no encontrados.");
-			        	            response.sendRedirect("editarUsuario.jsp");
+			        	            response.sendRedirect("datosPersonales.jsp");
 			        	            return;
 			        	        }
 			        	    } catch (NumberFormatException e) {
 			        	        session.setAttribute("mensajeError", "Formato numérico incorrecto para rol o área.");
-			        	        response.sendRedirect("editarUsuario.jsp");
+			        	        response.sendRedirect("datosPersonales.jsp");
 			        	        return;
 			        	    }
 			        	}
@@ -367,7 +367,7 @@ public class SvModificarDatosPersonales extends HttpServlet {
 
 			    } else {
 			        session.setAttribute("mensajeError", "No se encontró el usuario.");
-			        response.sendRedirect("editarUsuario.jsp");
+			        response.sendRedirect("datosPersonales.jsp");
 			    }
 			}
 
