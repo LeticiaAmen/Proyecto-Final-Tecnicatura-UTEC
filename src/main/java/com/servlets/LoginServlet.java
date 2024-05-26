@@ -116,5 +116,3 @@ public class LoginServlet extends HttpServlet {
         return tipoUsuario.substring(0, 1).toUpperCase() + tipoUsuario.substring(1).toLowerCase();
     }
 }
-
-

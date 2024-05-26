@@ -189,26 +189,26 @@ public class SvModificarDatosPersonales extends HttpServlet {
 				    
 				    // Validar el nombre
 		            if (!validacion.validacionNombre(nombre)) {
-		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionNombre());
+		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionNombre());
 		                return;
 		            }
 				    
 				    // Validar el documento
 		            if (!validacion.validacionDocumento(documentoStr)) {
-		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionDocumento());
+		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionDocumento());
 		                return;
 		            }
 
 
 		            // Verificar si el correo ya está en uso
 		            if (usuarioService.existeCorreo(mail, userId)) {
-		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=El correo ya está en uso por otro usuario");
+		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=El correo ya está en uso por otro usuario");
 		                return;
 		            }
 
 		            // Validar el correo electrónico
 		            if (!validacion.validacionMail(mail)) {
-		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMail());
+		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMail());
 		                return;
 		            }
 
@@ -216,13 +216,13 @@ public class SvModificarDatosPersonales extends HttpServlet {
 
 		            // Validar el apellido
 		            if (!validacion.validacionApellido(apellido)) {
-		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionAepllido());
+		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionAepllido());
 		                return;
 		            }
 
 		            // Validar el teléfono
 		            if (!validacion.validacionTelefono(telefono)) {
-		                response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionTelefono());
+		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionTelefono());
 		                return;
 		            }
 
