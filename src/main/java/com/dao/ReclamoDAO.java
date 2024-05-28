@@ -111,7 +111,11 @@ public class ReclamoDAO {
  // Método para obtener reclamos de un estudiante filtrado por año y mes, ordenados por fecha
     public List<Reclamo> obtenerReclamosPorEstudianteYFecha(Long estudianteId, int anio, int mes) {
         TypedQuery<Reclamo> query = entityManager.createQuery(
-            "SELECT r FROM Reclamo r WHERE r.estudiante.id = :estudianteId AND FUNCTION('YEAR', r.fechaHoraReclamo) = :anio AND FUNCTION('MONTH', r.fechaHoraReclamo) = :mes ORDER BY r.fechaHoraReclamo DESC", 
+            "SELECT r "
+            + "FROM Reclamo r "
+            + "WHERE r.estudiante.id = :estudianteId "
+            + "AND FUNCTION('YEAR', r.fechaHoraReclamo) = :anio "
+            + "AND FUNCTION('MONTH', r.fechaHoraReclamo) = :mes ORDER BY r.fechaHoraReclamo DESC", 
             Reclamo.class);
         query.setParameter("estudianteId", estudianteId);
         query.setParameter("anio", anio);

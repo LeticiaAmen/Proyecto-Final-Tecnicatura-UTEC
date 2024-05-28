@@ -4,7 +4,8 @@ import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.directory.*;
 import java.util.Hashtable;
-
+/*LDAP (Lightweight Directory Access Protocol, «Protocolo Ligero de Acceso a Directorios») es un protocolo de 
+tipo cliente-servidor para acceder a un servicio de directorio*/
 public class LdapService {
     private String ldapHost = "ldap://192.168.1.8"; // IP del servidor AD
     private String adminUsername = "CN=Administrator,CN=Users,DC=utec,DC=local"; // DN del administrador
