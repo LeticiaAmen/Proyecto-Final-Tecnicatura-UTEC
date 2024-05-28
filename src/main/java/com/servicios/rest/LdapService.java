@@ -4,8 +4,7 @@ import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.directory.*;
 import java.util.Hashtable;
-/*LDAP (Lightweight Directory Access Protocol, «Protocolo Ligero de Acceso a Directorios») es un protocolo de 
-tipo cliente-servidor para acceder a un servicio de directorio*/
+
 public class LdapService {
     private String ldapHost = "ldap://192.168.1.8"; // IP del servidor AD
     private String adminUsername = "CN=Administrator,CN=Users,DC=utec,DC=local"; // DN del administrador
@@ -85,7 +84,7 @@ public class LdapService {
             attributes.put("userPassword", password);
 
             // Set user account control to enable the account
-            attributes.put("userAccountControl", "544"); // 544 = 512 + 32 (cuenta normal + contraseña no requerida para cambiar en el primer login)
+            attributes.put("userAccountControl", "544"); // 544 = 512 + 32 (normal account + password not required to change at first login)
 
             // Construir el DN del nuevo usuario
             String userDn = "CN=" + username + ",OU=Estudiantes,DC=utec,DC=local";
