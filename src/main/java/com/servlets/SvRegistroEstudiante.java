@@ -213,15 +213,7 @@ public class SvRegistroEstudiante extends HttpServlet {
             estudiante.setSemestre(semestreInt);
             estudiante.setFechaNacimiento(fechaNacimiento);
 
-            try {
-                // Crear usuario en AD
-                boolean adUserCreated = ldapService.createUser(nomUsuario, contrasenia);
-                if (!adUserCreated) {
-                    request.setAttribute("error", "Error al crear el usuario en Active Directory.");
-                    setErrorAndReturn(request, response, "Error al crear el usuario en Active Directory.", nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idGeneracion, semestreSeleccionado, fechaNacimientoStr);
-                    return;
-                }
-
+            try {               
                 usuarioService.crearEstudiante(estudiante);
                 request.getSession().setAttribute("registroExitoso", "Su usuario ha sido registrado. Por favor, espere a que un analista valide su cuenta.");
             } catch (Exception e) {
