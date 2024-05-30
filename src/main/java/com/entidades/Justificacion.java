@@ -17,9 +17,12 @@ public class Justificacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name = "seq_justificacion", sequenceName = "seq_justificacion", allocationSize = 1, initialValue = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "seq_justificacion")
 	@Column(name="ID_JUSTIFICACION")
 	private long idJustificacion;
 
+	@Column(name="DETALLE")
 	private String detalle;
 
 	@Temporal(TemporalType.DATE)
