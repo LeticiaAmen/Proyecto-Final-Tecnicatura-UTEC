@@ -10,7 +10,6 @@ import javax.persistence.TypedQuery;
 
 import com.entidades.Estado;
 import com.entidades.Justificacion;
-import com.entidades.Reclamo;
 
 @Stateless
 public class JustificacionDAO {
