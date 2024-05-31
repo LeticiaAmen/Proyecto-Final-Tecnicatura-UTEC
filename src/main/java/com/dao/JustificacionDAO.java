@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 
 import com.entidades.Estado;
 import com.entidades.Justificacion;
+import com.entidades.Reclamo;
 
 @Stateless
 public class JustificacionDAO {
@@ -81,5 +82,32 @@ public class JustificacionDAO {
 	                 .setParameter("idUsuarioEstudiante", idUsuarioEstudiante)
 	                 .getResultList();
 	    }
+	 
+	 public List<Justificacion> obtenerJustificacionesConFiltros(String filtroUsuario, String estadoJustificacion) {
+		 String jpql = "SELECT j FROM Justificacion j LEFT JOIN j.registroAccione ra WHERE " +
+                 "(:filtroUsuario IS NULL OR LOWER(j.estudiante.nombreUsuario) LIKE :filtroUsuario) AND " +
+                 "(:estadoJustificacion IS NULL OR ra.idRegistroAccion = :estadoJustificacion)";
+		 
+		 TypedQuery<Justificacion> query = entityManager.createQuery(jpql, Justificacion.class);
+	        query.setParameter("filtroUsuario", (filtroUsuario == null || filtroUsuario.trim().isEmpty()) ? null : '%' + filtroUsuario.trim().toLowerCase() + '%');
+	        query.setParameter("estadoJustificacion", (estadoJustificacion == null || estadoJustificacion.isEmpty()) ? null : Long.parseLong(estadoJustificacion)); 
+
+	        return query.getResultList();
+	
+	 }
+	
+	 public List<Justificacion> obtenerJustificacionesPorUsuarioConFiltros(long idUsuario, String filtroUsuario, String estadoJustificacion) {
+		 String jpql = "SELECT j FROM Justificacion j LEFT JOIN j.registroAccione ra WHERE " +
+                 "j.estudiante.idUsuario = :idUsuario AND " +
+                 "(:filtroUsuario IS NULL OR LOWER(j.estudiante.nombreUsuario) LIKE :filtroUsuario) AND " +
+                 "(:estadoJustificacion IS NULL OR ra.idRegistroAccion = :estadoJustificacion)";
+   TypedQuery<Justificacion> query = entityManager.createQuery(jpql, Justificacion.class);
+   query.setParameter("idUsuario", idUsuario);
+   query.setParameter("filtroUsuario", (filtroUsuario == null || filtroUsuario.trim().isEmpty()) ? null : '%' + filtroUsuario.trim().toLowerCase() + '%');
+   query.setParameter("estadoJustificacion", (estadoJustificacion == null || estadoJustificacion.isEmpty()) ? null : Long.parseLong(estadoJustificacion)); 
+
+   return query.getResultList();
+	 }
+	 
 
 }

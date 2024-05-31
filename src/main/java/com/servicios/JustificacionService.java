@@ -47,6 +47,13 @@ public class JustificacionService {
 		return justificacionDAO.obtenerJustificacionesPorEstudiante(idUsuarioEstudiante);
 	}
 	
+	 public List<Justificacion> obtenerJustificacionesConFiltros(String filtroUsuario, String estadoJustificacion) {
+		 return justificacionDAO.obtenerJustificacionesConFiltros(filtroUsuario, estadoJustificacion);
+	 }
+	
+	 public List<Justificacion> obtenerJustificacionesPorUsuarioConFiltros(long idUsuario, String filtroUsuario, String estadoJustificacion) {
+		 return justificacionDAO.obtenerJustificacionesPorUsuarioConFiltros(idUsuario, filtroUsuario, estadoJustificacion);
+	 }
 	
 
 }

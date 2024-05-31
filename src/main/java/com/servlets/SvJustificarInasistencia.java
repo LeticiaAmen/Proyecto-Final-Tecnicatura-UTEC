@@ -48,7 +48,7 @@ public class SvJustificarInasistencia extends HttpServlet {
 		//Lista de eventos para asociar al select
 		List<Evento> eventos = eventoService.obtenerEventosTodos();
 		request.setAttribute("eventos", eventos);
-		String backUrl = "menuEstudiante.jsp"; // URL por defecto
+		String backUrl = "SvListarJustificaciones"; // URL por defecto
 		 request.setAttribute("backUrl", backUrl); // Enviamos la URL correcta al JSP
 
 		request.getRequestDispatcher("justificarInasistencia.jsp").forward(request, response);
