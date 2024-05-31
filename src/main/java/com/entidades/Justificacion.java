@@ -28,6 +28,11 @@ public class Justificacion implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_HORA")
 	private Date fechaHora;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_REGISTRO_ACCION")
+	private RegistroAccione registroAccione;
+	
 
 	//bi-directional many-to-one association to Accion
 	@OneToMany(mappedBy="justificacion")
@@ -121,4 +126,10 @@ public class Justificacion implements Serializable {
 		this.evento = evento;
 	}
 
+	public void setRegistroAccione(RegistroAccione registroAccione) {
+		this.registroAccione = registroAccione;
+	}
+	public RegistroAccione getRegistroAccione() {
+		return registroAccione;
+	}
 }

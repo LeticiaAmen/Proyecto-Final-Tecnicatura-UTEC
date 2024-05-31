@@ -33,5 +33,9 @@
     <form action="SvListarReclamos" method="get">
     	<input type="submit" class="button" value="Reclamos">
     </form>
+     <!-- Botón para ir a la justificación de inasistencia -->
+    <form action="SvJustificarInasistencia" method="get">
+        <input type="submit" class="button" value="Justificar Inasistencia">
+    </form>
 </body>
 </html>
