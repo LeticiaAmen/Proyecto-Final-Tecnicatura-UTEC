@@ -11,7 +11,6 @@ public class LdapService {
     private String adminPassword = "P4$$word123"; // Contraseña del administrador
 
     public boolean authenticate(String username, String password) {
-        // Verificar conexión usando credenciales del administrador
         if (!checkAdminConnection()) {
             return false;
         }
@@ -54,3 +53,5 @@ public class LdapService {
         }
     }
 }
+
+
