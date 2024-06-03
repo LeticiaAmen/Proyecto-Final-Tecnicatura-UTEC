@@ -36,13 +36,16 @@
         </div>
     </header>
     <form action="ListadoItr" method="get">
-        <input type="submit" class="button" value="Listar Itrs">
+        <input type="submit" class="button" value="Listar ITRs">
     </form>
     <form action="SvListadoDeUsuario" method="get">
         <input type="submit" class="button" value="Listar Usuarios">
     </form>
     <form action="SvListarReclamos" method="get">
         <input type="submit" class="button" value="Listar Reclamos">
+    </form>
+    <form action="SvListarJustificaciones" method="get">
+        <input type="submit" class="button" value="Listar Justificaciones">
     </form>
 	<form action="SvListaAuxiliarEstado" method="get">
 		<input type="submit" value="Lista Auxiliar Estados">
