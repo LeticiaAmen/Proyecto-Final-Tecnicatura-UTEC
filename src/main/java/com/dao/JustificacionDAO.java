@@ -109,5 +109,15 @@ public class JustificacionDAO {
    return query.getResultList();
 	 }
 	 
-
+	 public Justificacion obtenerJustificacionConAcciones(long idJustificacion) {
+	        try {
+	            return entityManager.createQuery(
+	                "SELECT r FROM Justificacion r LEFT JOIN FETCH r.acciones WHERE r.id = :idJustificacion", Justificacion.class)
+	                .setParameter("idJustificacion", idJustificacion)
+	                .getSingleResult();
+	        } catch (Exception e) {
+	            System.out.println("Error during fetching Reclamo with actions: " + e.getMessage());
+	            return null;
+	        }
+	    }
 }

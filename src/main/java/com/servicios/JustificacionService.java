@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import com.dao.JustificacionDAO;
 import com.entidades.Estado;
 import com.entidades.Justificacion;
+import com.entidades.Reclamo;
 
 @Stateless
 public class JustificacionService {
@@ -55,5 +56,7 @@ public class JustificacionService {
 		 return justificacionDAO.obtenerJustificacionesPorUsuarioConFiltros(idUsuario, filtroUsuario, estadoJustificacion);
 	 }
 	
-
+	 public Justificacion obtenerJustificacionConAcciones(long id) {
+	        return justificacionDAO.obtenerJustificacionConAcciones(id);
+	    }
 }
