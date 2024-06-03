@@ -124,34 +124,43 @@
     </c:choose>
     
     <div style="margin-left: 14.5em">
-        <c:if test="${esAnalista}">
-            <h2 style="margin-left: 10px; margin-top: 1.5em">Registrar acción</h2>
-            <form action="guardarAccion" method="POST" onsubmit="return confirmarEnvio();">
-                <label for="nuevoEstado">Estado:</label>
-                <select name="nuevoEstado">
-                    <c:forEach items="${estados}" var="estado">
-                        <option value="${estado.idRegistroAccion}" 
-                                ${estado.idRegistroAccion == justificacion.registroAccione.idRegistroAccion ? 'selected' : ''}>
-                            ${estado.nombre}
-                        </option>
-                    </c:forEach>
-                </select>
-                <br><br>
-                <input type="hidden" name="id" value="${tipo == 'reclamo' ? reclamo.idReclamo : justificacion.idJustificacion}">
-                <input type="hidden" name="tipo" value="${tipo}">
-                <label for="detalle">Detalle de la Acción:</label><br>
-                <textarea id="detalle" name="detalle" rows="4" cols="50" required oninvalid="this.setCustomValidity('Por favor, ingrese un detalle.')"></textarea><br>
-                <input type="submit" name="accion" value="Enviar" class="submit-btn">
-            </form>
-        </c:if>
-    </div>
+	    <c:if test="${esAnalista}">
+	        <h2 style="margin-left: 10px; margin-top: 1.5em">Registrar acción</h2>
+	        <form action="guardarAccion" method="POST" onsubmit="return confirmarEnvio();">
+	            <label for="nuevoEstado">Estado:</label>
+	            <select name="nuevoEstado">
+	                <c:forEach items="${estados}" var="estado">
+	                    <option value="${estado.idRegistroAccion}" 
+	                            <c:choose>
+	                                <c:when test="${tipo == 'reclamo'}">
+	                                    ${estado.idRegistroAccion == reclamo.registroAccione.idRegistroAccion ? 'selected' : ''}
+	                                </c:when>
+	                                <c:when test="${tipo == 'justificacion'}">
+	                                    ${estado.idRegistroAccion == justificacion.registroAccione.idRegistroAccion ? 'selected' : ''}
+	                                </c:when>
+	                            </c:choose>>
+	                        ${estado.nombre}
+	                    </option>
+	                </c:forEach>
+	            </select>
+	            <br><br>
+	            <input type="hidden" name="id" value="${tipo == 'reclamo' ? reclamo.idReclamo : justificacion.idJustificacion}">
+	            <input type="hidden" name="tipo" value="${tipo}">
+	            <label for="detalle">Detalle de la Acción:</label><br>
+	            <textarea id="detalle" name="detalle" rows="4" cols="50" required oninvalid="this.setCustomValidity('Por favor, ingrese un detalle.')"></textarea><br>
+	            <input type="submit" name="accion" value="Enviar" class="submit-btn">
+	        </form>
+	    </c:if>
+	</div>
+    
     
     <c:if test="${not esAnalista and reclamo.registroAccione.nombre == 'Ingresado'}">
-        <form action="SvEditarReclamo" method="get">
-            <input type="hidden" name="id" value="${reclamo.idReclamo}">
-            <input style="margin-left: 14em" type="submit" value="Modificar Reclamo">
-        </form>
-    </c:if>
+	    <form action="SvEditarReclamo" method="get">
+	        <input type="hidden" name="idReclamo" value="${reclamo.idReclamo}">
+	        <input style="margin-left: 14em" type="submit" value="Modificar Reclamo">
+	    </form>
+	</c:if>
+    
     
     <form action="${tipo == 'reclamo' ? 'SvListarReclamos' : 'SvListarJustificaciones'}" method="get" style="margin-left: 75em">
         <input type="submit" value="Volver">

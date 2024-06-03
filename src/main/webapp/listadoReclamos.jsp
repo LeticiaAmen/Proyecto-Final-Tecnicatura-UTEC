@@ -104,7 +104,12 @@
 	</div>
 	<script>
 	    function confirmarEliminacion() {
-	       return confirm("¿Borrar reclamo?");
+	   		if(confirm("¿Borrar reclamo?")) {
+		   		alert("¡Reclamo borrado con éxito!")
+		   		return true;
+		   	}else {
+			   	return false;
+			 }	
 	    }
 	</script>
 </body>
