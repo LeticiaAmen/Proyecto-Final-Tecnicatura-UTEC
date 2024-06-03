@@ -131,7 +131,7 @@
                 <select name="nuevoEstado">
                     <c:forEach items="${estados}" var="estado">
                         <option value="${estado.idRegistroAccion}" 
-                                ${estado.idRegistroAccion == reclamo.registroAccione.idRegistroAccion ? 'selected' : ''}>
+                                ${estado.idRegistroAccion == justificacion.registroAccione.idRegistroAccion ? 'selected' : ''}>
                             ${estado.nombre}
                         </option>
                     </c:forEach>
