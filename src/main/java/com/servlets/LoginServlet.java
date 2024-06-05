@@ -74,7 +74,10 @@ public class LoginServlet extends HttpServlet {
                         sesion.setAttribute("usuario", usuarioLogeado);
 
                         String tipoUsuario = usuarioService.determinarTipoUsuario(usuarioLogeado);
-                        String token = usuarioService.generarTokenJWT(String.valueOf(usuarioLogeado.getIdUsuario()), usuarioLogeado.getNombreUsuario(), tipoUsuario);
+                        //String token = usuarioService.generarTokenJWT(String.valueOf(usuarioLogeado.getIdUsuario()), usuarioLogeado.getNombreUsuario(), tipoUsuario);
+                     
+                        // Utilizar el método determinarTipoYGenerarToken para generar el token con el rol adecuado
+                        String token = usuarioService.determinarTipoYGenerarToken(usuarioLogeado);
 
                         System.out.println("Generated JWT Token: " + token);
 

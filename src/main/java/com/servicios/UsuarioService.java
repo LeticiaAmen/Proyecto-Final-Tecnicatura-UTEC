@@ -67,16 +67,9 @@ public class UsuarioService {
         return usuarioDAO.validarNombreUsuario(nomUsuario, contrasenia);
     }
     
+ // Método para obtener el token JWT con el tipo de usuario
     public String determinarTipoYGenerarToken(Usuario usuario) {
-        String tipoUsuario = "UNKNOWN"; // Valor por defecto
-        if (esAnalista(usuario.getIdUsuario())) {
-            tipoUsuario = "ANALISTA";
-        } else if (esEstudiante(usuario.getIdUsuario())) {
-            tipoUsuario = "ESTUDIANTE";
-        } else if (esTutor(usuario.getIdUsuario())) {
-            tipoUsuario = "TUTOR";
-        }
-        
+        String tipoUsuario = determinarTipoUsuario(usuario);
         return generarTokenJWT(String.valueOf(usuario.getIdUsuario()), usuario.getNombreUsuario(), tipoUsuario);
     }
     
@@ -183,5 +176,6 @@ public class UsuarioService {
     public List<Estudiante> obtenerEstudiantes() {
         return entityManager.createQuery("SELECT e FROM Estudiante e", Estudiante.class).getResultList();
     }
+    
 
 }

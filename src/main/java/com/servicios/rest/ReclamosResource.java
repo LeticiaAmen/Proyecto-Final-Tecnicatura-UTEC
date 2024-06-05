@@ -119,14 +119,21 @@ public class ReclamosResource {
        String token = authHeaders.get(0).substring(7);
        try {
            DecodedJWT jwt = JwtUtil.verifyToken(token);
-           String role = jwt.getClaim("rol").asString();
+           String role = jwt.getClaim("role").asString();//acá decía "rol"          
            Long userId = Long.parseLong(jwt.getClaim("usuarioId").asString());
+           
+        // Agregar logs para depuración
+           System.out.println("Token verificado: " + token);
+           System.out.println("Role: " + role);
+           System.out.println("User ID: " + userId);
+           
            List<Reclamo> reclamos;
            if ("ANALISTA".equals(role)) {
                reclamos = reclamosService.obtenerReclamosConFiltros(filtroUsuario, estadoReclamo);
            } else if ("ESTUDIANTE".equals(role)) {
                reclamos = reclamosService.obtenerReclamosPorUsuario(userId);
            } else {
+        	   System.out.println("Access denied: Role not allowed");
                return Response.status(Response.Status.FORBIDDEN).entity("Access denied").build();
            }
            List<ReclamoDTO> reclamosDTO = reclamos.stream().map(this::convertToDTO).collect(Collectors.toList());
