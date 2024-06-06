@@ -84,17 +84,15 @@ public class Validacion {
 //------------------ VALIDACION CONTRASEÑA ------------------------------------------------------------
 
     public boolean validacionContraseña(String contraseña) {
-       boolean validacionContraseña =
-               contraseña.length() < 8
-               || !contraseña.matches(".*[A-Za-z].*")
-               ||!contraseña.matches(".*[0-9].*");
-       return validacionContraseña;
-
+        // Por ejemplo, la contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+        return contraseña.matches(regex);
     }
+
     public String RespuestaValidacionContraseña() {
-      return  "La contraseña debe tener al menos 8 caracteres y contener letras y números.";
-
+        return "La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número.";
     }
+
 //------------------ VALIDACION USUARIO ------------------------------------------------------------
 
     public boolean validacionUsiario(String usuario,String nombre, String apellido) {

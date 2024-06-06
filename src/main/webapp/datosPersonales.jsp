@@ -98,10 +98,11 @@
 		<p>
 			<strong>Contraseña (dejar en blanco si no desea cambiarla):</strong>
 		</p>
-		<input type="password" name="passUsuario" value="">
-
+		<input type="password" name="contrasenia" id="contrasenia" value="">
 		<p>
-			<strong>Documento*: </strong>
+		
+		 <strong>Documento*:
+		</strong>
 		</p>
 		<input type="text" name="documento"
 			value="<%=usuarioAEditar.getDocumento()%>" required>
@@ -125,16 +126,12 @@
 		<input type="text" name="mailInst"
 			value="<%=request.getAttribute("mailInstitucional")%>" required>
 
-		<p>
-			<strong>Mail*: </strong>
-		</p>
-		<input
-			style="width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; transition: border 0.3s, box-shadow 0.3s;"
-			type="email" name="mail" value="<%=usuarioAEditar.getMail()%>"
-			required
-			oninvalid="this.setCustomValidity('Por favor, introduce una dirección de correo electrónico personal válido.')"
-			oninput="this.setCustomValidity('')">
 
+		<p>
+			<strong>*Mail: </strong>
+		</p>
+		<input type="text" name="mail" value="<%=usuarioAEditar.getMail()%>"
+			required>
 		<p>
 			<strong>Telefono*: </strong>
 		</p>
@@ -249,15 +246,29 @@
 	</form>
 
 	<script type="text/javascript">
-    	function confirmarModificacion() {
-        	 if (confirm('¿Modificar datos?')) {
-            	 
-           	}else {
-            	return false;
-           	}
-            return true;
-    	}
+		function confirmarModificacion() {
+			if (confirm('¿Modificar datos?')) {
+
+			} else {
+				return false;
+			}
+			return true;
+		}
 	</script>
+	<script type="text/javascript">
+    function confirmarModificacion() {
+        var contrasenia = document.getElementById("contrasenia").value;
+        var confirmarContrasenia = document.getElementById("confirmarContrasenia").value;
+
+        if (contrasenia !== confirmarContrasenia) {
+            alert('Las contraseñas no coinciden.');
+            return false;
+        }
+
+        return confirm('¿Modificar datos?');
+    }
+</script>
+	
 
 	<%
 	// Asignar el tipo de usuario a una variable basada en el objeto usuarioLogeado
