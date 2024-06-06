@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import com.entidades.Analista;
 import com.entidades.Area;
 import com.entidades.Departamento;
+import com.entidades.Estado;
 import com.entidades.Estudiante;
 import com.entidades.Generacion;
 import com.entidades.Itr;
@@ -159,217 +160,200 @@ public class SvModificarDatosPersonales extends HttpServlet {
 		}
 	}
 	
-			protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			        throws ServletException, IOException {
-			    HttpSession session = request.getSession();
-			    Long userId = Long.parseLong(request.getParameter("userId"));
-			    Usuario usuarioModificado = usuarioService.obtenerUsuario(userId);
-			    
-			    if (usuarioModificado != null) {
-			       
-			    	//Leer atributos a modificar
-			    	String documentoStr = request.getParameter("documento");
-			    	long documento = Long.parseLong(documentoStr);
-			    	String nombre = request.getParameter("nombre");
-			    	String apellido = request.getParameter("apellido");
-			    	String mailInstitucional = request.getParameter("mailInst");
-			        String mail = request.getParameter("mail");
-			        String telefono = request.getParameter("telefono");
-			        Long departamentoId = Long.parseLong(request.getParameter("idDepartamento"));	       
-			        Long localidadId = Long.parseLong(request.getParameter("idLocalidad"));
-			        char genero = request.getParameter("genero").charAt(0);
-				    Long itrId = Long.parseLong(request.getParameter("idItr")); 
-				    String fechaNacimientoStr = request.getParameter("fechaNacimiento");
-				    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-				     
-				    Localidad localidad = localidadService.obtenerLocalidadPorId(localidadId);
-				    Departamento departamento = departamentoService.obtenerPorId(departamentoId);
-				    
-				    
-				    
-				    // Validar el nombre
-		            if (!validacion.validacionNombre(nombre)) {
-		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionNombre());
-		                return;
-		            }
-				    
-				    // Validar el documento
-		            if (!validacion.validacionDocumento(documentoStr)) {
-		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionDocumento());
-		                return;
-		            }
-
-
-		            // Verificar si el correo ya está en uso
-		            if (usuarioService.existeCorreo(mail, userId)) {
-		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=El correo ya está en uso por otro usuario");
-		                return;
-		            }
-
-		            // Validar el correo electrónico
-		            if (!validacion.validacionMail(mail)) {
-		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMail());
-		                return;
-		            }
-
-		          
-
-		            // Validar el apellido
-		            if (!validacion.validacionApellido(apellido)) {
-		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionAepllido());
-		                return;
-		            }
-
-		            // Validar el teléfono
-		            if (!validacion.validacionTelefono(telefono)) {
-		                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionTelefono());
-		                return;
-		            }
-
-
-				    if (localidad != null && departamento != null) {
-				        localidad.setDepartamento(departamento);
-				        localidadService.actualizarLocalidad(localidad);
-				    } else {
-				        session.setAttribute("mensajeError", "Departamento o localidad no encontrada.");
-				        response.sendRedirect("datosPersonales.jsp");
-				        return;
-				    }
-
-				     Itr itr = itrService.obtenerItr(itrId);
-				     
-				     localidadService.actualizarLocalidad(localidad);
-				     
-				     
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    HttpSession session = request.getSession();
+	    Long userId = Long.parseLong(request.getParameter("userId"));
+	    Usuario usuarioModificado = usuarioService.obtenerUsuario(userId);
+	    
+	    if (usuarioModificado != null) {
+	    	
+	       
+	    	//Leer atributos a modificar
+	    	String documentoStr = request.getParameter("documento");
+	    	long documento = Long.parseLong(documentoStr);
+	    	String nombre = request.getParameter("nombre");
+	    	String apellido = request.getParameter("apellido");
+	    	String mailInstitucional = request.getParameter("mailInst");
+	        String mail = request.getParameter("mail");
+	        String telefono = request.getParameter("telefono");
+	        Long departamentoId = Long.parseLong(request.getParameter("idDepartamento"));	       
+	        Long localidadId = Long.parseLong(request.getParameter("idLocalidad"));
+	        char genero = request.getParameter("genero").charAt(0);
+		    Long itrId = Long.parseLong(request.getParameter("idItr")); 
+		    String fechaNacimientoStr = request.getParameter("fechaNacimiento");
+		    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		    Localidad localidad = localidadService.obtenerLocalidadPorId(localidadId);
+		    Departamento departamento = departamentoService.obtenerPorId(departamentoId);
 		    
-				     // Actualizar atributos
-			         try {
-			             usuarioModificado.setDocumento(documento);
-			         } catch (NumberFormatException e) {
-			             session.setAttribute("mensajeError", "El formato del documento no es válido.");
-			             response.sendRedirect("datosPersonales.jsp");
-			             return;
-			         }  
-			         usuarioModificado.setNombres(nombre);
-			         usuarioModificado.setApellidos(apellido);
-			         
-			         if (usuarioModificado instanceof Estudiante) {
-			             ((Estudiante) usuarioModificado).setMailInstitucional(mailInstitucional);
-			         } else if (usuarioModificado instanceof Tutor) {
-			             ((Tutor) usuarioModificado).setMailInstitucional(mailInstitucional);
-			         } else if (usuarioModificado instanceof Analista) {
-			             ((Analista) usuarioModificado).setMailInstitucional(mailInstitucional);
-			         }	 
-			         
-			         usuarioModificado.setMail(mail);
-			         usuarioModificado.setTelefono(telefono);
-			         localidad.setDepartamento(departamento);
-			         usuarioModificado.setLocalidad(localidad);
-			         usuarioModificado.setGenero(genero);
-			         usuarioModificado.setItr(itr);
-				    
-			         try {
-				            Date fechaNacimiento = formato.parse(fechaNacimientoStr);
-				            usuarioModificado.setFechaNacimiento(fechaNacimiento);
-				        } catch (ParseException e) {
-				            e.printStackTrace();
-				            session.setAttribute("mensajeError", "Formato de fecha incorrecto.");
-				            response.sendRedirect("datosPersonales.jsp");
-				            return;
-				        }
-			         
-			         // Procesar contraseña si se ha cambiado
-			            String nuevaContrasenia = request.getParameter("passUsuario");
-			            if (nuevaContrasenia != null && !nuevaContrasenia.isEmpty()) {
-			                try {
-			                    // Generar nuevo salt y hash para la contraseña
-			                    String nuevoSalt = PasswordUtils.generateSalt();
-			                    String nuevoHashContrasenia = PasswordUtils.hashPassword(nuevaContrasenia, nuevoSalt);
+		    
+		    //asignar tipo de usuario para validaciones
+		    String tipoUsuario = "";
+            if (usuarioModificado instanceof Analista) {
+                tipoUsuario = "ANALISTA";
+            } else if (usuarioModificado instanceof Tutor) {
+                tipoUsuario = "TUTOR";
+            } else if (usuarioModificado instanceof Estudiante) {
+                tipoUsuario = "ESTUDIANTE";
+            }
+            
+            // Validar el documento
+            if (!validacion.validacionDocumento(documentoStr)) {
+                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionDocumento());
+                return;
+            }
+            
+            //validación mail institucional
+            if (!validacion.validacionMailInstitucional(mailInstitucional, tipoUsuario)) {
+                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMailInstitucional(tipoUsuario));
+                return;
+            }
+		    
 
-			                    // Actualizar el salt y hash de la contraseña en el usuario
-			                    usuarioModificado.setSaltContraseña(nuevoSalt);
-			                    usuarioModificado.setHashContraseña(nuevoHashContrasenia);
-			                } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			                    e.printStackTrace();
-			                    session.setAttribute("mensajeError", "Error al procesar la contraseña.");
-			                    response.sendRedirect("datosPersonales.jsp");
-			                    return;
-			                }
-			            }
-			         
-			         
-			  
-			         if (usuarioModificado instanceof Estudiante) {
-			        	    Estudiante estudiante = (Estudiante) usuarioModificado;
-			        	    String semestreStr = request.getParameter("semestre");
-			        	    String generacionIdStr = request.getParameter("generacion");
-			        	    try {
-			        	        int semestre = Integer.parseInt(semestreStr);
-			        	        Long generacionId = Long.parseLong(generacionIdStr);
-			        	        Generacion generacion = generacionService.obtenerGeneracion(generacionId);
-			        	        
-			        	        if (generacion != null) {
-			        	            estudiante.setSemestre(semestre);
-			        	            estudiante.setGeneracion(generacion);
-			        	        } else {
-			        	            session.setAttribute("mensajeError", "Generación no encontrada.");
-			        	            response.sendRedirect("datosPersonales.jsp");
-			        	            return;
-			        	        }
-			        	    } catch (NumberFormatException e) {
-			        	        session.setAttribute("mensajeError", "Formato numérico incorrecto.");
-			        	        response.sendRedirect("datosPersonales.jsp");
-			        	        return;
-			        	    }
-			        	}
+            // Validar el correo electrónico solo si ha sido modificado
+            if (!mail.equals(usuarioModificado.getMail())) {
+                // Verificar si el nuevo correo ya está en uso
+                if (usuarioService.existeCorreo(mail, userId)) {
+                    response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=El correo ya está en uso por otro usuario");
+                    return;
+                }
 
-			         if (usuarioModificado instanceof Tutor) {
-			        	    Tutor tutor = (Tutor) usuarioModificado;
-			        	    String rolIdStr = request.getParameter("rol");
-			        	    String areaIdStr = request.getParameter("area");
-			        	    try {
-			        	        Long rolId = Long.parseLong(rolIdStr);
-			        	        Long areaId = Long.parseLong(areaIdStr);
-			        	        Rol rol = rolService.obtenerRol(rolId);
-			        	        Area area = areaService.obtenerArea(areaId);
-			        	        
-			        	        if (rol != null && area != null) {
-			        	            tutor.setRol(rol);
-			        	            tutor.setArea(area);
-			        	        } else {
-			        	            session.setAttribute("mensajeError", "Rol o área no encontrados.");
-			        	            response.sendRedirect("datosPersonales.jsp");
-			        	            return;
-			        	        }
-			        	    } catch (NumberFormatException e) {
-			        	        session.setAttribute("mensajeError", "Formato numérico incorrecto para rol o área.");
-			        	        response.sendRedirect("datosPersonales.jsp");
-			        	        return;
-			        	    }
-			        	}
+                // Validar el nuevo correo
+                if (!validacion.validacionMail(mail)) {
+                    response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMail());
+                    return;
+                }
+                usuarioModificado.setMail(mail);
+            }
+            
+		   Validacion validacionUsuario = new Validacion();
+
+		   // Validar el nombre
+		   if (validacionUsuario.validacionNombre(nombre)) {
+		       response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacionUsuario.RespuestaValidacionNombre());
+		       return;
+		   }
 		   
-		  
-			      // Actualizar usuario
-			         usuarioService.actualizarUsuario(usuarioModificado);
-			         
-			         // Obtener el usuario actualizado
-			         Usuario usuarioActualizado = usuarioService.obtenerUsuario(userId);
+		   //validar apellido
+		   if(validacionUsuario.validacionApellido(apellido)) {
+			   response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacionUsuario.RespuestaValidacionAepllido());
+			   return;
+		   }
+		    
+		    // Validar el telefono
+		    if (validacionUsuario.validacionTelefono(telefono)) {
+		     response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacionUsuario.RespuestaValidacionTelefono());
+		     return;
+		 }
+		    
+		    if (localidad != null && departamento != null) {
+		        localidad.setDepartamento(departamento);
+		        localidadService.actualizarLocalidad(localidad);
+		    } else {
+		        session.setAttribute("mensajeError", "Departamento o localidad no encontrada.");
+		        response.sendRedirect("editarUsuario.jsp");
+		        return;
+		    }
 
-			         // Agregar el nuevo nombre como atributo de solicitud
-			         request.setAttribute("nuevoNombreUsuario", usuarioActualizado.getNombres() + " " + usuarioActualizado.getApellidos());
+		     Itr itr = itrService.obtenerItr(itrId);
+		     
+		     localidadService.actualizarLocalidad(localidad);
+		    
+		     // Actualizar atributos
+	         try {
+	             usuarioModificado.setDocumento(documento);
+	         } catch (NumberFormatException e) {
+	             session.setAttribute("mensajeError", "El formato del documento no es válido.");
+	             response.sendRedirect("editarUsuario.jsp");
+	             return;
+	         }  
+	         usuarioModificado.setNombres(nombre);
+	         usuarioModificado.setApellidos(apellido);
+	         
+	         if (usuarioModificado instanceof Estudiante) {
+	             ((Estudiante) usuarioModificado).setMailInstitucional(mailInstitucional);
+	         } else if (usuarioModificado instanceof Tutor) {
+	             ((Tutor) usuarioModificado).setMailInstitucional(mailInstitucional);
+	         } else if (usuarioModificado instanceof Analista) {
+	             ((Analista) usuarioModificado).setMailInstitucional(mailInstitucional);
+	         }	 
+	         
+	         usuarioModificado.setMail(mail);
+	         usuarioModificado.setTelefono(telefono);
+	         localidad.setDepartamento(departamento);
+	         usuarioModificado.setLocalidad(localidad);
+	         usuarioModificado.setGenero(genero);
+	         usuarioModificado.setItr(itr);
+		    
+	         try {
+		            Date fechaNacimiento = formato.parse(fechaNacimientoStr);
+		            usuarioModificado.setFechaNacimiento(fechaNacimiento);
+		        } catch (ParseException e) {
+		            e.printStackTrace();
+		            session.setAttribute("mensajeError", "Formato de fecha incorrecto.");
+		            response.sendRedirect("editarUsuario.jsp");
+		            return;
+		        }
+	  
+	         if (usuarioModificado instanceof Estudiante) {
+	        	    Estudiante estudiante = (Estudiante) usuarioModificado;
+	        	    String semestreStr = request.getParameter("semestre");
+	        	    String generacionIdStr = request.getParameter("generacion");
+	        	    try {
+	        	        int semestre = Integer.parseInt(semestreStr);
+	        	        Long generacionId = Long.parseLong(generacionIdStr);
+	        	        Generacion generacion = generacionService.obtenerGeneracion(generacionId);
+	        	        
+	        	        if (generacion != null) {
+	        	            estudiante.setSemestre(semestre);
+	        	            estudiante.setGeneracion(generacion);
+	        	        } else {
+	        	            session.setAttribute("mensajeError", "Generación no encontrada.");
+	        	            response.sendRedirect("editarUsuario.jsp");
+	        	            return;
+	        	        }
+	        	    } catch (NumberFormatException e) {
+	        	        session.setAttribute("mensajeError", "Formato numérico incorrecto.");
+	        	        response.sendRedirect("editarUsuario.jsp");
+	        	        return;
+	        	    }
+	        	}
 
-			         // Establecer el mensaje de éxito en la sesión
-			         request.setAttribute("successMessage", "Los datos se han guardado exitosamente.");
+	         if (usuarioModificado instanceof Tutor) {
+	        	    Tutor tutor = (Tutor) usuarioModificado;
+	        	    String rolIdStr = request.getParameter("rol");
+	        	    String areaIdStr = request.getParameter("area");
+	        	    try {
+	        	        Long rolId = Long.parseLong(rolIdStr);
+	        	        Long areaId = Long.parseLong(areaIdStr);
+	        	        Rol rol = rolService.obtenerRol(rolId);
+	        	        Area area = areaService.obtenerArea(areaId);
+	        	        
+	        	        if (rol != null && area != null) {
+	        	            tutor.setRol(rol);
+	        	            tutor.setArea(area);
+	        	        } else {
+	        	            session.setAttribute("mensajeError", "Rol o área no encontrados.");
+	        	            response.sendRedirect("editarUsuario.jsp");
+	        	            return;
+	        	        }
+	        	    } catch (NumberFormatException e) {
+	        	        session.setAttribute("mensajeError", "Formato numérico incorrecto para rol o área.");
+	        	        response.sendRedirect("editarUsuario.jsp");
+	        	        return;
+	        	    }
+	        	}
+   
+  
+	        //Actualizar usuario
+	        usuarioService.actualizarUsuario(usuarioModificado);
+	        response.sendRedirect("datosPersonales?id=" + userId + "&mensajeExito=Información actualizada correctamente.");
+	    } else {
+	    	response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=No se encontró el usuario.");
+	       // session.setAttribute("mensajeError", "No se encontró el usuario.");
+	        response.sendRedirect("editarUsuario.jsp");
+	    }
+	}
 
-			         // Redireccionar a la página de datos personales con el ID del usuario
-			         response.sendRedirect("datosPersonales?id=" + userId);
 
-
-			    } else {
-			        session.setAttribute("mensajeError", "No se encontró el usuario.");
-			        response.sendRedirect("datosPersonales.jsp");
-			    }
-			}
-
-
-		}
+}

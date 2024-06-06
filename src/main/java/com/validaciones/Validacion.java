@@ -109,15 +109,13 @@ public class Validacion {
     }
     //------------------ VALIDACION MAIL ------------------------------------------------------------
     public boolean validacionMail(String mail) {
-        boolean validacionMail = !mail.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}");
-
-
-        return validacionMail;
+        return mail.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}");
     }
+
     public String RespuestaValidacionMail() {
-        return  "El formato del correo no es correcto";
-
+        return "El formato del correo no es correcto";
     }
+    
     public boolean validacionMailFuncionario(String usuario,String mailInstitucional) {
         boolean validacionMailFuncionario = !mailInstitucional.equals(usuario+"@utec.edu.uy");
 

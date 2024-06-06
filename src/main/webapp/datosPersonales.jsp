@@ -16,37 +16,42 @@
 			<a> <img alt="Logo de UTEC"
 				src="images/utec-removebg-preview.png" />
 			</a>
-			
-			<%	Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
-				String jwtToken = null;
-				Cookie[] cookies = request.getCookies();
-				
-				if (cookies != null) {
-					for (Cookie cookie : cookies) {
-						if ("Authorization".equals(cookie.getName())) {
-							jwtToken = cookie.getValue();
-							if (jwtToken.startsWith("Bearer ")) {
-								jwtToken = jwtToken.substring(7); // Elimina "Bearer"
-							}
-							break;
-						}
+
+			<%
+			Usuario usuarioLogeado = (Usuario) request.getSession().getAttribute("usuario");
+			String jwtToken = null;
+			Cookie[] cookies = request.getCookies();
+
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					if ("Authorization".equals(cookie.getName())) {
+				jwtToken = cookie.getValue();
+				if (jwtToken.startsWith("Bearer ")) {
+					jwtToken = jwtToken.substring(7); // Elimina "Bearer"
+				}
+				break;
 					}
-				} %>
-			
+				}
+			}
+			%>
+
 			<div id="usuario-dropdown">
 				<h1><%=usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos()%></h1>
-				
+
 				<%-- Muestra el token --%>
-				<% if (jwtToken != null) { 
-						System.out.println(jwtToken); 
-				 	} else { 
-				 		System.out.println("No hay token disponible"); 
-				 	} %>
-				
+				<%
+				if (jwtToken != null) {
+					System.out.println(jwtToken);
+				} else {
+					System.out.println("No hay token disponible");
+				}
+				%>
+
 				<div id="dropdown-content">
 					<form action="datosPersonales" method="get">
-						<input type="hidden" name="id" value="<%=usuarioLogeado.getIdUsuario()%>">
-						<input type="submit" class="button" value="Datos Personales">
+						<input type="hidden" name="id"
+							value="<%=usuarioLogeado.getIdUsuario()%>"> <input
+							type="submit" class="button" value="Datos Personales">
 					</form>
 
 					<form action="LogoutServlet" method="post">
@@ -57,73 +62,84 @@
 		</div>
 	</header>
 	<h1>Datos Personales</h1>
-	
-	<%	Usuario usuarioAEditar = (Usuario) request.getAttribute("usuarioAEditar");
-		if (usuarioAEditar == null) {
-			response.sendRedirect("errorPage.jsp"); // Redireccionar a una página de error si el usuario no existe.
-			return;
-		}
-		
-		boolean isStudent = usuarioAEditar instanceof Estudiante;
-		Estudiante student = isStudent ? (Estudiante) usuarioAEditar : null; %>
-		      <%-- Mostrar mensajes de error y éxito --%>
-    <c:if test="${not empty param.mensajeError}">
-        <div class="alert alert-danger" role="alert" style ="color: red;">
-            ${param.mensajeError}
-        </div>
-    </c:if>
-    <c:if test="${not empty param.mensajeExito}">
-        <div class="alert alert-success" role="alert" style = "color: blue;">
-            ${param.mensajeExito}
-        </div>
-    </c:if>
 
-	<form action="datosPersonales" method="post" onsubmit="return confirmarModificacion();">
-		<input type="hidden" name="userId" value="<%=usuarioAEditar.getIdUsuario()%>">
-		
+	<%
+	Usuario usuarioAEditar = (Usuario) request.getAttribute("usuarioAEditar");
+	if (usuarioAEditar == null) {
+		response.sendRedirect("errorPage.jsp"); // Redireccionar a una página de error si el usuario no existe.
+		return;
+	}
+
+	boolean isStudent = usuarioAEditar instanceof Estudiante;
+	Estudiante student = isStudent ? (Estudiante) usuarioAEditar : null;
+	%>
+	<%-- Mostrar mensajes de error y éxito --%>
+	<c:if test="${not empty param.mensajeError}">
+		<div class="alert alert-danger" role="alert" style="color: red;">
+			${param.mensajeError}</div>
+	</c:if>
+	<c:if test="${not empty param.mensajeExito}">
+		<div class="alert alert-success" role="alert" style="color: blue;">
+			${param.mensajeExito}</div>
+	</c:if>
+
+
+	<form action="datosPersonales" method="post"
+		onsubmit="return confirmarModificacion();">
+		<input type="hidden" name="userId"
+			value="<%=usuarioAEditar.getIdUsuario()%>">
+
 		<p>
 			<strong>Nombre de Usuario:</strong>
 		</p>
-		<input type="text" name="nomUsuario" value="<%=usuarioAEditar.getNombreUsuario()%>" required>
-		
+		<input type="text" name="nomUsuario"
+			value="<%=usuarioAEditar.getNombreUsuario()%>" required>
+
 		<p>
 			<strong>Contraseña (dejar en blanco si no desea cambiarla):</strong>
 		</p>
-		<input type="password" name="passUsuario" value="" >
-		
+		<input type="password" name="passUsuario" value="">
+
 		<p>
 			<strong>Documento*: </strong>
 		</p>
-		<input type="text" name="documento" value="<%=usuarioAEditar.getDocumento()%>" required>
-		
+		<input type="text" name="documento"
+			value="<%=usuarioAEditar.getDocumento()%>" required>
+
 		<p>
 			<strong>Nombre*: </strong>
 		</p>
-		<input type="text" name="nombre" value="<%=usuarioAEditar.getNombres()%>" required>
-		
+		<input type="text" name="nombre"
+			value="<%=usuarioAEditar.getNombres()%>" required>
+
 		<p>
 			<strong>Apellido*: </strong>
 		</p>
-		<input type="text" name="apellido" value="<%=usuarioAEditar.getApellidos()%>" required
-       		oninput="validateLength(this)">
-		
+		<input type="text" name="apellido"
+			value="<%=usuarioAEditar.getApellidos()%>" required
+			oninput="validateLength(this)">
+
 		<p>
 			<strong>Mail Institucional*: </strong>
 		</p>
-		<input type="text" name="mailInst" value="<%=request.getAttribute("mailInstitucional")%>" required>
-		
+		<input type="text" name="mailInst"
+			value="<%=request.getAttribute("mailInstitucional")%>" required>
+
 		<p>
 			<strong>Mail*: </strong>
 		</p>
-		<input style=" width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;
-	    	transition: border 0.3s, box-shadow 0.3s;" type="email" name="mail" value="<%=usuarioAEditar.getMail()%>" required 
-	    	oninvalid="this.setCustomValidity('Por favor, introduce una dirección de correo electrónico personal válido.')" 
-	       	oninput="this.setCustomValidity('')">
-		
+		<input
+			style="width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; transition: border 0.3s, box-shadow 0.3s;"
+			type="email" name="mail" value="<%=usuarioAEditar.getMail()%>"
+			required
+			oninvalid="this.setCustomValidity('Por favor, introduce una dirección de correo electrónico personal válido.')"
+			oninput="this.setCustomValidity('')">
+
 		<p>
 			<strong>Telefono*: </strong>
 		</p>
-		<input type="text" name="telefono" value="<%=usuarioAEditar.getTelefono()%>" required>
+		<input type="text" name="telefono"
+			value="<%=usuarioAEditar.getTelefono()%>" required>
 
 		<p>
 			<label><strong>Departamento*:</strong></label>
@@ -228,61 +244,37 @@
 				obligatorios</span>
 		</p>
 
-		<!-- Botón Modificar -->
-    		<input type="submit" name="accion" value="Modificar" >   		
-
-		<%-- Verificar si hay un mensaje de éxito y lo mostramos --%>
-		<c:if test="${not empty requestScope.successMessage}">
-			<div class="alert alert-success" role="alert">
-				${requestScope.successMessage}</div>
-		</c:if>
-		
-	</form>
-	
-	<%
-    // Asignar el tipo de usuario a una variable basada en el objeto usuarioLogeado
-    String tipoUsuario = "index.jsp"; // predeterminado a la página de inicio
-    if (usuarioLogeado instanceof Estudiante) {
-        tipoUsuario = "menuEstudiante.jsp";
-    } else if (usuarioLogeado instanceof Tutor) {
-        tipoUsuario = "menuTutor.jsp";
-    } else if (usuarioLogeado instanceof Analista) {
-        tipoUsuario = "menuAnalista.jsp";
-    }
-	%>
-	
-	<!-- Botón Volver-->
-	<form action="<%= tipoUsuario %>" method="get">
-    	<input type="submit" value="Volver">
+		<%-- Botón Modificar --%>
+		<input type="submit" name="accion" value="Modificar">
 	</form>
 
-	
 	<script type="text/javascript">
-	    function confirmarModificacion() {
-	        // Obtener el botón que se presionó
-	        var botonPresionado = document.activeElement.value;
-	
-	        if (botonPresionado === 'Modificar') {
-	            if (confirm('¿Modificar datos personales?')) {
-	                alert('¡Datos personales modificados con éxito!');
-	                return true; // Continuar con la acción de modificar
-	            }else {
-	                return false; // Cancela la acción de modificar
-	            	}
-	        	}
-	        }
+    	function confirmarModificacion() {
+        	 if (confirm('¿Modificar datos?')) {
+            	 
+           	}else {
+            	return false;
+           	}
+            return true;
+    	}
 	</script>
-	<script>
-		function validateLength(input) {
-		    // Limpiar previamente cualquier mensaje de error establecido
-		    input.setCustomValidity('');
-		
-		    // Verificar la longitud del valor del input
-		    if (input.value.length < 3 || input.value.length > 20) {
-		        input.setCustomValidity('Por favor, introduce un apellido entre 3 y 20 caracteres');
-		    }
-		}
-</script>
-	
+
+	<%
+	// Asignar el tipo de usuario a una variable basada en el objeto usuarioLogeado
+	String tipoUsuario = "index.jsp"; // predeterminado a la página de inicio
+	if (usuarioLogeado instanceof Estudiante) {
+		tipoUsuario = "menuEstudiante.jsp";
+	} else if (usuarioLogeado instanceof Tutor) {
+		tipoUsuario = "menuTutor.jsp";
+	} else if (usuarioLogeado instanceof Analista) {
+		tipoUsuario = "menuAnalista.jsp";
+	}
+	%>
+
+	<!-- Botón Volver-->
+	<form action="<%=tipoUsuario%>" method="get">
+		<input type="submit" value="Volver">
+	</form>
+
 </body>
 </html>
