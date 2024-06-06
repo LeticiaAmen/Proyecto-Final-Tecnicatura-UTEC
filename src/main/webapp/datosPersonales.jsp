@@ -9,6 +9,24 @@
 <meta charset="ISO-8859-1">
 <title>Datos Personales</title>
 <link rel="stylesheet" href="formularios.css">
+<script type="text/javascript">
+    function obtenerLocalidades(departamentoId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'obtenerLocalidades?departamentoId=' + departamentoId, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var localidadesSelect = document.getElementById('localidades');
+                localidadesSelect.innerHTML = ''; // Limpiar la lista actual de localidades
+                var option = document.createElement('option'); // Crear una nueva opción en blanco
+                option.value = '';
+                option.text = 'Seleccione una opción';
+                localidadesSelect.appendChild(option); // Agregar la opción en blanco al principio
+                localidadesSelect.innerHTML += xhr.responseText; // Agregar las localidades filtradas
+            }
+        };
+        xhr.send();
+    }
+</script>
 </head>
 <body>
 	<header>
@@ -100,9 +118,8 @@
 		</p>
 		<input type="password" name="contrasenia" id="contrasenia" value="">
 		<p>
-		
-		 <strong>Documento*:
-		</strong>
+
+			<strong>Documento*: </strong>
 		</p>
 		<input type="text" name="documento"
 			value="<%=usuarioAEditar.getDocumento()%>" required>
@@ -138,10 +155,12 @@
 		<input type="text" name="telefono"
 			value="<%=usuarioAEditar.getTelefono()%>" required>
 
-		<p>
-			<label><strong>Departamento*:</strong></label>
+			<p>
+			<strong>Departamento:</strong>
 		</p>
-		<select name="idDepartamento">
+		<select name="idDepartamento"
+			onchange="obtenerLocalidades(this.value)">
+			<option value="">Seleccione una opción</option>
 			<c:forEach var="departamento" items="${departamentos}">
 				<option value="${departamento.idDepartamento}"
 					${departamento.idDepartamento == idDepartamentoUsuario ? 'selected' : ''}>
@@ -150,17 +169,17 @@
 		</select>
 
 		<p>
-			<label><strong>Localidad*:</strong></label>
+			<strong>Localidad:</strong>
 		</p>
-		<select name="idLocalidad">
+		<select name="idLocalidad" id="localidades">
+			<option value="">Seleccione una opción</option>
+			<!-- Agregar esta línea -->
 			<c:forEach var="localidad" items="${localidades}">
 				<option value="${localidad.idLocalidad}"
-					${localidad.idLocalidad  == idLocalidadUsuario ? 'selected' : ''}>
+					${localidad.idLocalidad == idLocalidadUsuario ? 'selected' : ''}>
 					${localidad.nombre}</option>
 			</c:forEach>
 		</select>
-
-
 		<p>
 			<label><strong>Género*:</strong></label>
 		</p>
@@ -256,19 +275,20 @@
 		}
 	</script>
 	<script type="text/javascript">
-    function confirmarModificacion() {
-        var contrasenia = document.getElementById("contrasenia").value;
-        var confirmarContrasenia = document.getElementById("confirmarContrasenia").value;
+		function confirmarModificacion() {
+			var contrasenia = document.getElementById("contrasenia").value;
+			var confirmarContrasenia = document
+					.getElementById("confirmarContrasenia").value;
 
-        if (contrasenia !== confirmarContrasenia) {
-            alert('Las contraseñas no coinciden.');
-            return false;
-        }
+			if (contrasenia !== confirmarContrasenia) {
+				alert('Las contraseñas no coinciden.');
+				return false;
+			}
 
-        return confirm('¿Modificar datos?');
-    }
-</script>
-	
+			return confirm('¿Modificar datos?');
+		}
+	</script>
+
 
 	<%
 	// Asignar el tipo de usuario a una variable basada en el objeto usuarioLogeado

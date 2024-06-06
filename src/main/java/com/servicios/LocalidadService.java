@@ -25,6 +25,9 @@ public class LocalidadService {
 	public Localidad actualizarLocalidad(Localidad localidad) {
 	    return localidadDAO.actualizarLocalidad(localidad);
 	}
-	
+
+	 public List<Localidad> obtenerLocalidadesPorDepartamento(Long departamentoId) {
+	        return localidadDAO.obtenerLocalidadesPorDepartamento(departamentoId);
+	    }
 
 }

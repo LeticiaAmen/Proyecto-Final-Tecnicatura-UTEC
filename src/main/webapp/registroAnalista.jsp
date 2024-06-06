@@ -8,8 +8,26 @@
 <title>Registro Analista</title>
 <link rel="stylesheet" href="formularios.css">
 <script type="text/javascript">
-    function confirmarEnvio() {
-        return confirm("¿Está seguro de que desea enviar el formulario?");
+	function confirmarEnvio() {
+		return confirm("¿Está seguro de que desea enviar el formulario?");
+	}
+</script>
+<script type="text/javascript">
+    function obtenerLocalidades(departamentoId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'obtenerLocalidades?departamentoId=' + departamentoId, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var localidadesSelect = document.getElementById('localidades');
+                localidadesSelect.innerHTML = ''; // Limpiar la lista actual de localidades
+                var option = document.createElement('option'); // Crear una nueva opción en blanco
+                option.value = '';
+                option.text = 'Seleccione una opción';
+                localidadesSelect.appendChild(option); // Agregar la opción en blanco al principio
+                localidadesSelect.innerHTML += xhr.responseText; // Agregar las localidades filtradas
+            }
+        };
+        xhr.send();
     }
 </script>
 </head>
@@ -27,7 +45,8 @@
 		<div class="error">${error}</div>
 	</c:if>
 
-	<form action="SvRegistroAnalista" method="POST" onsubmit="return confirmarEnvio();">
+	<form action="SvRegistroAnalista" method="POST"
+		onsubmit="return confirmarEnvio();">
 		<p>
 			<label><strong>*Nombre:</strong></label>
 		</p>
@@ -81,24 +100,28 @@
 		</select>
 
 		<p>
-			<label><strong>*Departamento:</strong></label>
+			<strong>Departamento:</strong>
 		</p>
-		<select name="idDepartamento" required>
-			<option value="" selected></option>
+		<select name="idDepartamento"
+			onchange="obtenerLocalidades(this.value)">
+			<option value="">Seleccione una opción</option>
 			<c:forEach var="departamento" items="${departamentos}">
 				<option value="${departamento.idDepartamento}"
-					<c:if test="${departamento.idDepartamento eq idDepartamento}">selected</c:if>>${departamento.nombre}</option>
+					${departamento.idDepartamento == idDepartamentoUsuario ? 'selected' : ''}>
+					${departamento.nombre}</option>
 			</c:forEach>
 		</select>
 
 		<p>
-			<label><strong>*Localidad:</strong></label>
+			<strong>Localidad:</strong>
 		</p>
-		<select name="idLocalidad" required>
-			<option value="" selected></option>
+		<select name="idLocalidad" id="localidades">
+			<option value="">Seleccione una opción</option>
+			<!-- Agregar esta línea -->
 			<c:forEach var="localidad" items="${localidades}">
 				<option value="${localidad.idLocalidad}"
-					<c:if test="${localidad.idLocalidad eq idLocalidad}">selected</c:if>>${localidad.nombre}</option>
+					${localidad.idLocalidad == idLocalidadUsuario ? 'selected' : ''}>
+					${localidad.nombre}</option>
 			</c:forEach>
 		</select>
 

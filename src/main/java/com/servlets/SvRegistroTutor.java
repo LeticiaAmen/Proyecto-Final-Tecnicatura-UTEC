@@ -105,12 +105,12 @@ public class SvRegistroTutor extends HttpServlet {
 
             String apellido = request.getParameter("apellido");
             String contrasenia = request.getParameter("contrasenia");
-            String mailInst = request.getParameter("mailInst");
+            		String mailInst = request.getParameter("mailInst");
             String mail = request.getParameter("mail");
             String nombre = request.getParameter("nombre");
             String telefono = request.getParameter("telefono");
-
             String idDepartamento = request.getParameter("idDepartamento");
+            List<Localidad> localidades = localidadService.obtenerLocalidadesPorDepartamento(Long.parseLong(idDepartamento));
             String idLocalidad = request.getParameter("idLocalidad");
             String idItr = request.getParameter("idItr");
             Long idDepartamentoLong = Long.parseLong(idDepartamento);
@@ -156,20 +156,29 @@ public class SvRegistroTutor extends HttpServlet {
                 return;
             }
 
-            if (validacion.validacionContraseña(contrasenia)) {
-                setErrorAndReturn(request, response, validacion.RespuestaValidacionContraseña(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idArea, idRol, fechaNacimientoStr);
+            // Validar las contraseñas
+	        if (contrasenia != null && !contrasenia.isEmpty()) {
+	            if (!contrasenia.equals(contrasenia)) {
+	                return;
+	            }
+
+	            if (!validacion.validacionContraseña(contrasenia)) {
+	                setErrorAndReturn(request, response, validacion.RespuestaValidacionContraseña(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idArea, idRol, fechaNacimientoStr);
+	                return;
+	            }
+	        }
+	        
+	        if (!validacion.validacionMail(mail)) {
+                setErrorAndReturn(request, response, validacion.RespuestaValidacionMail(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idArea, idRol, fechaNacimientoStr);
                 return;
             }
+        
 
             if (validacion.validacionMailFuncionario(nomUsuario, mailInst)) {
                 setErrorAndReturn(request, response, validacion.RespuestaValidacionMailFuncionario(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idArea, idRol, fechaNacimientoStr);
                 return;
             }
-
-            if (validacion.validacionMail(mail)) {
-                setErrorAndReturn(request, response, validacion.RespuestaValidacionMail(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idArea, idRol, fechaNacimientoStr);
-                return;
-            }
+            
 
             if (validacion.validacionTelefono(telefono)) {
                 setErrorAndReturn(request, response, validacion.RespuestaValidacionTelefono(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idArea, idRol, fechaNacimientoStr);

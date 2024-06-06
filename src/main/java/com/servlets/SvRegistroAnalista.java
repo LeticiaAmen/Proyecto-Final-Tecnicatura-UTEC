@@ -98,6 +98,8 @@ public class SvRegistroAnalista extends HttpServlet {
             String telefono = request.getParameter("telefono");
 
             String idDepartamento = request.getParameter("idDepartamento");
+            List<Localidad> localidades = localidadService.obtenerLocalidadesPorDepartamento(Long.parseLong(idDepartamento));
+
             String idLocalidad = request.getParameter("idLocalidad");
             String idItr = request.getParameter("idItr");
 
@@ -138,20 +140,29 @@ public class SvRegistroAnalista extends HttpServlet {
                 return;
             }
 
-            if (validacion.validacionContraseña(contrasenia)) {
-                setErrorAndReturn(request, response, validacion.RespuestaValidacionContraseña(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+          
+            // Validar las contraseñas
+	        if (contrasenia != null && !contrasenia.isEmpty()) {
+	            if (!contrasenia.equals(contrasenia)) {
+	                return;
+	            }
+
+	            if (!validacion.validacionContraseña(contrasenia)) {
+	                setErrorAndReturn(request, response, validacion.RespuestaValidacionContraseña(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+	                return;
+	            }
+	        }
+	        
+	        if (!validacion.validacionMail(mail)) {
+                setErrorAndReturn(request, response, validacion.RespuestaValidacionMail(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
                 return;
             }
-
+        
             if (validacion.validacionMailFuncionario(nomUsuario, mailInst)) {
                 setErrorAndReturn(request, response, validacion.RespuestaValidacionMailFuncionario(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
                 return;
             }
 
-            if (validacion.validacionMail(mail)) {
-                setErrorAndReturn(request, response, validacion.RespuestaValidacionMail(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
-                return;
-            }
 
             if (validacion.validacionTelefono(telefono)) {
                 setErrorAndReturn(request, response, validacion.RespuestaValidacionTelefono(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
@@ -234,7 +245,6 @@ public class SvRegistroAnalista extends HttpServlet {
         request.setAttribute("idItr", idItr);
         request.setAttribute("fechaNacimiento", fechaNacimientoStr);
 
-        doGet(request, response);
         request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
     }
 }

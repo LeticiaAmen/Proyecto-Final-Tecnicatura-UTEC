@@ -35,6 +35,13 @@ public class LocalidadDAO {
 	    }
 	    return localidad;
 	}
+	
+	public List<Localidad> obtenerLocalidadesPorDepartamento(Long departamentoId) {
+        TypedQuery<Localidad> query = entityManager.createQuery(
+            "SELECT l FROM Localidad l WHERE l.departamento.idDepartamento = :departamentoId", Localidad.class);
+        query.setParameter("departamentoId", departamentoId);
+        return query.getResultList();
+    }
 
 	
 	//-------------------------------Listar por filtro-------------------------------------
