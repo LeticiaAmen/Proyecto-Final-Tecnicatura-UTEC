@@ -114,6 +114,12 @@ public class SvRegistroAnalista extends HttpServlet {
 				e.printStackTrace();
 				System.out.println("Error al convertir la fecha");
 			}
+			
+			//validar si el nombre de usuario ya existe
+			if(usuarioService.existeNombreUsuario(nomUsuario)) {
+				setErrorAndReturn(request, response, "El nombre de usuario ya existe.", nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+				return;
+			}
 
 			// Validar la cédula
             if (!validacion.validacionDocumento(documento)) {
@@ -226,6 +232,7 @@ public class SvRegistroAnalista extends HttpServlet {
 
 	private void setErrorAndReturn(HttpServletRequest request, HttpServletResponse response, String errorMsg, String nombre, String apellido, String documento, String nomUsuario, String contrasenia, String mailInst, String mail, String telefono, String generoSeleccionado, String idDepartamento, String idLocalidad, String idItr, String fechaNacimientoStr) throws ServletException, IOException {
 		request.setAttribute("error", errorMsg);
+		cargarDatosFormulario(request);  // Cargar los datos de los combobox
 
 		request.setAttribute("nombre", nombre);
 		request.setAttribute("apellido", apellido);
@@ -241,7 +248,7 @@ public class SvRegistroAnalista extends HttpServlet {
 		request.setAttribute("idItr", idItr);
 		request.setAttribute("fechaNacimiento", fechaNacimientoStr);
 
-		cargarDatosFormulario(request);  // Cargar los datos de los combobox
+		
 
 		request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
 	}

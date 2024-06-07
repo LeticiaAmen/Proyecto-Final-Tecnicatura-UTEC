@@ -177,5 +177,9 @@ public class UsuarioService {
         return entityManager.createQuery("SELECT e FROM Estudiante e", Estudiante.class).getResultList();
     }
     
+    public boolean existeNombreUsuario(String nombreUsuario) {
+    	return usuarioDAO.existeNombreUsuario(nombreUsuario);
+    }
+    
 
 }

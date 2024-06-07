@@ -10,6 +10,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.entidades.Usuario;
 import com.util.PasswordUtils;
@@ -25,10 +26,10 @@ public class UsuarioDAO {
 			//generar salt y hash para la contraseña
 			String salt = PasswordUtils.generateSalt();
 			String hashedPassword = PasswordUtils.hashPassword(usuario.getHashContraseña(), salt);
-			
+
 			usuario.setSaltContraseña(salt);
 			usuario.setHashContraseña(hashedPassword);
-			
+
 			entityManager.persist(usuario);
 			entityManager.flush();
 			return usuario;
@@ -47,8 +48,8 @@ public class UsuarioDAO {
 	}
 
 	public void actualizarUsuario(Usuario usuario) {
-	    entityManager.merge(usuario);
-	    entityManager.flush(); 
+		entityManager.merge(usuario);
+		entityManager.flush(); 
 	}
 
 	//listar todo
@@ -58,20 +59,20 @@ public class UsuarioDAO {
 
 	// validar usuario
 	public boolean validarNombreUsuario(String nomUsuario, String contrasenia) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        try {
-            Usuario usuario = (Usuario) entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :nomUsuario")
-                .setParameter("nomUsuario", nomUsuario)
-                .getSingleResult();
+		try {
+			Usuario usuario = (Usuario) entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :nomUsuario")
+					.setParameter("nomUsuario", nomUsuario)
+					.getSingleResult();
 
-            if (usuario != null) {
-                return PasswordUtils.verifyPassword(contrasenia, usuario.getSaltContraseña(), usuario.getHashContraseña());
-            }
-            return false;
-        } catch (NoResultException | NonUniqueResultException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+			if (usuario != null) {
+				return PasswordUtils.verifyPassword(contrasenia, usuario.getSaltContraseña(), usuario.getHashContraseña());
+			}
+			return false;
+		} catch (NoResultException | NonUniqueResultException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	//buscar usuario por nombre de usuario
 	public Usuario obtenerUsuarioDesdeBaseDeDatosNombre(String nomUsuario) {
@@ -93,18 +94,24 @@ public class UsuarioDAO {
 
 		return null;
 	}
-	
+
 	//faltan mas metodos de los filtros.. 
-	
+
 
 	public boolean existeCorreo(String correo, Long idUsuario) {
-	String jpql = "SELECT COUNT(u) FROM Usuario u WHERE u.mail = :correo AND u.idUsuario <> :idUsuario";
-	Query query = entityManager.createQuery(jpql);
-	query.setParameter("correo", correo);
-	query.setParameter("idUsuario", idUsuario);
-	Long count = (Long) query.getSingleResult();
-	return count > 0;
-	
+		String jpql = "SELECT COUNT(u) FROM Usuario u WHERE u.mail = :correo AND u.idUsuario <> :idUsuario";
+		Query query = entityManager.createQuery(jpql);
+		query.setParameter("correo", correo);
+		query.setParameter("idUsuario", idUsuario);
+		Long count = (Long) query.getSingleResult();
+		return count > 0;
+
+	}
+
+	public boolean existeNombreUsuario(String nombreUsuario){
+		TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(u) FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario", Long.class);
+		query.setParameter("nombreUsuario", nombreUsuario);
+		return query.getSingleResult() > 0;
 	}
 
 
