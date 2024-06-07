@@ -63,19 +63,9 @@ public class SvRegistroAnalista extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Departamento> departamentos = departamentoService.obtenerTodosDepartamento();
-        request.setAttribute("departamentos", departamentos);
-
-        List<Localidad> localidades = localidadService.obtenerTodasLocalidades();
-        request.setAttribute("localidades", localidades);
-
-        List<Itr> itrs = itrService.obtenerItrTodos();
-        request.setAttribute("itrs", itrs);
-
-        List<String> generosLista = Arrays.asList("Masculino", "Femenino", "Otros");
-        request.setAttribute("generos", generosLista);
-
-        request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
+    	
+    	cargarDatosFormulario(request);  // Cargar los datos de los combobox
+    	request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -244,7 +234,24 @@ public class SvRegistroAnalista extends HttpServlet {
         request.setAttribute("idLocalidad", idLocalidad);
         request.setAttribute("idItr", idItr);
         request.setAttribute("fechaNacimiento", fechaNacimientoStr);
+        
+        cargarDatosFormulario(request);  // Cargar los datos de los combobox
 
         request.getRequestDispatcher("/registroAnalista.jsp").forward(request, response);
     }
+    
+    private void cargarDatosFormulario(HttpServletRequest request) {
+        List<Departamento> departamentos = departamentoService.obtenerTodosDepartamento();
+        request.setAttribute("departamentos", departamentos);
+
+        List<Localidad> localidades = localidadService.obtenerTodasLocalidades();
+        request.setAttribute("localidades", localidades);
+
+        List<Itr> itrs = itrService.obtenerItrTodos();
+        request.setAttribute("itrs", itrs);
+
+        List<String> generosLista = Arrays.asList("Masculino", "Femenino", "Otros");
+        request.setAttribute("generos", generosLista);
+    }
 }
+
