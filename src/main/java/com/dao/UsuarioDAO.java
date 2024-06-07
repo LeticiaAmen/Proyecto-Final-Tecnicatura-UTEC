@@ -113,6 +113,14 @@ public class UsuarioDAO {
 		query.setParameter("nombreUsuario", nombreUsuario);
 		return query.getSingleResult() > 0;
 	}
+	
+	public boolean existeCorreo(String correo) {
+        String jpql = "SELECT COUNT(u) FROM Usuario u WHERE u.mail = :correo";
+        Query query = entityManager.createQuery(jpql);
+        query.setParameter("correo", correo);
+        Long count = (Long) query.getSingleResult();
+        return count > 0;
+	}
 
 
 	public UsuarioDAO() {

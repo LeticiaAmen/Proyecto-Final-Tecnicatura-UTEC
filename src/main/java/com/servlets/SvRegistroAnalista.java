@@ -115,11 +115,19 @@ public class SvRegistroAnalista extends HttpServlet {
 				System.out.println("Error al convertir la fecha");
 			}
 			
+			
+			
 			//validar si el nombre de usuario ya existe
 			if(usuarioService.existeNombreUsuario(nomUsuario)) {
 				setErrorAndReturn(request, response, "El nombre de usuario ya existe.", nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
 				return;
 			}
+			
+			// Validar si el correo ya existe
+            if (usuarioService.existeCorreo(mail)) {
+                setErrorAndReturn(request, response, "El mail ya se encuentra registrado.", nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, fechaNacimientoStr);
+                return;
+            }
 
 			// Validar la cédula
             if (!validacion.validacionDocumento(documento)) {
