@@ -34,12 +34,7 @@ public class Validacion {
     }
     //------------------ VALIDACION DOCUMENTO ------------------------------------------------------------
     public boolean validacionDocumento(String documento) {
-
-    	// Se define el arreglo de factores para el cálculo del dígito verificador
-        int[] factor = {2, 9, 8, 7, 6, 3, 4};
-        int suma = 0;
-
-        // Verificar si la cédula tiene la longitud correcta
+        // Verificar si la cédula tiene la longitud correcta (exactamente 8 dígitos)
         if (documento.length() != 8) {
             return false;
         }
@@ -47,23 +42,26 @@ public class Validacion {
         // Verificar si todos los caracteres son dígitos
         for (int i = 0; i < documento.length(); i++) {
             if (!Character.isDigit(documento.charAt(i))) {
-
                 return false;
             }
         }
+
+        // Se define el arreglo de factores para el cálculo del dígito verificador
+        int[] factor = {2, 9, 8, 7, 6, 3, 4};
+        int suma = 0;
 
         // Calcular la suma ponderada
         for (int i = 0; i < factor.length; i++) {
             suma += Character.getNumericValue(documento.charAt(i)) * factor[i];
         }
 
-     // Calcular el dígito verificador
+        // Calcular el dígito verificador
         int resto = suma % 10;
         int digitoVerificador = (resto == 0) ? 0 : 10 - resto;
 
-     // Verificar si el dígito verificador coincide con el último dígito de la cédula
+        // Verificar si el dígito verificador coincide con el último dígito de la cédula
         return digitoVerificador == Character.getNumericValue(documento.charAt(7));
-        }
+    }
     
 
     public String RespuestaValidacionDocumento() {

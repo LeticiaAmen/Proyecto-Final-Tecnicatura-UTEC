@@ -103,7 +103,7 @@
 			<strong>Departamento:</strong>
 		</p>
 		<select name="idDepartamento"
-			onchange="obtenerLocalidades(this.value)">
+			onchange="obtenerLocalidades(this.value)" required>
 			<option value="">Seleccione una opción</option>
 			<c:forEach var="departamento" items="${departamentos}">
 				<option value="${departamento.idDepartamento}"
@@ -115,7 +115,7 @@
 		<p>
 			<strong>Localidad:</strong>
 		</p>
-		<select name="idLocalidad" id="localidades">
+		<select name="idLocalidad" id="localidades" required>
 			<option value="">Seleccione una opción</option>
 			<!-- Agregar esta línea -->
 			<c:forEach var="localidad" items="${localidades}">
