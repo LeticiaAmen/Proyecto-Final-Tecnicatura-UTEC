@@ -1,11 +1,13 @@
 package com.servicios;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.dao.RegistroAccionDAO;
+import com.dto.RegistroAccionDTO;
 import com.entidades.Itr;
 import com.entidades.RegistroAccione;
 
@@ -49,4 +51,17 @@ public class RegistroAccionService {
   	public List<RegistroAccione> obtenerEstadosActivos() {
   	    return registroAccionDAO.obtenerEstadosActivos();
   	}
+  	
+  	private RegistroAccionDTO convertToDTO(RegistroAccione registroAccione) {
+        RegistroAccionDTO dto = new RegistroAccionDTO();
+        dto.setId(registroAccione.getIdRegistroAccion());
+        dto.setNombre(registroAccione.getNombre());
+        return dto;
+    }
+  	
+    public List<RegistroAccionDTO> obtenerRegistroAcciones() {
+        List<RegistroAccione> registroAcciones = registroAccionDAO.obtenerRegistrosAcciones();
+        return registroAcciones.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+  	
 }

@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.dto.RegistroAccionDTO;
 import com.entidades.RegistroAccione;
 import com.servicios.RegistroAccionService;
 
@@ -21,8 +22,8 @@ public class RegistroAccionResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RegistroAccione> obtenerRegistroAcciones(){
-		return registroAccionService.obtenerRegistrosAcciones();
+	public List<RegistroAccionDTO> obtenerRegistroAcciones(){
+		return registroAccionService.obtenerRegistroAcciones();
 	}
 
 }
