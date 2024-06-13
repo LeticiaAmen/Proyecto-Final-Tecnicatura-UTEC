@@ -162,6 +162,9 @@ public class ReclamosResource {
        if (reclamo.getEstudiante() != null) {
            dto.setIdEstudiante(reclamo.getEstudiante().getIdUsuario());
        }
+       if (reclamo.getRegistroAccione() != null) {
+    	   dto.setRegistroAccion(reclamo.getRegistroAccione().getNombre()); // assuming getNombre() returns the status name
+       }
        return dto;
    }
 }

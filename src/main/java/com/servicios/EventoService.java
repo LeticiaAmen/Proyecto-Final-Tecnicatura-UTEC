@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.dao.EventoDAO;
+import com.dto.EventoDTO;
 import com.entidades.Evento;
 
 @Stateless
@@ -20,6 +21,9 @@ public class EventoService {
 
 	public List<Evento> obtenerEventosTodos(){
 		return eventoDAO.obtenerEventosTodos();
+	}
+	public List<EventoDTO> obtenerEventos() {
+		return eventoDAO.obtenerEventos();
 	}
 
 	
