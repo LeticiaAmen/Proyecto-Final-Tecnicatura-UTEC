@@ -149,6 +149,7 @@ public class ReclamosResource {
        dto.setId(reclamo.getIdReclamo());
        dto.setDetalle(reclamo.getDetalle());
        dto.setTitulo(reclamo.getTituloReclamo());
+       dto.setNombreEstudiante(reclamo.getEstudiante().getNombres());
        if (reclamo.getFechaHoraReclamo() != null) {
            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss");
            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));

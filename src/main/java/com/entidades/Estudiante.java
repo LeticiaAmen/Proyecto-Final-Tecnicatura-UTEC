@@ -5,47 +5,45 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-
 /**
  * The persistent class for the ESTUDIANTES database table.
  * 
  */
 @Entity
-@Table(name="ESTUDIANTES")
-@NamedQuery(name="Estudiante.findAll", query="SELECT e FROM Estudiante e")
+@Table(name = "ESTUDIANTES")
+@NamedQuery(name = "Estudiante.findAll", query = "SELECT e FROM Estudiante e")
 public class Estudiante extends Usuario {
 
-	@Column(name="MAIL_INSTITUCIONAL")
+	@Column(name = "MAIL_INSTITUCIONAL")
 	private String mailInstitucional;
 
-	@Column(name="SEMESTRE")
+	@Column(name = "SEMESTRE")
 	private int semestre;
 
-	//bi-directional many-to-one association to Constancia
-	@OneToMany(mappedBy="estudiante")
+	// bi-directional many-to-one association to Constancia
+	@OneToMany(mappedBy = "estudiante")
 	private List<Constancia> constancias;
 
-	//bi-directional many-to-one association to Estado
+	// bi-directional many-to-one association to Estado
 	@ManyToOne
-	@JoinColumn(name="ID_ESTADO")
+	@JoinColumn(name = "ID_ESTADO")
 	private Estado estado;
 
-	//bi-directional many-to-one association to Generacion
+	// bi-directional many-to-one association to Generacion
 	@ManyToOne
-	@JoinColumn(name="ID_GENERACION")
+	@JoinColumn(name = "ID_GENERACION")
 	private Generacion generacion;
 
-
-	//bi-directional many-to-one association to EstudianteEvento
-	@OneToMany(mappedBy="estudiante")
+	// bi-directional many-to-one association to EstudianteEvento
+	@OneToMany(mappedBy = "estudiante")
 	private List<EstudianteEvento> estudiantesEventos;
 
-	//bi-directional many-to-one association to Justificacion
-	@OneToMany(mappedBy="estudiante")
+	// bi-directional many-to-one association to Justificacion
+	@OneToMany(mappedBy = "estudiante")
 	private List<Justificacion> justificaciones;
 
-	//bi-directional many-to-one association to Reclamo
-	@OneToMany(mappedBy="estudiante")
+	// bi-directional many-to-one association to Reclamo
+	@OneToMany(mappedBy = "estudiante")
 	private List<Reclamo> reclamos;
 
 	public Estudiante() {
@@ -59,6 +57,16 @@ public class Estudiante extends Usuario {
 	@Override
 	public void setMailInstitucional(String mailInstitucional) {
 		this.mailInstitucional = mailInstitucional;
+	}
+
+	@Override
+	public String getNombres() {
+		return super.getNombres();
+	}
+
+	@Override
+	public void setNombres(String nombres) {
+		super.setNombres(nombres);
 	}
 
 	public int getSemestre() {
@@ -106,7 +114,6 @@ public class Estudiante extends Usuario {
 	public void setGeneracion(Generacion generacion) {
 		this.generacion = generacion;
 	}
-
 
 	public List<EstudianteEvento> getEstudiantesEventos() {
 		return this.estudiantesEventos;

@@ -6,7 +6,7 @@ import javax.naming.directory.*;
 import java.util.Hashtable;
 
 public class LdapService {
-    private String ldapHost = "ldap://192.168.1.8"; // IP del servidor AD
+    private String ldapHost = "ldap://192.168.1.5"; // IP del servidor AD
     private String adminUsername = "CN=Administrator,CN=Users,DC=utec,DC=local"; // DN del administrador
     private String adminPassword = "P4$$word123"; // Contraseña del administrador
 
