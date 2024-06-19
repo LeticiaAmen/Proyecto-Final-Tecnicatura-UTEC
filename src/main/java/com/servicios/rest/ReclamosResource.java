@@ -12,6 +12,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import com.dto.ReclamoDTO;
+import com.dto.RegistroAccionDTO;
 import com.entidades.Accion;
 import com.entidades.Estudiante;
 import com.entidades.Evento;
@@ -93,16 +94,16 @@ public class ReclamosResource {
    @PUT
    @Path("/{idReclamo}")
    @Produces(MediaType.APPLICATION_JSON)
-   public Response modificarReclamo(@PathParam("idReclamo") Long idReclamo, Reclamo reclamoData) {
+   public Response modificarReclamo(@PathParam("idReclamo") Long idReclamo, ReclamoDTO reclamoData) {
        try {
            Reclamo reclamoExistente = reclamoService.obtenerReclamo(idReclamo);
            if (reclamoExistente == null) {
                return Response.status(Response.Status.NOT_FOUND).entity("Reclamo no encontrado").build();
            }
-           reclamoExistente.setTituloReclamo(reclamoData.getTituloReclamo());
+           reclamoExistente.setTituloReclamo(reclamoData.getTitulo());
            reclamoExistente.setDetalle(reclamoData.getDetalle());
            reclamoExistente.setFechaHoraReclamo(new Date());
-           reclamoExistente.setEvento(reclamoData.getEvento());
+//           reclamoExistente.setEvento(reclamoData.getIdEvento());
            reclamoService.actualizarReclamo(reclamoExistente);
            return Response.ok().entity("Reclamo actualizado con éxito").build();
        } catch (Exception e) {
@@ -163,7 +164,10 @@ public class ReclamosResource {
            dto.setIdEstudiante(reclamo.getEstudiante().getIdUsuario());
        }
        if (reclamo.getRegistroAccione() != null) {
-    	   dto.setRegistroAccion(reclamo.getRegistroAccione().getNombre()); // assuming getNombre() returns the status name
+           RegistroAccionDTO registroAccionDTO = new RegistroAccionDTO();
+           registroAccionDTO.setId(reclamo.getRegistroAccione().getIdRegistroAccion());
+           registroAccionDTO.setNombre(reclamo.getRegistroAccione().getNombre());
+           dto.setRegistroAccion(registroAccionDTO);
        }
        return dto;
    }

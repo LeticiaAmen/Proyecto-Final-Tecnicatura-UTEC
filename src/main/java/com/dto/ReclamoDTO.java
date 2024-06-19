@@ -10,7 +10,7 @@ public class ReclamoDTO {
 	private String titulo;
 	private String fechaReclamo;
 	private Long idEvento;
-	private String registroAccion; // Nueva propiedad para el estado del reclamo
+	private RegistroAccionDTO registroAccion;; // Nueva propiedad para el estado del reclamo
 
 	public Long getId() {
 		return id;
@@ -54,10 +54,10 @@ public class ReclamoDTO {
 	public void setIdEvento(Long idEvento) {
 		this.idEvento = idEvento;
 	}
-	public String getRegistroAccion() {
+	public RegistroAccionDTO getRegistroAccion() {
 		return registroAccion;
 	}
-	public void setRegistroAccion(String registroAccion) {
+	public void setRegistroAccion(RegistroAccionDTO registroAccion) {
 		this.registroAccion = registroAccion;
 	}
 }

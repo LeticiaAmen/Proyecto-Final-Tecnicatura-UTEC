@@ -21,7 +21,7 @@ public class RegistroAccione implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to Accion
-	@OneToMany(mappedBy="registroAccion")
+	@OneToMany(mappedBy="registroAccion", fetch = FetchType.LAZY)
 	private List<Accion> acciones;
 
 	//bi-directional many-to-one association to Estado
