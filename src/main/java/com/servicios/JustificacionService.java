@@ -59,4 +59,7 @@ public class JustificacionService {
 	 public Justificacion obtenerJustificacionConAcciones(long id) {
 	        return justificacionDAO.obtenerJustificacionConAcciones(id);
 	    }
+	 public void eliminarJustificacion(long idJustificacion) {
+		 justificacionDAO.eliminarJustificacion(idJustificacion);
+	 }
 }

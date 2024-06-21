@@ -160,6 +160,14 @@
 	        <input style="margin-left: 14em" type="submit" value="Modificar Reclamo">
 	    </form>
 	</c:if>
+	
+	<!-- Modificar Justificaciones -->
+	<c:if test="${not esAnalista and justificacion.registroAccione.nombre == 'Ingresado'}">
+	    <form action="SvEditarJustificacion" method="get">
+	        <input type="hidden" name="idJustificacion" value="${justificacion.idJustificacion}">
+	        <input style="margin-left: 14em" type="submit" value="Modificar Justificación">
+	    </form>
+	</c:if>
     
     
     <form action="${tipo == 'reclamo' ? 'SvListarReclamos' : 'SvListarJustificaciones'}" method="get" style="margin-left: 75em">

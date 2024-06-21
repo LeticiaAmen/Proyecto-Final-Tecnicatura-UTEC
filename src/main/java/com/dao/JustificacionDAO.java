@@ -120,4 +120,11 @@ public class JustificacionDAO {
 	            return null;
 	        }
 	    }
+	 
+	 public void eliminarJustificacion(long id) {
+		 Justificacion justificacion = entityManager.find(Justificacion.class, id);
+		 if(justificacion != null) {
+			 entityManager.remove(justificacion);
+		 } 
+	 }
 }
