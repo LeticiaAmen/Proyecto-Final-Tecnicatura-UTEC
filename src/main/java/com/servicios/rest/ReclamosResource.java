@@ -43,12 +43,25 @@ public class ReclamosResource {
    private ReclamosService reclamosService;
    @PersistenceContext
    private EntityManager entityManager;
+
+   
    @POST
    @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public Response crearReclamo(ReclamoDTO input) {
+   public Response crearReclamo(ReclamoDTO input, @Context HttpHeaders headers) {
        try {
-           Estudiante estudiante = usuarioService.obtenerEstudiante(input.getIdEstudiante());
+           // Obtener el token del encabezado de autorización
+           String authHeader = headers.getHeaderString(HttpHeaders.AUTHORIZATION);
+           if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+               return Response.status(Response.Status.UNAUTHORIZED).entity("No authorization token provided").build();
+           }
+           String token = authHeader.substring("Bearer".length()).trim();
+           DecodedJWT jwt = JwtUtil.verifyToken(token);
+
+           // Extraer el id del estudiante del token
+           Long idEstudiante = Long.parseLong(jwt.getClaim("usuarioId").asString());
+
+           Estudiante estudiante = usuarioService.obtenerEstudiante(idEstudiante);
            if (estudiante == null) {
                return Response.status(Response.Status.BAD_REQUEST).entity("Estudiante no encontrado").build();
            }
@@ -72,6 +85,7 @@ public class ReclamosResource {
            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error al crear el reclamo").build();
        }
    }
+   
    @DELETE
    @Path("/{idReclamo}")
    @Produces(MediaType.APPLICATION_JSON)
