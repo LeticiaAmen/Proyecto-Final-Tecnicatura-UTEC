@@ -102,7 +102,7 @@
 			<strong>Departamento:</strong>
 		</p>
 		<select name="idDepartamento"
-			onchange="obtenerLocalidades(this.value)" required>
+			onchange="obtenerLocalidades(this.value)" required oninvalid="this.setCustomValidity('Completa este campo')" oninput="this.setCustomValidity('')">
 			<option value="">Seleccione una opción</option>
 			<c:forEach var="departamento" items="${departamentos}">
 				<option value="${departamento.idDepartamento}"
