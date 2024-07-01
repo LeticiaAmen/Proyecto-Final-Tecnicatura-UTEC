@@ -90,7 +90,7 @@
 		<p>
 			<label><strong>*Género:</strong></label>
 		</p>
-		<select name="genero" required>
+		<select name="genero" required oninvalid="this.setCustomValidity('Completa este campo')" oninput="this.setCustomValidity('')">
 			<option value="" selected></option>
 			<c:forEach var="genero" items="${generos}">
 				<option value="${genero}"
