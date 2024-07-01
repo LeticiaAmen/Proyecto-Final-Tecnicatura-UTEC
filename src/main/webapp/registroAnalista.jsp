@@ -114,7 +114,7 @@
 		<p>
 			<strong>Localidad:</strong>
 		</p>
-		<select name="idLocalidad" id="localidades" required>
+		<select name="idLocalidad" id="localidades" required oninvalid="this.setCustomValidity('Completa este campo')" oninput="this.setCustomValidity('')">
 			<option value="">Seleccione una opción</option>
 			<!-- Agregar esta línea -->
 			<c:forEach var="localidad" items="${localidades}">
