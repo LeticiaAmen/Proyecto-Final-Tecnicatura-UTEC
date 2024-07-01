@@ -80,7 +80,7 @@
 		<p>
 			<label><strong>*Mail:</strong></label>
 		</p>
-		<input type="text" name="mail" value="${mail}" required>
+		<input type="text" name="mail" value="${mail}" required oninvalid="this.setCustomValidity('Completa este campo')" oninput="this.setCustomValidity('')">
 
 		<p>
 			<label><strong>*Teléfono:</strong></label>
