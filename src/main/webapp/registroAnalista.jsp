@@ -65,7 +65,7 @@
 		<p>
 			<label><strong>*Nombre de Usuario:</strong></label>
 		</p>
-		<input type="text" name="nomUsuario" value="${nomUsuario}" required>
+		<input type="text" name="nomUsuario" value="${nomUsuario}" required oninvalid="this.setCustomValidity('Completa este campo')" oninput="this.setCustomValidity('')">
 
 		<p>
 			<label><strong>*Contraseña:</strong></label>
