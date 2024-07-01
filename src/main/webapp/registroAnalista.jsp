@@ -85,7 +85,7 @@
 		<p>
 			<label><strong>*Teléfono:</strong></label>
 		</p>
-		<input type="text" name="telefono" value="${telefono}" required>
+		<input type="text" name="telefono" value="${telefono}" required oninvalid="this.setCustomValidity('Completa este campo')" oninput="this.setCustomValidity('')">
 
 		<p>
 			<label><strong>*Género:</strong></label>
