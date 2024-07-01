@@ -75,7 +75,7 @@
 		<p>
 			<label><strong>*Mail Institucional:</strong></label>
 		</p>
-		<input type="text" name="mailInst" value="${mailInst}" required>
+		<input type="text" name="mailInst" value="${mailInst}" required oninvalid="this.setCustomValidity('Completa este campo')" oninput="this.setCustomValidity('')">
 
 		<p>
 			<label><strong>*Mail:</strong></label>
