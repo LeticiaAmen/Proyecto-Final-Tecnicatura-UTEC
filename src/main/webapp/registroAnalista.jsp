@@ -70,8 +70,7 @@
 		<p>
 			<label><strong>*Contraseña:</strong></label>
 		</p>
-		<input type="password" name="contrasenia" value="${contrasenia}"
-			required>
+		<input type="password" name="contrasenia" value="${contrasenia}" required oninvalid="this.setCustomValidity('Completa este campo')" oninput="this.setCustomValidity('')">
 
 		<p>
 			<label><strong>*Mail Institucional:</strong></label>
