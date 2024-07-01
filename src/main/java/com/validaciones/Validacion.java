@@ -65,7 +65,7 @@ public class Validacion {
     
 
     public String RespuestaValidacionDocumento() {
-        return  "El formato del numero de documento no es correcto";
+        return  "El formato del número de documento no es correcto";
 
     }
     public boolean validacionDocumentoExistente(String documento) {
