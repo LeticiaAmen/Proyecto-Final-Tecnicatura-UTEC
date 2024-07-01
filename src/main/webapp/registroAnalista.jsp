@@ -55,7 +55,7 @@
 		<p>
 			<label><strong>*Apellido:</strong></label>
 		</p>
-		<input type="text" name="apellido" value="${apellido}" required>
+		<input type="text" name="apellido" value="${apellido}" required oninvalid="this.setCustomValidity('Completa este campo')" oninput="this.setCustomValidity('')">
 
 		<p>
 			<label><strong>*Documento:</strong></label>
