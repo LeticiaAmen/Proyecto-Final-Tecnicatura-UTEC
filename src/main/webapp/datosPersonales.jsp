@@ -274,20 +274,6 @@
 			return true;
 		}
 	</script>
-	<script type="text/javascript">
-		function confirmarModificacion() {
-			var contrasenia = document.getElementById("contrasenia").value;
-			var confirmarContrasenia = document
-					.getElementById("confirmarContrasenia").value;
-
-			if (contrasenia !== confirmarContrasenia) {
-				alert('Las contraseñas no coinciden.');
-				return false;
-			}
-
-			return confirm('¿Modificar datos?');
-		}
-	</script>
 
 
 	<%
