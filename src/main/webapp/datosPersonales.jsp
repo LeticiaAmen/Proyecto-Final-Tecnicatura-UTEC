@@ -263,17 +263,27 @@
 		<%-- Botón Modificar --%>
 		<input type="submit" name="accion" value="Modificar">
 	</form>
+	
+	
+<script type="text/javascript">
+    function confirmarModificacion() {
+        var departamentoSelect = document.getElementsByName('idDepartamento')[0];
+        var localidadesSelect = document.getElementById('localidades');
 
-	<script type="text/javascript">
-		function confirmarModificacion() {
-			if (confirm('¿Modificar datos?')) {
+        // Verificar si el departamento ha sido cambiado y la localidad no está seleccionada
+        if (departamentoSelect.value && localidadesSelect.value === '') {
+            alert('Por favor, seleccione una localidad antes de guardar los cambios.');
+            return false;
+        }
 
-			} else {
-				return false;
-			}
-			return true;
-		}
-	</script>
+        // Confirmación estándar para proceder con la modificación
+        if (confirm('¿Modificar datos?')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 
 
 	<%
