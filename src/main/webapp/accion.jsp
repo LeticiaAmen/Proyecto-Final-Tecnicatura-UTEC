@@ -43,7 +43,13 @@
                     <li><strong>Título del Evento:</strong> ${reclamo.evento.tituloEvento}</li>
                     <li><strong>Detalles del Evento:</strong> ${reclamo.evento.informacion}</li>
                     <li><strong>Créditos del Evento:</strong> ${reclamo.evento.creditos}</li>
-                    <li><strong>Modalidad del Evento:</strong> ${reclamo.evento.modalidad}</li>
+                    <li><strong>Modalidad del Evento:</strong> 
+                        <c:choose>
+                            <c:when test="${reclamo.evento.modalidad == 'p'}">Presencial</c:when>
+                            <c:when test="${reclamo.evento.modalidad == 'v'}">Virtual</c:when>
+                            <c:when test="${reclamo.evento.modalidad == 'h'}">Híbrido</c:when>
+                        </c:choose>
+                    </li>
                     <li><strong>Semestre del Evento:</strong> ${reclamo.evento.semestre}</li>
                     <li><strong>Tipo de Evento:</strong> ${reclamo.evento.tipoEvento.nombre}</li>
                     <li><strong>Detalle ingresado por el estudiante:</strong> 
@@ -59,7 +65,13 @@
                     <li><strong>Título del Evento:</strong> ${justificacion.evento.tituloEvento}</li>
                     <li><strong>Detalles del Evento:</strong> ${justificacion.evento.informacion}</li>
                     <li><strong>Créditos del Evento:</strong> ${justificacion.evento.creditos}</li>
-                    <li><strong>Modalidad del Evento:</strong> ${justificacion.evento.modalidad}</li>
+                     <li><strong>Modalidad del Evento:</strong> 
+                        <c:choose>
+                            <c:when test="${justificacion.evento.modalidad == 'p'}">Presencial</c:when>
+                            <c:when test="${justificacion.evento.modalidad == 'v'}">Virtual</c:when>
+                            <c:when test="${justificacion.evento.modalidad == 'h'}">Híbrido</c:when>
+                        </c:choose>
+                    </li>
                     <li><strong>Semestre del Evento:</strong> ${justificacion.evento.semestre}</li>
                     <li><strong>Tipo de Evento:</strong> ${justificacion.evento.tipoEvento.nombre}</li>
                     <li><strong>Detalle ingresado por el estudiante:</strong> 
