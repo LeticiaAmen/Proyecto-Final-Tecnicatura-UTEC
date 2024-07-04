@@ -221,13 +221,13 @@ public class SvModificarDatosPersonalesDesdeAnalista extends HttpServlet {
             if (!mail.equals(usuarioModificado.getMail())) {
                 // Verificar si el nuevo correo ya está en uso
                 if (usuarioService.existeCorreo(mail, userId)) {
-                    response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=El correo ya está en uso por otro usuario");
+                    response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=El correo ya está en uso por otro usuario");
                     return;
                 }
 
                 // Validar el nuevo correo
                 if (!validacion.validacionMail(mail)) {
-                    response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMail());
+                    response.sendRedirect("datosPersonalesUsuario?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMail());
                     return;
                 }
                 usuarioModificado.setMail(mail);
