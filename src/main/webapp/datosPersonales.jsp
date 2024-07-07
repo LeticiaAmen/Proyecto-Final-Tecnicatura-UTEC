@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Datos Personales</title>
 <link rel="stylesheet" href="formularios.css">
 <script type="text/javascript">
@@ -113,10 +113,7 @@
 		<input type="text" name="nomUsuario"
 			value="<%=usuarioAEditar.getNombreUsuario()%>" required>
 
-		<p>
-			<strong>Contraseña (dejar en blanco si no desea cambiarla):</strong>
-		</p>
-		<input type="password" name="contrasenia" id="contrasenia" value="">
+		
 		<p>
 
 			<strong>Documento*: </strong>
@@ -263,6 +260,11 @@
 		<%-- Botón Modificar --%>
 		<input type="submit" name="accion" value="Modificar">
 	</form>
+	
+	<form action="cambiarContrasenia" method="get">
+        <input type="hidden" name="id" value="${param.id}">
+        <input type="submit" value="Cambiar Contraseña">
+    </form>
 	
 	
 <script type="text/javascript">

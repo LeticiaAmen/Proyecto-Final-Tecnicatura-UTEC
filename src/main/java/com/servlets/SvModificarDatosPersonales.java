@@ -167,7 +167,6 @@ public class SvModificarDatosPersonales extends HttpServlet {
 	    Usuario usuarioModificado = usuarioService.obtenerUsuario(userId);
 	    
 	    if (usuarioModificado != null) {
-	    	
 	       
 	    	//Leer atributos a modificar
 	    	String documentoStr = request.getParameter("documento");
@@ -185,34 +184,6 @@ public class SvModificarDatosPersonales extends HttpServlet {
 		    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		    Localidad localidad = localidadService.obtenerLocalidadPorId(localidadId);
 		    Departamento departamento = departamentoService.obtenerPorId(departamentoId);
-		    String contrasenia = request.getParameter("contrasenia"); // Leer la nueva contraseña
-
-	        // Validar las contraseñas
-	        if (contrasenia != null && !contrasenia.isEmpty()) {
-	            if (!contrasenia.equals(contrasenia)) {
-	                return;
-	            }
-
-	            if (!validacion.validacionContraseña(contrasenia)) {
-	                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionContraseña());
-	                return;
-	            }
-
-	            try {
-	                // Generar nuevo salt y hash para la contraseña
-	                String nuevoSalt = PasswordUtils.generateSalt();
-	                String nuevoHashContrasenia = PasswordUtils.hashPassword(contrasenia, nuevoSalt);
-
-	                // Actualizar el salt y hash de la contraseña en el usuario
-	                usuarioModificado.setSaltContraseña(nuevoSalt);
-	                usuarioModificado.setHashContraseña(nuevoHashContrasenia);
-	            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-	                e.printStackTrace();
-	                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=Error al procesar la contraseña");
-	                return;
-	            }
-	        }
-
 		    
 		    
 		    //asignar tipo de usuario para validaciones
