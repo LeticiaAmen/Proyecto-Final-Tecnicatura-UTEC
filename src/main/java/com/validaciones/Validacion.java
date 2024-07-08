@@ -138,7 +138,7 @@ public class Validacion {
         return validacionTelefono;
     }
     public String RespuestaValidacionTelefono() {
-        return  "El formato del telefono no es correcto";
+        return  "El formato del teléfono no es correcto";
 
     }
   //------------------ VALIDACION fecha ------------------------------------------------------------  

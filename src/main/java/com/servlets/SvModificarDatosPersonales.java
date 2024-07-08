@@ -198,13 +198,13 @@ public class SvModificarDatosPersonales extends HttpServlet {
             
             // Validar el documento
             if (!validacion.validacionDocumento(documentoStr)) {
-                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionDocumento());
+                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + java.net.URLEncoder.encode(validacion.RespuestaValidacionDocumento(), "UTF-8"));
                 return;
             }
             
             //validación mail institucional
             if (!validacion.validacionMailInstitucional(mailInstitucional, tipoUsuario)) {
-                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMailInstitucional(tipoUsuario));
+                response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + java.net.URLEncoder.encode(validacion.RespuestaValidacionMailInstitucional(tipoUsuario),"UTF-8"));
                 return;
             }
 		    
@@ -213,13 +213,13 @@ public class SvModificarDatosPersonales extends HttpServlet {
             if (!mail.equals(usuarioModificado.getMail())) {
                 // Verificar si el nuevo correo ya está en uso
                 if (usuarioService.existeCorreo(mail, userId)) {
-                    response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=El correo ya está en uso por otro usuario");
+                    response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + java.net.URLEncoder.encode("El correo ya está en uso por otro usuario", "UTF-8"));
                     return;
                 }
 
                 // Validar el nuevo correo
                 if (!validacion.validacionMail(mail)) {
-                    response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacion.RespuestaValidacionMail());
+                    response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + java.net.URLEncoder.encode(validacion.RespuestaValidacionMail(), "UTF-8"));
                     return;
                 }
                 usuarioModificado.setMail(mail);
@@ -229,20 +229,20 @@ public class SvModificarDatosPersonales extends HttpServlet {
 
 		   // Validar el nombre
 		   if (validacionUsuario.validacionNombre(nombre)) {
-		       response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacionUsuario.RespuestaValidacionNombre());
+		       response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + java.net.URLEncoder.encode(validacionUsuario.RespuestaValidacionNombre(), "UTF-8"));
 		       return;
 		   }
 		  
 		   
 		   //validar apellido
 		   if(validacionUsuario.validacionApellido(apellido)) {
-			   response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacionUsuario.RespuestaValidacionAepllido());
+			   response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + java.net.URLEncoder.encode(validacionUsuario.RespuestaValidacionAepllido(), "UTF-8"));
 			   return;
 		   }
 		    
 		    // Validar el telefono
 		    if (validacionUsuario.validacionTelefono(telefono)) {
-		     response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + validacionUsuario.RespuestaValidacionTelefono());
+		     response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + java.net.URLEncoder.encode(validacionUsuario.RespuestaValidacionTelefono(), "UTF-8"));
 		     return;
 		 }
 		    
@@ -263,7 +263,7 @@ public class SvModificarDatosPersonales extends HttpServlet {
 	         try {
 	             usuarioModificado.setDocumento(documento);
 	         } catch (NumberFormatException e) {
-	             session.setAttribute("mensajeError", "El formato del documento no es válido.");
+	             session.setAttribute("mensajeError", java.net.URLEncoder.encode("El formato del documento no es válido.", "UTF-8"));
 	             response.sendRedirect("editarUsuario.jsp");
 	             return;
 	         }  
@@ -308,12 +308,12 @@ public class SvModificarDatosPersonales extends HttpServlet {
 	        	            estudiante.setSemestre(semestre);
 	        	            estudiante.setGeneracion(generacion);
 	        	        } else {
-	        	            session.setAttribute("mensajeError", "Generación no encontrada.");
+	        	            session.setAttribute("mensajeError", java.net.URLEncoder.encode("Generación no encontrada.", "UTF-8"));
 	        	            response.sendRedirect("editarUsuario.jsp");
 	        	            return;
 	        	        }
 	        	    } catch (NumberFormatException e) {
-	        	        session.setAttribute("mensajeError", "Formato numérico incorrecto.");
+	        	        session.setAttribute("mensajeError", java.net.URLEncoder.encode("Formato numérico incorrecto.", "UTF-8"));
 	        	        response.sendRedirect("editarUsuario.jsp");
 	        	        return;
 	        	    }
@@ -333,12 +333,12 @@ public class SvModificarDatosPersonales extends HttpServlet {
 	        	            tutor.setRol(rol);
 	        	            tutor.setArea(area);
 	        	        } else {
-	        	            session.setAttribute("mensajeError", "Rol o área no encontrados.");
+	        	            session.setAttribute("mensajeError", java.net.URLEncoder.encode("Rol o área no encontrados.", "UTF-8"));
 	        	            response.sendRedirect("editarUsuario.jsp");
 	        	            return;
 	        	        }
 	        	    } catch (NumberFormatException e) {
-	        	        session.setAttribute("mensajeError", "Formato numérico incorrecto para rol o área.");
+	        	        session.setAttribute("mensajeError", java.net.URLEncoder.encode("Formato numérico incorrecto para rol o área.", "UTF-8"));
 	        	        response.sendRedirect("editarUsuario.jsp");
 	        	        return;
 	        	    }
@@ -347,9 +347,9 @@ public class SvModificarDatosPersonales extends HttpServlet {
   
 	        //Actualizar usuario
 	        usuarioService.actualizarUsuario(usuarioModificado);
-	        response.sendRedirect("datosPersonales?id=" + userId + "&mensajeExito=Información actualizada correctamente.");
+	        response.sendRedirect("datosPersonales?id=" + userId + "&mensajeExito=" + java.net.URLEncoder.encode("Información actualizada correctamente.", "UTF-8"));
 	    } else {
-	    	response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=No se encontró el usuario.");
+	    	response.sendRedirect("datosPersonales?id=" + userId + "&mensajeError=" + java.net.URLEncoder.encode("No se encontró el usuario.", "UTF-8"));
 	       // session.setAttribute("mensajeError", "No se encontró el usuario.");
 	        response.sendRedirect("editarUsuario.jsp");
 	    }
