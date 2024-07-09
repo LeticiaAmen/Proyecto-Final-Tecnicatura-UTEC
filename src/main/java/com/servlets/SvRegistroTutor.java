@@ -152,10 +152,18 @@ public class SvRegistroTutor extends HttpServlet {
                 setErrorAndReturn(request, response, "El mail ya se encuentra registrado.", nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idArea, idRol, fechaNacimientoStr);
                 return;
             }
-         // Validar la cédula
+             
+            
+           // Validar el formato del documento
             if (!validacion.validacionDocumento(documento)) {
                 setErrorAndReturn(request, response, validacion.RespuestaValidacionDocumento(), nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idArea, idRol, fechaNacimientoStr);
                 return;
+            }
+            
+            // Validar si el documento ya existe
+            if(usuarioService.existeDocumento(documentoLong)) {
+            	setErrorAndReturn(request, response, "El documento ya se encuentra registrado", nombre, apellido, documento, nomUsuario, contrasenia, mailInst, mail, telefono, generoSeleccionado, idDepartamento, idLocalidad, idItr, idArea, idRol, fechaNacimientoStr);
+            	return;
             }
             
 

@@ -95,8 +95,6 @@ public class UsuarioDAO {
 		return null;
 	}
 
-	//faltan mas metodos de los filtros.. 
-
 
 	public boolean existeCorreo(String correo, Long idUsuario) {
 		String jpql = "SELECT COUNT(u) FROM Usuario u WHERE u.mail = :correo AND u.idUsuario <> :idUsuario";
@@ -121,6 +119,15 @@ public class UsuarioDAO {
         Long count = (Long) query.getSingleResult();
         return count > 0;
 	}
+	
+	// Método para verificar si el documento ya existe
+    public boolean existeDocumento(long documento) {
+        String jpql = "SELECT COUNT(u) FROM Usuario u WHERE u.documento = :documento";
+        Query query = entityManager.createQuery(jpql);
+        query.setParameter("documento", documento);
+        Long count = (Long) query.getSingleResult();
+        return count > 0;
+    }
 
 
 	public UsuarioDAO() {

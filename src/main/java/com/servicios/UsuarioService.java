@@ -184,5 +184,9 @@ public class UsuarioService {
     public boolean existeCorreo(String correo) {
         return usuarioDAO.existeCorreo(correo);
     }
+    
+    public boolean existeDocumento(long documento) {
+    	return usuarioDAO.existeDocumento(documento);
+    }
 
 }
