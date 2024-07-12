@@ -148,7 +148,7 @@ public class SvModificarDatosPersonales extends HttpServlet {
 				// Preparar listas de selección para el formulario
 				List<Departamento> departamentos = departamentoService.obtenerTodosDepartamento();
 				List<Localidad> localidades = localidadService.obtenerTodasLocalidades();
-				List<Itr> itrs = itrService.obtenerItrTodos();
+				List<Itr> itrs = itrService.obtenerItrsActivos();
 				request.setAttribute("departamentos", departamentos);
 				request.setAttribute("localidades", localidades);
 				request.setAttribute("itrs", itrs);

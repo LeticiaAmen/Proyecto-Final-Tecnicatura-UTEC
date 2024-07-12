@@ -41,4 +41,8 @@ public class ItrService {
 		return itrDAO.obtenerItrDesdeBaseDeDatosNombre(nombre);
 	}
 	
+	public List<Itr> obtenerItrsActivos() {
+		return itrDAO.obtenerItrsActivos();
+	}
+	
 }

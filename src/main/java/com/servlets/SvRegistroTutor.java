@@ -78,7 +78,7 @@ public class SvRegistroTutor extends HttpServlet {
         List<Localidad> localidades = localidadService.obtenerTodasLocalidades();
         request.setAttribute("localidades", localidades);
 
-        List<Itr> itrs = itrService.obtenerItrTodos();
+        List<Itr> itrs = itrService.obtenerItrsActivos();
         request.setAttribute("itrs", itrs);
 
         List<Area> areasLista = areaService.obtenerAreaTodas();

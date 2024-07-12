@@ -11,7 +11,7 @@ public class ReclamoDTO {
 	private String titulo;
 	private String fechaReclamo;
 	private Long idEvento;
-	private RegistroAccionDTO registroAccion;; // Nueva propiedad para el estado del reclamo
+	private RegistroAccionDTO registroAccion; 
 
 	public Long getId() {
 		return id;

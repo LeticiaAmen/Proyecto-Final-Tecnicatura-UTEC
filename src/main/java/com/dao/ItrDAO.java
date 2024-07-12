@@ -76,6 +76,18 @@ public class ItrDAO {
 			return null;
 		}
 	}
+	
+	// Obtener itr con estado Activo
+	 public List<Itr> obtenerItrsActivos() {
+	        try {
+	            Query query = entityManager.createQuery("SELECT i FROM Itr i WHERE i.estado.nombre = 'Activo'", Itr.class);
+	            return query.getResultList();
+	        } catch (Exception e) {
+	            System.err.println("Error retrieving active ITRs.");
+	            e.printStackTrace();
+	            return null;
+	        }
+	    }
 
 
 
