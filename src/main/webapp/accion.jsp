@@ -188,8 +188,8 @@
     
     <script>
         function confirmarEnvio() {
-            if (confirm("¿Actualizar estado y detalle de la acción? Se enviará un email al estudiante con los detalles modificados.")) {
-                alert('¡Acción registrada con éxito! Se envió un e-mail al estudiante.');
+            if (confirm("¿Actualizar estado y detalle de la acción?")) {
+                alert('¡Acción registrada con éxito!');
                 return true;
             } else {
                 return false;
