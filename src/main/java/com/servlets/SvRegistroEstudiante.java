@@ -96,6 +96,9 @@ public class SvRegistroEstudiante extends HttpServlet {
 		if ("true".equals(formSubmitted)) {
 			String nomUsuario = request.getParameter("nomUsuario");
 			String documento = request.getParameter("documento");
+
+			// Limpiar el documento eliminando todos los caracteres no numéricos
+			documento = documento.replaceAll("[^0-9]", "");
 			long documentoLong = 0;
 			if (documento != null && !documento.isEmpty()) {
 				documentoLong = Long.parseLong(documento);

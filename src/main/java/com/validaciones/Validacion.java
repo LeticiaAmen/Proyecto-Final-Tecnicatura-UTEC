@@ -34,6 +34,10 @@ public class Validacion {
     }
     //------------------ VALIDACION DOCUMENTO ------------------------------------------------------------
     public boolean validacionDocumento(String documento) {
+    	
+    	// Limpiar el documento eliminando todos los caracteres no numéricos
+        documento = documento.replaceAll("[^0-9]", "");
+        
         // Verificar si la cédula tiene la longitud correcta (exactamente 8 dígitos)
         if (documento.length() != 8) {
             return false;
