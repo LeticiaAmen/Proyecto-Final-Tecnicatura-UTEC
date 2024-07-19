@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Lista de ITRS</title>
+<title>Lista de ITRs</title>
 <link rel="stylesheet" href="listados.css">
 </head>
 <body>
